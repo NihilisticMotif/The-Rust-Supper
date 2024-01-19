@@ -1,0 +1,5 @@
+imac@iMacs-iMac The-Rust-Supper % cargo new TheRustSupper
+warning: the name `TheRustSupper` is not snake_case or kebab-case which is recommended for package names, consider `therustsupper`
+     Created binary (application) `TheRustSupper` package
+imac@iMacs-iMac The-Rust-Supper % cd TheRustSupper 
+imac@iMacs-iMac TheRustSupper % 

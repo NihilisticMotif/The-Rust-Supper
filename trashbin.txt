@@ -1,0 +1,160 @@
+https://youtu.be/ygL_xcavzQ4?si=fjGFFfamtpNByIw6
+ 
+
+*************************************************
+ 
+//*************************************************
+ 
+
+//**************************************************************************************************
+// SUB 06: SHADOW
+ 
+
+// Rust
+ 
+// Typescript
+function define_x():string{
+    return "hello"
+}
+ 
+/*
+Question
+1. What is the different between String and &str? 
+2. What is the different between i32, u32 and f32?
+3.
+*/
+ 
+let x = 
+ 
+.to_string()
+ 
+define_x
+ 
+/*
+i8___:-128
+i16__:-32768
+i32__:-2147483648
+i64__:-9223372036854775808
+isize:-9223372036854775808
+i128_:-170141183460469231731687303715884105728
+u8___:0
+u16__:0
+u32__:0
+u64__:0
+usize:0
+u128_:0
+*/
+ 
+-1
+ 
+ * MAX:
+ 
+ = single
+ 
+// Valid Code
+ 
+-
+ 
+.to_string()
+ 
+che_mutstring+
+ 
+.to_string()
+ 
+Rule
+1. let variable:type=value;
+2. end with ;
+3. Scope 
+ * # The Scope of the variable is defined by the block of code where it belong to.
+4. Shadowing
+ * It is the process of create new variable with same scope and same name.
+5. Function
+ * Reusable Code
+6. only variable that have `mut` is mutable
+ 
+6. only variable that have `mut` is mutable
+ 
+1. let variable:type=value;
+ 
+//**************************************************************************************************
+// Ch01
+// * https://www.tutorialspoint.com/rust/rust_input_output.htm 
+//**************************************************************************************************
+    // mut = mutable
+    /*
+    let mut UserAnswer:String=String::new();
+    println!("What is the value of e");
+    let b1 = std::io::stdin().read_line(&mut UserAnswer).unwrap();
+    println!("That is correct.");
+    println!("The value of e is {}.", UserAnswer);
+    // println!("no of bytes read , {}", b1);
+    */
+//**************************************************************************************************
+//**************************************************************************************************
+// Ch01: Data Type
+// * https://www.codingame.com/playgrounds/365/getting-started-with-rust/primitive-data-types
+//**************************************************************************************************
+    let che_bool:bool=true;
+    let che_char='c'; 
+    // let che_Error_i8:i8=128; 
+    // literal out of range for `i8`
+    // the literal `128` does not fit into the type `i8` whose range is `-128..=127`
+    // consider using the type `u8` instead
+    println!("i8___:{}",i8::MAX);       // i8___ = 127
+    println!("i16__:{}",i16::MAX);      // i16__ = 32767
+    println!("i32__:{}",i32::MAX);      // i32__ = 2147483647
+    println!("i64__:{}",i64::MAX);      // i64__ = 9223372036854775807
+    println!("isize:{}",isize::MAX);    // isize = 9223372036854775807
+    println!("i128_:{}",i128::MAX);     // i128_ = 170141183460469231731687303715884105727
+    println!("u8___:{}",u8::MAX);       // u8___ = 255
+    println!("u16__:{}",u16::MAX);      // u16__ = 65535
+    println!("u32__:{}",u32::MAX);      // u32__ = 4294967295
+    println!("u64__:{}",u64::MAX);      // u64__ = 18446744073709551615
+    println!("usize:{}",usize::MAX);    // usize = 18446744073709551615
+    println!("u128_:{}",u128::MAX);     // u128_ = 340282366920938463463374607431768211455
+    println!("f32__:{}",f32::MAX);      // f32__ = 340282350000000000000000000000000000000
+    println!("f64__:{}",f64::MAX);      // f64__ = 179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+ 
+    */   
+ 
+    /* 
+ 
+    let che_i8:i8=12021;
+ 
+    println!("u128::{}",u128::MAX);
+    println!("u128::{}",u128::MAX);
+ 
+// * https://www.tutorialspoint.com/rust/rust_input_output.htm 
+ 
+// https://youtu.be/07pDD0uLjYc?si=Ar7cNF_yXScZjPTt
+ 
+    let mut RealAnswer:Number=2.7
+ 
+
+    /*
+    
+    println!("no of bytes read , {}", b1);
+    */
+ 
+let b1 = std::io::stdin().read_line(&mut UserAnswer).unwrap();
+ 
+let mut UserAnswer:String=String::new();
+ 
+let mut UserAnswer:String=String::new();
+ 
+The value of e{}", UserAnswer)
+ 
+let b1 = std::io::stdin().read_line(&mut UserAnswer).unwrap();
+ 
+println!("Hello, {}",UserAnswer.trim_end());
+ 
+println!("What is the value of e");
+ 
+    let mut OnlyNumber:&str="This is not a number";
+    let mut LessThan:&str="e is Less than";
+    let mut GreaterThan:&str="e is Greater than";
+ 
+world!
+ 
+#![allow(unused)]
+ 
