@@ -1,0 +1,14 @@
+What is usize and isize? 
+ * The usize type is an unsigned integer type with the same number of bits as the platform's pointer type.
+  * The size of isize and usize of 32-bit architecture = 32-bit 
+  * The size of isize and usize of 64-bit architecture = 64-bit 
+
+What is a word?
+ * The processer read one word at the time. (It does not read one bit at the time.)
+  * 32-bit processer access 4 bytes at the time.
+  * 64-bit processer access 8 bytes at the time.
+ * usize always big enough to hold any pointer or any offset in a data structure.
+
+What is processer?
+ * A processor (CPU) is the logic circuitry that responds to and processes the basic instructions that drive a computer.
+

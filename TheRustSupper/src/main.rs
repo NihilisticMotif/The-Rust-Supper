@@ -7,143 +7,119 @@ use std::cmp::Ordering;
 use std::fs::File;
 use std::io;
 use std::io::{BufRead, BufReader, ErrorKind, Write};
+use std::ops::{Range, RangeInclusive};
 
-fn define_x() -> String {
-    println!("// Initialize the Variable!");
-    "hello".to_string()
+fn type_of<T>(_: &T) -> String {
+    format!("{}", std::any::type_name::<T>())
 }
 
 fn main() {
     //**************************************************************************************************
-    // CHAPTER 01: Variable
+    // CASE 01: ASSIGNED VALUE AS TYPE
     //**************************************************************************************************
-    /*
-    Note
-    1. end with ;
-    2. Scope
-     * # The Scope of the variable is defined by the block of code where it belong to.
-    3. Shadowing
-     * It is the process of create new variable with same scope and same name.
-    4. Function
-     * Reusable Code
-    */
-    //------------------------------------------------------------------------
-    // SUB 01: BOOL
-    //------------------------------------------------------------------------
-    let che_truth: bool = true;
-    let che_lyring: bool = false;
-    let mut che_paradox: bool = true;
-    che_paradox = false;
 
-    //------------------------------------------------------------------------
-    // SUB 02: STRING
-    //------------------------------------------------------------------------
-    let che_string: &str = "Hello";
-    let che_char = 'c';
-    // How to concat string?
-    // https://stackoverflow.com/questions/30154541/how-do-i-concatenate-strings
-    let mut che_mutstring: String = "Phuri".to_owned();
-    let che_familyname = " Sottatipreedawong";
-    che_mutstring.push_str(che_familyname);
-    println!("");
+    //#v = 38 that is assigned as u16
+    //#38 is assigned as u8
+    //let v: u16 = 38_u8 as u16;
 
-    // What is the different between String and &str?
-    // https://stackoverflow.com/questions/24158114/what-are-the-differences-between-rusts-string-and-str
-
-    //------------------------------------------------------------------------
-    // SUB 03: NUMBER
-    //------------------------------------------------------------------------
-    /*
-    Note
-    1. The variable number cannot be larger than the largest number that have the same type.
-
-    Set
-    1. Z = integer
-     * e.g. ...,-2,-1,0,1,2,... etc.
-    2. N = natural number (include 0)
-     * e.g. 0,1,2,3,... etc.
-    3. Q = fractional number
-     * e.g. 1/2, 3/8, 44/15 etc.
-
-
-    Type
-    1.  i8___ = -128        < x < 127
-    2.  i16__ = -(327...+1) < x < 32767
-    3.  i32__ = -(214...+1) < x < 2147483647
-    4.  i64__ = -(922...+1) < x < 9223372036854775807
-    5.  isize = -(922...+1) < x < 9223372036854775807
-    6.  i128_ = -(170...+1) < x < 170141183460469231731687303715884105727
-    7.  u8___ = -1 < x < 255
-    8.  u16__ = -1 < x < 65535
-    9.  u32__ = -1 < x < 4294967295
-    10. u64__ = -1 < x < 18446744073709551615
-    11. usize = -1 < x < 18446744073709551615
-    12. u128_ = -1 < x < 340282366920938463463374607431768211455
-    13. f32
-     * single-precision float
-     * MIN: -340282350000000000000000000000000000000
-     * MAX: 340282350000000000000000000000000000000
-    14. f64
-     * double-precision float
-     * MIM: -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-     * MAX: 179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-
-    Note
-    1. iN = -(2^N)/2 < x < (2^N)/2-1
-    2. uN = -1 < x < 2^N
-
-    */
-
-    let che_i8: i8 = 112;
-    let che_default_i: i32 = -666;
-    let che_default_u: u32 = 999;
-    let che_zero: u32 = 0;
-
-    /*
-    // let che_error_i8:i8=128;
-    // literal out of range for `i8`
-    // the literal `128` does not fit into the type `i8` whose range is `-128..=127`
-    // consider using the type `u8` instead
-    */
-
-    // println!("i8___:{}",i8::MAX);       // i8___: 127
-    // println!("i16__:{}",i16::MAX);      // i16__: 32767
-    // println!("i32__:{}",i32::MAX);      // i32__: 2147483647
-    // println!("i64__:{}",i64::MAX);      // i64__: 9223372036854775807
-    // println!("isize:{}",isize::MAX);    // isize: 9223372036854775807
-    // println!("i128_:{}",i128::MAX);     // i128_: 170141183460469231731687303715884105727
-    // println!("u8___:{}",u8::MAX);       // u8___: 255
-    // println!("u16__:{}",u16::MAX);      // u16__: 65535
-    // println!("u32__:{}",u32::MAX);      // u32__: 4294967295
-    // println!("u64__:{}",u64::MAX);      // u64__: 18446744073709551615
-    // println!("usize:{}",usize::MAX);    // usize: 18446744073709551615
-    // println!("u128_:{}",u128::MIN);     // u128_: 340282366920938463463374607431768211455
-    // println!("f32__:{}",f32::MIN);      // f32__: 340282350000000000000000000000000000000
-    // println!("f64__:{}",f64::MIN);      // f64__: 179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    //println!("Success!");
 
     //**************************************************************************************************
-    // SUB 04: FUNCTION
+    // CASE 02: DEFAULT VALUE
     //**************************************************************************************************
-    // https://doc.rust-lang.org/book/ch03-03-how-functions-work.html
-    // let x:String=define_x();
-    // println!("let x = {}",x);
+    // let x = 5;
+    // println!("{}=={}",
+    //     "i32".to_string(), 
+    //     type_of(&x).to_string());
 
     //**************************************************************************************************
-    // SUB 05: SHADOW
+    // CASE 03: CHECKED_ADD AND UNWRAP
     //**************************************************************************************************
-    // let light:&str="Light";
-    // println!("Original value: {}", light);
-    // let light:&str="Shadow";
-    // println!("Original value: {}", light);
-    // let light:u8=100;
+    // let v1 = 251_u16 + 8;
+    // let v2 = i16::checked_add(251, 8).unwrap();
+    // println!("{},{}",v1,v2);
+
     //**************************************************************************************************
-    // SUB 06: DESTRUCTURING
+    // CASE 04: 0XFF
     //**************************************************************************************************
-    // let (mut x, y) = (1, 2);
-    // println!("{} == 1",x);
-    // x += 2;
-    // println!("{} == 3",x);
+    //#hexadecimal numeral system
+    // println!("0xff = {}",0xff); // = 255
+    // println!("0o77 = {}",0o77); // = 63
+    // println!("0b1111_1111 = {}",0b1111_1111); // = 255
+
+    //**************************************************************************************************
+    // CASE 05: FLOATING POINT
+    //**************************************************************************************************
+    //let x64 = 1_000.000_1;
+    //println!("{}==f64",type_of(&x64));
+
+    //**************************************************************************************************
+    // CASE 06: FLOATING POINT PRECISION
+    //**************************************************************************************************
+    //println!("{}=={}",0.1_f32+0.2_f32,0.3_f32);
+    //println!("{}=={}",0.1 as f32+0.2 as f32,0.3 as f32);
+
+    //**************************************************************************************************
+    // CASE 07: FOR LOOP
+    //**************************************************************************************************
+    //let mut sum=0;
+    //for i in 0..10{
+    //    sum+=i;
+    //    //println!("{}",i) // 0,1,...,9
+    //};
+    //let sigma=(10*9)/2;
+    //println!("{}=={}",sum,sigma)
+
+    //for i in 0..=10{
+    //    println!("{}",i) // 0,1,...,10
+    //};
+
+    //for i in RangeInclusive::new(1, 5){
+    //    println!("{}",i); // 1,2,...,5
+    //};
+
+    //**************************************************************************************************
+    // CASE 08: RANGE AND RANGEINCLUSIVE
+    //**************************************************************************************************
+    // https://doc.rust-lang.org/std/ops/struct.Range.html
+    // (3..5) == Range { start: 3, end: 5 }
+    // assert_eq!((3..5), Range { start: 3, end: 5 });
+
+    // https://doc.rust-lang.org/std/ops/struct.RangeInclusive.html
+    // assert_eq!((3..=5), RangeInclusive::new(3, 5));
+    // assert_eq!(3 + 4 + 5, (3..=5).sum());
+
+    // assert_eq!((1..=5), RangeInclusive::new(1, 5)); // Correct
+    // assert_eq!((1..6), RangeInclusive::new(1, 5));  // Wrong
+
+    //**************************************************************************************************
+    // CASE 09: LAST EXAMPLE
+    //**************************************************************************************************
+    // Integer addition
+    assert!(1u32 + 2 == 3u32);
+
+    // Integer subtraction
+    assert!(1i32 - 2 == -1i32);
+    assert!(1i8 - 2 == -1); 
+    
+    assert!(3 * 50 == 150);
+
+    assert!(9.6 / 3.2 == 3.0f32); // error ! make it work
+
+    assert!(24 % 5 == 4);
+    // Short-circuiting boolean logic
+    assert!(true && false == false);
+    assert!(true || false == true);
+    assert!(!true == false);
+
+    // Bitwise operations
+    println!("0011 AND 0101 is {:04b}", 0b0011u32 & 0b0101);
+    println!("0011 OR 0101 is {:04b}", 0b0011u32 | 0b0101);
+    println!("0011 XOR 0101 is {:04b}", 0b0011u32 ^ 0b0101);
+    println!("1 << 5 is {}", 1u32 << 5);
+    println!("0x80 >> 2 is 0x{:x}", 0x80u32 >> 2);
 }
+
 /*
 cargo run
 */

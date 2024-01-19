@@ -1,0 +1,33 @@
+
+In computer the (not the unsign) integer is count by
+1. Initialize the bit size (e.g. i8, i16, i32, i128)
+2. define 0
+
+-8 = 1...000
+-7 = 1...001
+-6 = 1...010
+-5 = 1...011
+-4 = 1...100
+-3 = 1...101
+-2 = 1...110
+-1 = 1...111
++0 = 0...000
++1 = 0...001
++2 = 0...010
++3 = 0...011
++4 = 0...100
++5 = 0...101
++6 = 0...110
++7 = 0...111
+
+How to multiply positive number by -1 in binary?
+1. Convert (0,1)=>(1,0)
+2. Add 1
+
+Note
+1. iN (________ integer) = -(2^N)/2 < x < (2^N)/2-1
+2. uN (unsighed integer) = -1 < x < 2^N
+3. default value of number = i32
+
+Reference
+ * https://youtu.be/4qH4unVtJkE?si=ggX3PeTuzbCHLEcd
