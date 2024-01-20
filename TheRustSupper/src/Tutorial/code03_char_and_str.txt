@@ -1,0 +1,90 @@
+#![allow(unused)]
+
+// https://youtu.be/BpPEoZW5IiY?si=goDW5z6qEkPok4pe
+
+// use rand::Rng;
+// use std::cmp::Ordering;
+// use std::fs::File;
+// use std::io;
+// use std::io::{BufRead, BufReader, ErrorKind, Write};
+// use std::ops::{Range, RangeInclusive};
+use std::mem::size_of_val;
+
+fn type_of<T>(_: &T) -> String {
+    format!("{}", std::any::type_name::<T>())
+}
+
+fn implicitly_ret_unit() {
+    println!("I will return a ()");
+}
+
+// Don't use this one
+fn explicitly_ret_unit() -> () {
+    println!("I will return a ()");
+}
+
+// Explicitly return i32
+fn one984(justthe:i32,two:i32)->i32{
+    let ofus:i32=1;
+    justthe+two+ofus
+}
+
+fn main() {
+    //**************************************************************************************************
+    // CASE 01: SIZE OF CHAR IS 4
+    //**************************************************************************************************
+
+    // let c1 = 'a';
+    // let c2 = '中';
+    // println!("bit size of c1 = {}",size_of_val(&c1)); // 4
+    // println!("bit size of c2 = {}",size_of_val(&c2)); // 4
+
+    //**************************************************************************************************
+    // CASE 02: SINGLE QUOTE = CHAR , DOUBLE QUOTE = &STR
+    //**************************************************************************************************
+    // let c1:char='a';
+    // let c2:&str="a";
+    // println!("Type of c1 = {}",type_of(&c1));   // char
+    // println!("Type of c2 = {}",type_of(&c2));   // &str
+
+    //**************************************************************************************************
+    // CASE 03: CONDITION
+    //**************************************************************************************************
+
+    // let thetruth:bool=true;
+    // //let thetruth:bool=false;
+    // let myname:&str="CheChe";
+    // if myname=="Cheche"{
+    //     println!("God.");
+    // }
+    // else{
+    //     println!("Satan.");
+    // };
+
+    //**************************************************************************************************
+    // CASE 03: AND
+    //**************************************************************************************************
+    // let f = false;
+    // let t = true && false;
+    // println!("{} == {}",f,t);
+
+    //**************************************************************************************************
+    // CASE 04: UNIT TYPE
+    //**************************************************************************************************
+    // The unit type is the data type that have 0 bits.
+    // The function that does not return any value
+    // will always return unit type.
+    // let emptyset: () = (); 
+    let tuplee: (i32,i32,i32)=(22,23,24);
+    // println!("{}",one984(2,2));
+
+    //**************************************************************************************************
+    // CASE 05: SIZE OF UNIT TYPE
+    //**************************************************************************************************
+    let unit: () = ();
+    println!("{}",size_of_val(&unit));  // 0
+}
+
+/*
+cargo run
+*/

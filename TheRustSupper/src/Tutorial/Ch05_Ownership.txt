@@ -1,0 +1,158 @@
+//**************************************************************************************************
+// OWNERSHIP 
+//**************************************************************************************************
+
+Ownership 
+* The set of rule that govern the mamory management.
+* This rule enforce at comply time.
+* If thev rules are violated, the program won't works.
+
+Rule
+1. Each value has an ower.
+2. There can only be one owner at a time.
+3. When the owner go out of scope, the value will be drop.
+
+Type of Data 
+1. Stack Data (fixed size data)
+2. Heap Data (unknown size data)
+
+
+//**************************************************************************************************
+// EXAMPLE NO.01: SCOPE
+//**************************************************************************************************
+
+/*
+// y is outside the local scope.
+let y=2;
+{
+    // s is in the local scope
+    let s="Hello World";
+} 
+*/
+
+//**************************************************************************************************
+// RAM, STACK AND HEAP
+//**************************************************************************************************
+
+
+RAM (Random Access Memory)
+ * The part of computer that store data.
+ * The data in RAM will be delete perminently when the computer is closed.
+ * It is used to store information that needs to be used quickly.
+ * There are 2 type of RAM regions
+1. Stack memory
+ * All data in stack have fixed size.
+ * It can store pointer that indicate the address of unknown sized data.
+ * The location of new data is always on top of other data.
+ * Pushing new memory and access memory is in O(1)
+2. Heap memory 
+ * It is used for storing unknown size data.
+ * Add data on the heap will return pointer.
+ * Pushing new memory and access memory is slower than Stack.
+ * access memory require pointer.
+ * Heap Allocated Data Type e.g. String
+
+//**************************************************************************************************
+// EXAMPLE NO.02: HEAP VARIABLE 
+//**************************************************************************************************
+/*
+let message=String::from("Hello");
+*/
+Note
+1. message contains only pointer, len and capacity
+2. message belongs to Stack.
+3. "Hello" belong to Heap.
+
+Component of message
+1. Pointer shows "Hello"
+ * size = 8bytes
+2. Len show the amount of data it store.
+ * size = 8bytes
+3. Capacity =?, When store String. Its capacity and len will be the same.
+ * size = 8bytes
+ * Total size of message is 3*8 = 24 bytes
+
+//**************************************************************************************************
+// EXAMPLE NO.03: COPY, MOVE AND CLONE
+//**************************************************************************************************
+
+/*
+// Complier always copy the stack data
+let x=5;
+let y=x;
+
+// Complier always move heap data
+// It drop the s1 owner and create new owner called s2
+// so that this code is not violate the Ownership rules.
+// You cannot use s1
+let s1 = String::from("Hello");
+let s2 = s1;
+
+// You can copy heap data, but beware the limitation of RAM.
+let s1 = String::from("Hello");
+let s2 = s1.clone();
+*/
+
+//**************************************************************************************************
+// EXAMPLE NO.04: UNIT FUNCTION AND OWNERSHIP
+//**************************************************************************************************
+/*
+fn main(){
+    // The both string_input and int_input cannot
+    // go into the function, because it cannot change its scope
+    // (violate Ownership rule)
+
+    // string_input is heap variable
+    let string_input=String::from("HelloWorld");
+    string_function(string_input);
+
+    // int_input is stack data.
+    let int_input=5;
+    int_function(int_input);
+
+    // When the function end. All of the variable go out of the scope.
+}
+
+fn string_function(s:String){
+    // 1. drop input previous ownership.
+    // 2. create new ownership.
+    // 3. do something.
+}
+
+fn int_function(s:i32){
+    // 1. clone the input 
+    // 2. do something.
+}
+*/
+
+//**************************************************************************************************
+// EXAMPLE NO.05: FUNCTION AND OWNERSHIP
+//**************************************************************************************************
+/*
+fn main(){
+    
+    // give the ownership from message to text.
+    let text = return_string();
+    let letter = takes_and_give_ownership(text) // after this line, I cannot use text, because it have no ownership.
+}
+fn return_string()->String{
+    let message=String::from("HelloWorld");
+    message 
+}
+fn takes_and_give_ownership(s:String)->String{
+    s
+}
+*/
+
+//**************************************************************************************************
+// PURPOSE OF OWNERSHIP
+//**************************************************************************************************
+It is preventing memory safety issue.
+1. Dangling Pointer 
+ * Pointer that point to invalid data.
+2. Double free
+ * The pointer is free 2 time.
+3. Memory leaks
+ * Not freeing memory that should have been freed.
+
+

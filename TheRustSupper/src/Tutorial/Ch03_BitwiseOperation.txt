@@ -1,0 +1,26 @@
+
+Bitwise Operation 
+* Operation that manipulate bits.
+* Buuilding block of computer
+1. AND (&)
+ * if a==1 and b==1 => 1
+2. OR (|)
+ * if a==1 or b==1 => 1
+3. XOR
+* if a!=n => 1
+4. bitwise shifting  (<< or >>)
+* [0,0,0,1] => {1<<2 return [0,1,0,0]}
+* [0,1,0,0] => {1>>2 return [0,0,0,1]}
+5. Not (!)
+* !true == false
+* true == !false
+
+Note
+* 1 = true 
+* 0 = false
+
+Example 
+* 1101101  OR 0110000 => 1111101
+* 1101101 XOR 0110000 => 1011101
+* 1101101 AND 0110000 => 0100000
+* !1101101            => 0010010

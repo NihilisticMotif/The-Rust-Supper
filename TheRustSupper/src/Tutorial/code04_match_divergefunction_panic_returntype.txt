@@ -1,0 +1,105 @@
+#![allow(unused)]
+
+// https://youtu.be/BpPEoZW5IiY?si=goDW5z6qEkPok4pe
+
+// use rand::Rng;
+// use std::cmp::Ordering;
+// use std::fs::File;
+// use std::io;
+// use std::io::{BufRead, BufReader, ErrorKind, Write};
+// use std::ops::{Range, RangeInclusive};
+use std::mem::size_of_val;
+
+// This is diverge function
+fn never_return() -> ! {
+    // panic make the complier show error.
+    panic!("SOS");
+}
+
+fn get_option(tp: u8) -> Option<i32> {
+    match tp {
+        1 => {
+            // TODO
+        }
+        _ => {
+            // TODO
+        }
+    };
+    
+    // Rather than returning a None, we use a diverging function instead
+    never_return_fn()
+}
+
+// IMPLEMENT this function in THREE ways
+fn never_return_fn() -> ! {
+    panic!("SOS");
+    //unimplemented!();
+    //todo!();
+}
+
+
+
+fn main() {
+    //**************************************************************************************************
+    // CASE 01: EXPRESSION
+    //**************************************************************************************************
+
+    //let x = 5u32;
+    //let y = {
+    //    let x_squared = x * x;
+    //    let x_cube = x_squared * x;
+    //    x_cube + x_squared + x
+    //};
+    //println!("x is {:?}", x);
+    //println!("y is {:?}", y);
+
+    //**************************************************************************************************
+    // CASE 02
+    //**************************************************************************************************
+    // let v = {
+    //    let mut x = 1;
+    //    x + 2
+    //    // x +=2 // is wrong
+    // };
+    // println!("{}",v);
+    // let statement_v = {
+    //    let mut x = 1;
+    //    x += 2;
+    //    // return unit type
+    // };
+
+
+    //**************************************************************************************************
+    // CASE 03: MATCH
+    //**************************************************************************************************
+    let input=1;
+    match input{
+        1=>println!("low"),
+        2=>println!("median"),
+        3=>println!("high"),
+        _ =>println!("Invalid")
+    };
+
+    //**************************************************************************************************
+    // CASE 04: DIVERGE FUNCTION AND PANIC
+    //**************************************************************************************************
+    // never_return();
+
+    //**************************************************************************************************
+    // CASE 05: MATCH AND PANIC
+    //**************************************************************************************************
+    // let b = false;
+    // let _v = match b {
+    //     // return 1
+    //     true => 1,
+    //     // return error.
+    //     false => {
+    //         println!("Success!");
+    //         panic!("we have no value for `false`, but we can panic");
+    //     }
+    // };
+}
+
+/*
+cargo run
+*/

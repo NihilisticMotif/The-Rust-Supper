@@ -1,0 +1,21 @@
+
+Type 
+1. Char (4-bytes)
+2. Bool (1-byte)
+2. Unit (0-bytes)
+
+Statement
+* Function that return unit type variable.
+* Statement end with ;
+
+Expression
+* Function that return non-unit type variable.
+* The last line of expression does not end with ;
+* Function is defined in limited scope.
+
+Function 
+* A code that do specific task
+
+Diverge Function 
+* A function that do not return any value (in cluding unit type variable)
+* e.g. loop forever, close computer etc.

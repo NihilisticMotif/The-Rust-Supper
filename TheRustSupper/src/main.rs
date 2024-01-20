@@ -2,122 +2,102 @@
 
 // https://youtu.be/BpPEoZW5IiY?si=goDW5z6qEkPok4pe
 
-use rand::Rng;
-use std::cmp::Ordering;
-use std::fs::File;
-use std::io;
-use std::io::{BufRead, BufReader, ErrorKind, Write};
-use std::ops::{Range, RangeInclusive};
+// use rand::Rng;
+// use std::cmp::Ordering;
+// use std::fs::File;
+// use std::io;
+// use std::io::{BufRead, BufReader, ErrorKind, Write};
+// use std::ops::{Range, RangeInclusive};
+use std::mem::size_of_val;
 
-fn type_of<T>(_: &T) -> String {
-    format!("{}", std::any::type_name::<T>())
+fn take_ownership(s: String)->String {
+    println!("{}", s);
+    s
+}
+fn give_ownership() -> String {
+    let s = String::from("Hello world");
+    // Convert String to Vector u8
+    // into_bytes switch the owner of HelloWorld from s to _s
+    // as_bytes create new variable, and does not effect the owner ship of HelloWorld.
+    let _s = s.as_bytes();
+    s
 }
 
+fn print_str(s: String) ->String {
+    println!("{}",s);
+    s
+}
 fn main() {
-    //**************************************************************************************************
-    // CASE 01: ASSIGNED VALUE AS TYPE
-    //**************************************************************************************************
+//**************************************************************************************************
+// EXAMPLE NO.1
+//**************************************************************************************************
+    // This cause error, because the variable can only have 1 ownership.
+    // and String variable is heap variable that only be access by pointer.
+    // let x = String::from("Hello world");
+    // let y = x;
+    // println!("{}, {}",x, y);
 
-    //#v = 38 that is assigned as u16
-    //#38 is assigned as u8
-    //let v: u16 = 38_u8 as u16;
+    // Solution 1
+    // clone copy the heap data.
+    // beware that the heap data is memory expensive
+    // let x = String::from("Hello world");
+    // let y = x.clone();
+    // println!("{}, {}",x, y);
 
-    //println!("Success!");
+    // Solution 2
+    // let x = String::from("Hello world");
+    // let y = String::from("Hello world");
+    // println!("{}, {}",x, y);
 
-    //**************************************************************************************************
-    // CASE 02: DEFAULT VALUE
-    //**************************************************************************************************
-    // let x = 5;
-    // println!("{}=={}",
-    //     "i32".to_string(), 
-    //     type_of(&x).to_string());
+    // Solution 3
+    // let x = String::from("Hello world");
+    // println!("{}",x);
 
-    //**************************************************************************************************
-    // CASE 03: CHECKED_ADD AND UNWRAP
-    //**************************************************************************************************
-    // let v1 = 251_u16 + 8;
-    // let v2 = i16::checked_add(251, 8).unwrap();
-    // println!("{},{}",v1,v2);
+    // Solution 4
+    // let x = String::from("Hello world");
+    // let y = x;
+    // println!("{}",y);
 
-    //**************************************************************************************************
-    // CASE 04: 0XFF
-    //**************************************************************************************************
-    //#hexadecimal numeral system
-    // println!("0xff = {}",0xff); // = 255
-    // println!("0o77 = {}",0o77); // = 63
-    // println!("0b1111_1111 = {}",0b1111_1111); // = 255
+//**************************************************************************************************
+// EXAMPLE NO.2
+//**************************************************************************************************
+    //let s1 = String::from("Hello world");
+    //let s2 = take_ownership(s1);
+    //println!("{}", s2);
 
-    //**************************************************************************************************
-    // CASE 05: FLOATING POINT
-    //**************************************************************************************************
-    //let x64 = 1_000.000_1;
-    //println!("{}==f64",type_of(&x64));
+//**************************************************************************************************
+// EXAMPLE NO.3
+//**************************************************************************************************
+    //let s = give_ownership();
+    //println!("{}", s);
 
-    //**************************************************************************************************
-    // CASE 06: FLOATING POINT PRECISION
-    //**************************************************************************************************
-    //println!("{}=={}",0.1_f32+0.2_f32,0.3_f32);
-    //println!("{}=={}",0.1 as f32+0.2 as f32,0.3 as f32);
+//**************************************************************************************************
+// EXAMPLE NO.4
+//**************************************************************************************************
+    // let s = String::from("Hello World");
+    // let ss = print_str(s);
+    // println!("{}", ss);
 
-    //**************************************************************************************************
-    // CASE 07: FOR LOOP
-    //**************************************************************************************************
-    //let mut sum=0;
-    //for i in 0..10{
-    //    sum+=i;
-    //    //println!("{}",i) // 0,1,...,9
-    //};
-    //let sigma=(10*9)/2;
-    //println!("{}=={}",sum,sigma)
+//**************************************************************************************************
+// EXAMPLE NO.5
+//**************************************************************************************************
+let tupless:(i32,i32,i32,String,(),String)= (255,0,0,"Red".to_string(),()," is my Lucky Color!".to_string());
+let x:(i32,i32,(),&str) = (1, 2, (), "hello");
+let y = x;
+println!("{:?} == {:?}", x, y);
+let mut mbti:&str="intp";
+mbti="lgbt";
+mbti="UFO";
+mbti="pseudoscience";
+println!("{}",mbti);
+/*
+The similarity between &str and String
+ * Both store string
 
-    //for i in 0..=10{
-    //    println!("{}",i) // 0,1,...,10
-    //};
-
-    //for i in RangeInclusive::new(1, 5){
-    //    println!("{}",i); // 1,2,...,5
-    //};
-
-    //**************************************************************************************************
-    // CASE 08: RANGE AND RANGEINCLUSIVE
-    //**************************************************************************************************
-    // https://doc.rust-lang.org/std/ops/struct.Range.html
-    // (3..5) == Range { start: 3, end: 5 }
-    // assert_eq!((3..5), Range { start: 3, end: 5 });
-
-    // https://doc.rust-lang.org/std/ops/struct.RangeInclusive.html
-    // assert_eq!((3..=5), RangeInclusive::new(3, 5));
-    // assert_eq!(3 + 4 + 5, (3..=5).sum());
-
-    // assert_eq!((1..=5), RangeInclusive::new(1, 5)); // Correct
-    // assert_eq!((1..6), RangeInclusive::new(1, 5));  // Wrong
-
-    //**************************************************************************************************
-    // CASE 09: LAST EXAMPLE
-    //**************************************************************************************************
-    // Integer addition
-    assert!(1u32 + 2 == 3u32);
-
-    // Integer subtraction
-    assert!(1i32 - 2 == -1i32);
-    assert!(1i8 - 2 == -1); 
-    
-    assert!(3 * 50 == 150);
-
-    assert!(9.6 / 3.2 == 3.0f32); // error ! make it work
-
-    assert!(24 % 5 == 4);
-    // Short-circuiting boolean logic
-    assert!(true && false == false);
-    assert!(true || false == true);
-    assert!(!true == false);
-
-    // Bitwise operations
-    println!("0011 AND 0101 is {:04b}", 0b0011u32 & 0b0101);
-    println!("0011 OR 0101 is {:04b}", 0b0011u32 | 0b0101);
-    println!("0011 XOR 0101 is {:04b}", 0b0011u32 ^ 0b0101);
-    println!("1 << 5 is {}", 1u32 << 5);
-    println!("0x80 >> 2 is 0x{:x}", 0x80u32 >> 2);
+The different between &str and String
+ * String have unknown size
+ * &str have fixed size.
+*/
 }
 
 /*

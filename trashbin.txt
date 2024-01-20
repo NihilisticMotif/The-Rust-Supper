@@ -1,3 +1,362 @@
+.to_string()
+ 
+:(i32,i32,(),&str)
+ 
+.to_string()
+ 
+.to_string()
+ 
+x, 
+ 
+, {}
+ 
+    //let y = x;
+ 
+//, y);
+ 
+
+    // Use as many approaches as you can to make it work
+ 
+    let s3 = 
+ 
+    // might do other things
+ 
+UNIT
+ 
+Example No.2
+ 
+: SCOPE
+ 
+// 2. drop input previous ownership.
+ 
+// copy the data with fixed size
+ 
+Size of message is 24 bytes
+ 
+"Hello" belong to Heap.
+ 
+*/
+ 
+|
+|
+|
+ 
+ len
+ 
+// Its pointer indicate the position of "Hello"
+ 
+  
+ 
+   //**************************************************************************************************
+    // CASE 01: EXPRESSION
+    //**************************************************************************************************
+
+    //let x = 5u32;
+    //let y = {
+    //    let x_squared = x * x;
+    //    let x_cube = x_squared * x;
+    //    x_cube + x_squared + x
+    //};
+    //println!("x is {:?}", x);
+    //println!("y is {:?}", y);
+
+    //**************************************************************************************************
+    // CASE 02
+    //**************************************************************************************************
+    // let v = {
+    //    let mut x = 1;
+    //    x + 2
+    //    // x +=2 // is wrong
+    // };
+    // println!("{}",v);
+    // let statement_v = {
+    //    let mut x = 1;
+    //    x += 2;
+    //    // return unit type
+    // };
+
+
+    //**************************************************************************************************
+    // CASE 03: MATCH
+    //**************************************************************************************************
+    let input=1;
+    match input{
+        1=>println!("low"),
+        2=>println!("median"),
+        3=>println!("high"),
+        _ =>println!("Invalid")
+    };
+
+    //**************************************************************************************************
+    // CASE 04: DIVERGE FUNCTION AND PANIC
+    //**************************************************************************************************
+    // never_return();
+
+    //**************************************************************************************************
+    // CASE 05: MATCH AND PANIC
+    //**************************************************************************************************
+    // let b = false;
+    // let _v = match b {
+    //     // return 1
+    //     true => 1,
+    //     // return error.
+    //     false => {
+    //         println!("Success!");
+    //         panic!("we have no value for `false`, but we can panic");
+    //     }
+    // };
+ 
+// This is diverge function
+fn never_return() -> ! {
+    // panic make the complier show error.
+    panic!("SOS");
+}
+
+fn get_option(tp: u8) -> Option<i32> {
+    match tp {
+        1 => {
+            // TODO
+        }
+        _ => {
+            // TODO
+        }
+    };
+    
+    // Rather than returning a None, we use a diverging function instead
+    never_return_fn()
+}
+
+// IMPLEMENT this function in THREE ways
+fn never_return_fn() -> ! {
+    panic!("SOS");
+    //unimplemented!();
+    //todo!();
+}
+
+ 
+// Diverging functions can also be used in match expression to replace a value of any value
+ 
+the fn signatures
+ 
+    // Implement this function, don't modify 
+ 
+"This function never returns!"
+ 
+//
+ 
+    println!("z is {:?}", z);
+ 
+    let z = {
+        // The semicolon suppresses this expression and `()` is assigned to `z`
+        2 * x
+    };
+ 
+
+        // This expression will be assigned to `y`
+ 
+fn type_of<T>(_: &T) -> String {
+    format!("{}", std::any::type_name::<T>())
+}
+
+fn implicitly_ret_unit() {
+    println!("I will return a ()");
+}
+
+// Don't use this one
+fn explicitly_ret_unit() -> () {
+    println!("I will return a ()");
+}
+
+// Explicitly return i32
+fn one984(justthe:i32,two:i32)->i32{
+    let ofus:i32=1;
+    justthe+two+ofus
+}
+ 
+    //**************************************************************************************************
+    // CASE 01: SIZE OF CHAR IS 4
+    //**************************************************************************************************
+
+    // let c1 = 'a';
+    // let c2 = '中';
+    // println!("bit size of c1 = {}",size_of_val(&c1)); // 4
+    // println!("bit size of c2 = {}",size_of_val(&c2)); // 4
+
+    //**************************************************************************************************
+    // CASE 02: SINGLE QUOTE = CHAR , DOUBLE QUOTE = &STR
+    //**************************************************************************************************
+    // let c1:char='a';
+    // let c2:&str="a";
+    // println!("Type of c1 = {}",type_of(&c1));   // char
+    // println!("Type of c2 = {}",type_of(&c2));   // &str
+
+    //**************************************************************************************************
+    // CASE 03: CONDITION
+    //**************************************************************************************************
+
+    // let thetruth:bool=true;
+    // //let thetruth:bool=false;
+    // let myname:&str="CheChe";
+    // if myname=="Cheche"{
+    //     println!("God.");
+    // }
+    // else{
+    //     println!("Satan.");
+    // };
+
+    //**************************************************************************************************
+    // CASE 03: AND
+    //**************************************************************************************************
+    // let f = false;
+    // let t = true && false;
+    // println!("{} == {}",f,t);
+
+    //**************************************************************************************************
+    // CASE 04: UNIT TYPE
+    //**************************************************************************************************
+    // The unit type is the data type that have 0 bits.
+    // The function that does not return any value
+    // will always return unit type.
+    // let emptyset: () = (); 
+    let tuplee: (i32,i32,i32)=(22,23,24);
+    // println!("{}",one984(2,2));
+
+    //**************************************************************************************************
+    // CASE 05: SIZE OF UNIT TYPE
+    //**************************************************************************************************
+    let unit: () = ();
+    println!("{}",size_of_val(&unit));  // 0
+ 
+,thetruth
+ 
+ tell {}
+ 
+,thetruth
+ 
+//let y: &[u8] = &x;
+ 
+ and {}
+ 
+
+fn type_of<T>(_: &T) -> String {
+    format!("{}", std::any::type_name::<T>())
+}
+ 
+    //**************************************************************************************************
+    // CASE 01: ASSIGNED VALUE AS TYPE
+    //**************************************************************************************************
+
+    //#v = 38 that is assigned as u16
+    //#38 is assigned as u8
+    //let v: u16 = 38_u8 as u16;
+
+    //println!("Success!");
+
+    //**************************************************************************************************
+    // CASE 02: DEFAULT VALUE
+    //**************************************************************************************************
+    // let x = 5;
+    // println!("{}=={}",
+    //     "i32".to_string(), 
+    //     type_of(&x).to_string());
+
+    //**************************************************************************************************
+    // CASE 03: CHECKED_ADD AND UNWRAP
+    //**************************************************************************************************
+    // let v1 = 251_u16 + 8;
+    // let v2 = i16::checked_add(251, 8).unwrap();
+    // println!("{},{}",v1,v2);
+
+    //**************************************************************************************************
+    // CASE 04: 0XFF
+    //**************************************************************************************************
+    //#hexadecimal numeral system
+    // println!("0xff = {}",0xff); // = 255
+    // println!("0o77 = {}",0o77); // = 63
+    // println!("0b1111_1111 = {}",0b1111_1111); // = 255
+
+    //**************************************************************************************************
+    // CASE 05: FLOATING POINT
+    //**************************************************************************************************
+    //let x64 = 1_000.000_1;
+    //println!("{}==f64",type_of(&x64));
+
+    //**************************************************************************************************
+    // CASE 06: FLOATING POINT PRECISION
+    //**************************************************************************************************
+    //println!("{}=={}",0.1_f32+0.2_f32,0.3_f32);
+    //println!("{}=={}",0.1 as f32+0.2 as f32,0.3 as f32);
+
+    //**************************************************************************************************
+    // CASE 07: FOR LOOP
+    //**************************************************************************************************
+    //let mut sum=0;
+    //for i in 0..10{
+    //    sum+=i;
+    //    //println!("{}",i) // 0,1,...,9
+    //};
+    //let sigma=(10*9)/2;
+    //println!("{}=={}",sum,sigma)
+
+    //for i in 0..=10{
+    //    println!("{}",i) // 0,1,...,10
+    //};
+
+    //for i in RangeInclusive::new(1, 5){
+    //    println!("{}",i); // 1,2,...,5
+    //};
+
+    //**************************************************************************************************
+    // CASE 08: RANGE AND RANGEINCLUSIVE
+    //**************************************************************************************************
+    // https://doc.rust-lang.org/std/ops/struct.Range.html
+    // (3..5) == Range { start: 3, end: 5 }
+    // assert_eq!((3..5), Range { start: 3, end: 5 });
+
+    // https://doc.rust-lang.org/std/ops/struct.RangeInclusive.html
+    // assert_eq!((3..=5), RangeInclusive::new(3, 5));
+    // assert_eq!(3 + 4 + 5, (3..=5).sum());
+
+    // assert_eq!((1..=5), RangeInclusive::new(1, 5)); // Correct
+    // assert_eq!((1..6), RangeInclusive::new(1, 5));  // Wrong
+
+    //**************************************************************************************************
+    // CASE 09: LAST EXAMPLE
+    //**************************************************************************************************
+    // Integer addition
+    assert!(1u32 + 2 == 3u32);
+
+    // Integer subtraction
+    assert!(1i32 - 2 == -1i32);
+    assert!(1i8 - 2 == -1); 
+    
+    assert!(3 * 50 == 150);
+
+    assert!(9.6 / 3.2 == 3.0f32); // error ! make it work
+
+    assert!(24 % 5 == 4);
+    // Short-circuiting boolean logic
+    assert!(true && false == false);
+    assert!(true || false == true);
+    assert!(!true == false);
+
+    // Bitwise operations
+    println!("0011 AND 0101 is {:04b}", 0b0011u32 & 0b0101);
+    println!("0011 OR 0101 is {:04b}", 0b0011u32 | 0b0101);
+    println!("0011 XOR 0101 is {:04b}", 0b0011u32 ^ 0b0101);
+    println!("1 << 5 is {}", 1u32 << 5);
+    println!("0x80 >> 2 is 0x{:x}", 0x80u32 >> 2);
+ 
+1011101
+ 
+1111101
+ 
+
+T and T = T 
+T and F = F
+F and T = F
+F and F = F
+ 
     for i in Range(1, 5){
  
 std::ops::
