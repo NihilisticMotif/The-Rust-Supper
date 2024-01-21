@@ -1,0 +1,244 @@
+//**************************************************************************************************
+// ASCII and UTF8
+//**************************************************************************************************
+
+ASCII
+ * the way to convert binary number into English Alphabet.
+ * The firts version use 7 bit (only 2^7=128 characters)
+/*
+0XXXXXXX // a byte of Alphabet
+*/
+
+UTF-8
+ * The way to convert 1-4 bytes of binary data into character 
+   of various languages around the world e.g. English, Chinese, Thai etc,
+   emoji and mathematical notation.
+ * Support 1,112,064 characters.
+
+/*
+0XXXXXXX // a byte of Alphabet
+110XXXXX 10XXXXXX // 2 bytes of Alphabet
+1110XXXX 10XXXXXX 10XXXXXX // 3 bytes of Alphabet
+11110XXX 10XXXXXX 10XXXXXX 10XXXXXX // 4 bytes of Alphabet
+*/
+
+Example of 4 bytes of UTF8 emoji
+/*
+11110000 10011111 10100110 10000000
+*/
+
+Example of byte representation of ก
+/*
+11100000 0001
+*/
+Note
+* Rust also use UTF8
+
+//**************************************************************************************************
+// &str, String and String Literal
+//**************************************************************************************************
+
+String Literal
+* The string data type that start and end with "
+* It can only be referenced by &str and String variables.
+/*
+// In this case, "HelloWorld" is the String Literal.
+let str_message &str="HelloWorld";
+let string_message String="HelloWorld".to_string();
+*/
+
+Attribute of &str (a.k.a. string slice, Reference of String Literal)
+* & means that the &str is the immutable reference of string data, 
+  because the total amount of bytes of the string data is unknown (the data can be stored in heap).
+1. Address
+ * Pointer that point to the address of string data (which can be stored in Binary, Stack or Heap)
+2. Length
+ * the amount of bytes of the string data
+
+Application of &str 
+ * Display the string data without modify its value.
+
+Attribute of String 
+1. Pointer
+ * Pointer that point to the address of string data (which only store in Heap)
+2. Length
+ * the amount of bytes of the string data
+3. Capacity 
+ * the total amount of avaible bytes of the string data.
+ * Capacity always equal to or larger than Length.
+
+Application of String 
+ * Manipulating string data.
+
+Note 
+ * Both &str and String are compound type.
+
+Example 
+
+let mut_message = {
+    Pointer: 1001011...,    // 1001011... --> HelloWorld
+    Length: 11,
+    Capacity: 11
+}
+
+let message = {
+    Pointer: 1001011...,    // 1001011... --> HelloWorld
+    Length: 11,
+}
+
+//**************************************************************************************************
+// DIFFERENT WAYS TO CONVERT &STR TO STRING, GET SOME PART OF THE STRING.
+//**************************************************************************************************
+let no_permission_to_edit:&str = "git commit -c 'Creating New Project!'";
+let fork_01:String = String::from(no_permission_to_edit);
+let fork_02:String = no_permission_to_edit.to_string();
+let fork_03:String = no_permission_to_edit.to_owned();
+let audience_only_read_github:&str = &fork_03[..];
+let deployment:&str = &fork_03[13..];
+let learning_git:&str = &fork_03[..13];
+let commitment:&str = &fork_03[4..10];
+let vitamin_c:&str = &commitment[..];
+println!("let audience_only_read_github:&str = {}",audience_only_read_github);
+println!("let edit_03:String = {}",fork_03);
+println!("let deployment:&str = {}",deployment);
+println!("let deployment:&str = {}",learning_git);
+println!("let commitment:&str = {}",commitment);
+println!("let vitamin_c:&str = {}",vitamin_c);
+
+//**************************************************************************************************
+// EDIT STRING DATA (PUSH_STR & REPLACE_RANGE)
+//**************************************************************************************************
+let no_permission_to_edit:&str = "git commit -c 'Creating New Project!'";
+let mut project_development:String = String::from(no_permission_to_edit);
+println!("{}",project_development);
+project_development.push_str(" & git commit -c 'develop version 2'");
+println!("{}",project_development);
+project_development.replace_range(..,"git push origin main");
+println!("{}",project_development);
+
+//**************************************************************************************************
+// FORMAT
+//**************************************************************************************************
+let first_commit:String = String::from("git commit -c 'Creating New Project!'");
+let second_commit:String = String::from("git commit -c 'developing version 2'");
+let thrid_commit:&str = "git commit -c 'developing version 3'";
+// let project_development:&str = format!(...) // error
+let project_development:String = format!(
+    "{}\n{}\n{}\n{}",
+    first_commit,
+    second_commit,
+    thrid_commit,
+    "git push origin main"
+);
+println!("{}",project_development);
+
+//**************************************************************************************************
+// CONCAT
+//**************************************************************************************************
+let helloworld:String = ["Hello"," ","World"].concat();
+let helloworld:String = format!("{} {}","Hello", "World");
+let helloworld:&str = concat!("Hello"," ","World");
+let hello:String = String::from("Hello");
+let helloworld:String = hello+" World";
+
+//**************************************************************************************************
+// SELECT THE CHAR BASED ON INDEX
+//**************************************************************************************************
+// https://stackoverflow.com/questions/41380367/parsing-a-char-to-u32
+// https://codereview.stackexchange.com/questions/210967/decimal-to-binary-in-rust
+let firstthaichar:char = 'ก';
+println!("Bytes of Ko = {:b}",firstthaichar as u32);
+// Bytes of Ko = 111000000001
+
+let first10thaichar:&str = "กขฃคฅฆงจฉชซ";
+// let get7ththaichar=first10thaichar[6]; 
+// Error, because not every UTF8 char have same bytes (1-4 bytes).
+// let get7ththaichar=&first10thaichar[7..];
+// thread 'main' panicked at src/main.rs:11:36:
+// byte index 7 is not a char boundary; it is inside 'ฃ' (bytes 6..9) of `กขฃคฅฆงจฉช`
+// note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+// println!("{}",get7ththaichar);
+let get8ththaichar:&str=&first10thaichar[5*4+1..6*4];
+// let get8ththaichar:&str=&first10thaichar[4*4+1..5*4];
+// thread 'main' panicked at src/main.rs:24:41:
+// byte index 17 is not a char boundary; it is inside 'ฆ' (bytes 15..18) of `กขฃคฅฆงจฉชซ`
+// note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+println!("{}",get8ththaichar);
+
+/*
+In Rust, it taks O(n) to find the char of string based on selected index,
+because each char have different amount of bytes.
+
+In Go, it taks O(1) to find the char of string based on selected index,
+because Go automatically make every char have 4 bytes,
+which make Go faster at this job, but consume more memory compare to Rust.
+*/
+
+//**************************************************************************************************
+// CONVERT STRING AND CHAR TO U8
+//**************************************************************************************************
+for b in "สวัสดีครับ = Hello".bytes(){
+    println!("{}",b);
+    // 224
+    // 184
+    // ...
+    // 111
+};
+let firstchar:char='ส';
+println!("firstchar = {}",firstchar as u8);
+// firstchar = 42
+
+//**************************************************************************************************
+// PRINTLN EACH CHAR IN &STR
+//**************************************************************************************************
+// There are some character that terminal connot display
+// because this loop iterate over the unicode scalar value of the string 
+// instead of the character.
+println!("'สวัสดีครับ = Hello'.chars()");
+for b in "สวัสดีครับ = Hello".chars(){
+    println!("{}",b);
+    // ส
+    // ว
+    //
+    // ...
+    // o
+};
+
+//**************************************************************************************************
+// CONVERT &STR TO STRING
+//**************************************************************************************************
+fn get_permission(a:&str)->String{
+    return format!("{}",a)
+}
+fn main() {
+let no_permission:&str="git cimmit -m 'Create Cool Project'";
+let have_permission:String="git cimmit -m 'Create Cool Project'".to_string();
+let fork1:String=get_permission(no_permission);
+let fork2:String=get_permission(&have_permission);
+}
+
+//**************************************************************************************************
+// ADDITIONAL FUNCTION
+//**************************************************************************************************
+fn greetings_box(s: Box<str>) {
+    println!("Hello, {}",s);
+}
+fn greetings_str(s: &str) {
+    println!("Hello, {}",s);
+}
+
+fn greetings_string(s: String) {
+    println!("{}", s)
+}
+fn main() {
+    // ... 
+}
+
+//**************************************************************************************************
+// REFERENCE
+//**************************************************************************************************
+1. https://youtu.be/Mcuqzx3rBWc?si=FvEn6hqjsRYIlEES
+2. https://youtu.be/BpPEoZW5IiY?si=qt9CQHFxhAH-GPOn
+
+

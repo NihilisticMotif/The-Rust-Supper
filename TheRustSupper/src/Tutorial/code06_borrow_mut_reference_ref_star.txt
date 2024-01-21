@@ -1,0 +1,105 @@
+#![allow(unused)]
+
+// https://youtu.be/BpPEoZW5IiY?si=goDW5z6qEkPok4pe
+
+// use rand::Rng;
+// use std::cmp::Ordering;
+// use std::fs::File;
+// use std::io;
+// use std::io::{BufRead, BufReader, ErrorKind, Write};
+// use std::ops::{Range, RangeInclusive};
+
+fn push_str(s: &mut String) {
+    s.push_str("world")
+}
+fn borrow_object(s: String) {}
+fn borrow_and_object(s: &String) {}
+fn borrow_mut_object(s: &mut String) {}
+fn main() {
+//**************************************************************************************************
+// EXAMPLE NO.1 PRINTING THE MEMORY ADDRESS
+//**************************************************************************************************
+// let x = 112;
+// let p = &x;
+// println!("the memory address of x is {:p}", p); 
+// println!("the value of x is {}", p); 
+// println!("the value of x is {:}", p); 
+
+//**************************************************************************************************
+// EXAMPLE NO.2 STAR (*) = ACCESSING THE ORIGINAL VALUE
+//**************************************************************************************************
+// let x = 5;
+// let y = &x;
+// //assert_eq!(5, y); // invalid
+// assert_eq!(5, x);   // valid because x = 5
+// assert_eq!(&5, y);  // valid because &5 = y  = the reference of 5
+// assert_eq!(&x, y);  // valid because &x = y  = the reference of 5
+// assert_eq!(&x, &5); // valid because &x = &5 = the reference of 5
+// // * mean to access the original value that the pointer refer to.
+// assert_eq!(5, *y);  // valid because 5 = *y  = the original value of 5
+// assert_eq!(5, *&5); // valid because 5 = *&5 = the original value of 5
+// assert_eq!(5, *&x); // valid because 5 = *&x = the original value of 5
+
+//**************************************************************************************************
+// EXAMPLE NO.3 SPECIFY IF THE INPUT VALUE IS REFERENCE OR NOT.
+//**************************************************************************************************
+// let mut s = String::from("hello, ");
+// // You must specify if the input value of the function
+// // is mutable or immutable reference, or non-reference variable.
+// // And the input value must match with the input attribute of the function.
+// push_str(&mut s);
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.4 ALL OF THE MUTABLE VARIABLE CANNOT HAVE IMMUTABLE REFERENCE.
+//**************************************************************************************************
+// let mut s = String::from("hello, ");
+// let p = &mut s;
+// p.push_str("world");
+
+//**************************************************************************************************
+// EXAMPLE NO.5 REF IS THE SAME AS &, EXCEPT IT MAKE CODE MORE READABLE IN SOMECASE.
+//**************************************************************************************************
+// let c = '中';
+// let r1 = &c;
+// let ref r2 = c;
+// assert_eq!(r1,r2);
+
+//**************************************************************************************************
+// EXAMPLE NO.6 USING MULTIPLE IMMUTABLE REFERENCE.
+//**************************************************************************************************
+// let mut s = String::from("hello");
+// let r1 = & s;
+// let r2 = & s;
+// println!("{}, {}", r1, r2);
+
+//**************************************************************************************************
+// EXAMPLE NO.7 SPECIFY IF THE INPUT VALUE IS REFERENCE OR NOT.
+//**************************************************************************************************
+// let  s = String::from("hello, ");
+// borrow_object(s);
+// let mut s = String::from("hello, ");
+// borrow_mut_object(&mut s);
+// println!("No Error!");
+
+//**************************************************************************************************
+// EXAMPLE NO.8 SPECIFY IF THE INPUT VALUE IS REFERENCE OR NOT.
+//**************************************************************************************************
+// let mut s = String::from("hello, ");
+// borrow_and_object(&s);
+// s.push_str("world");
+
+//**************************************************************************************************
+// EXAMPLE NO.9 VALID BECAUSE THE PREVIOUS MUTABLE REFERENCE IS NOT LONGER USED.
+//**************************************************************************************************
+// let mut s = String::from("hello, ");
+// let r1 = &mut s;
+// r1.push_str("world");
+// let r2 = &mut s;
+// r2.push_str("!");
+// println!("{}",r2);
+}
+
+/*
+cargo run
+*/

@@ -1,5 +1,811 @@
 .to_string()
  
+
+// ...Or Unicode code points.
+ 
+             // 116
+ 
+// let b_t=18;
+ 
+:String
+ 
+"t".to_string()
+ 
+ as u16
+ 
+t' as u16
+ 
+println!("b_1 (dec) = {}",b_t);
+ 
+ (hex)
+ 
+println!("b_1 (dec) = {}",b_t);
+ 
+:#03
+ 
+.to_hex()
+ 
+.as_slice()
+ 
+:char
+ 
+ as u16
+ 
+let b_t:char='t';
+println!("{}",b_t as u16);
+ 
+.as_str()
+ 
+let s3:String = s1+s2.as_str();
+ 
+let mut s = String::from("hello");
+s.push(',');
+s.push_str(" world");
+s.push_str("!");
+ 
+.to_string()
+ 
+, BOX<STR> AND &STR
+ 
+li
+ 
+.into()
+ 
+//**************************************************************************************************
+// CONVERT &STR TO STRING
+//**************************************************************************************************
+
+ 
+let no_permission:&str="git cimmit -m 'Create Cool Project'";
+let have_permission:String="git cimmit -m 'Create Cool Project'".to_string();
+let fork1:String=get_permission(no_permission);
+let fork2:String=get_permission(&have_permission);
+ 
+fn get_permission(a:&str)->String{
+    return format!("{}",a)
+}
+ 
+.to_string()
+ 
+//**************************************************************************************************
+// PRINTLN EACH CHAR IN &STR
+//**************************************************************************************************
+
+ 
+// There are some character that terminal connot display
+// because this loop iterate over the unicode scalar value of the string 
+// instead of the character.
+println!("'สวัสดีครับ = Hello'.chars()");
+for b in "สวัสดีครับ = Hello".chars(){
+    println!("{}",b);
+    // ส
+    // ว
+    //
+    // ...
+    // o
+};
+ 
+println!("'สวัสดีครับ = Hello'.chars()");
+for b in "สวัสดีครับ = Hello".graphemes(true){
+    println!("{}",b);
+    // ส
+    // ว
+    //
+    // ...
+    // o
+};
+ 
+use unicode_segmentation::UnicodeSegmentation;
+ 
+use unicode_segmentation::;;
+ 
+::Unicode_segmentation
+ 
+ 
+ 
+// converting the &str to tupl
+ 
+println!("message.chars() = {}","สวัสดีครับ = Hello".chars().to_string());
+ 
+let firstchar:char='ส';
+println!("firstchar = {}",firstchar as u8);
+// firstchar = 42
+ 
+// 224
+// 184
+// ...
+// 111
+ 
+/*
+ 
+let get8thbytes=first10thaichar[7];
+ 
+let get8thbytes=&first10thaichar.7;
+ 
+/*
+4*0-4*1
+4*1-4*2
+4*2-4*3
+*/
+ 
+3
+ 
+let first10thaichar:&str = "กขฃคฅฆงจฉช";
+ 
+let firstthaichar_as_bytes:String = "\u{"+firstthaichar.to_string()+"}";
+ 
+ขฃคฅฆงจฉช
+ 
+let helloworld:String = ["Hello"," ","World"].concat();
+let helloworld:String = format!("{} {}","Hello", "World");
+let helloworld:&str = concat!("Hello"," ","World");
+let hello:String = String::from("Hello");
+let helloworld:String = hello+" World";
+ 
+FORMAT, 
+ 
+let first_commit:String = String::from("git commit -c 'Creating New Project!'");
+let second_commit:String = String::from("git commit -c 'developing version 2'");
+let thrid_commit:&str = "git commit -c 'developing version 3'";
+// FORMAT
+let project_development:String = format!(
+    "{}\n{}\n{}\n{}",
+    first_commit,
+    second_commit,
+    thrid_commit,
+    "git push origin main"
+);
+println!("{}",project_development);
+// CONCAT
+let project_development:&str = [
+    first_commit,
+    second_commit,
+    thrid_commit.to_string().push_str("git push origin main")
+].concat();
+println!("{}",project_development);
+ 
+let first_commit:String = String::from("git commit -c 'Creating New Project!'");
+let second_commit:String = String::from("git commit -c 'developing version 2'");
+let thrid_commit:&str = "git commit -c 'developing version 3'";
+// FORMAT
+let project_development:String = format!(
+    "{}\n{}\n{}\n{}",
+    first_commit,
+    second_commit,
+    thrid_commit,
+    "git push origin main"
+);
+println!("{}",project_development);
+// CONCAT
+let project_development:&str = [
+    first_commit,
+    second_commit,
+    thrid_commit.to_string().push_str("git push origin main")
+].concat();
+println!("{}",project_development);
+}
+
+ 
+    
+ 
+.to_string()
+ 
+    "{}\n{}\n{}\n{}",
+ 
+String::from(
+ 
+let no_permission_to_edit:&str = "git commit -c 'Creating New Project!'";
+ 
+println!("{}",project_development);
+project_development.push_str(" & git commit -c 'develop version 2'");
+println!("{}",project_development);
+project_development.replace_range(..,"git push origin main");
+println!("{}",project_development);
+ 
+let no_permission_to_edit:&str = "git commit -c 'Creating New Project!'";
+let mut project_development:String = String::from(no_permission_to_edit);
+println!("{}",project_development);
+project_development.push_str(" & git commit -c 'develop version 2'");
+println!("{}",project_development);
+project_development.replace_range(..,"git push origin main");
+println!("{}",project_development);
+ 
+let fork_02:String = no_permission_to_edit.to_string();
+let fork_03:String = no_permission_to_edit.to_owned();
+let audience_only_read_github:&str = &fork_03[..];
+let deployment:&str = &fork_03[13..];
+let learning_git:&str = &fork_03[..13];
+let commitment:&str = &fork_03[4..10];
+let vitamin_c:&str = &commitment[..];
+println!("let audience_only_read_github:&str = {}",audience_only_read_github);
+println!("let edit_03:String = {}",fork_03);
+println!("let deployment:&str = {}",deployment);
+println!("let deployment:&str = {}",learning_git);
+println!("let commitment:&str = {}",commitment);
+println!("let vitamin_c:&str = {}",vitamin_c);
+ 
+let fork_01:String = String::from(no_permission_to_edit);
+let fork_02:String = no_permission_to_edit.to_string();
+let fork_03:String = no_permission_to_edit.to_owned();
+let audience_only_read_github:&str = &fork_03[..];
+let deployment:&str = &fork_03[13..];
+let learning_git:&str = &fork_03[..13];
+let commitment:&str = &fork_03[4..10];
+let vitamin_c:&str = &commitment[..];
+println!("let audience_only_read_github:&str = {}",audience_only_read_github);
+println!("let edit_03:String = {}",fork_03);
+println!("let deployment:&str = {}",deployment);
+println!("let deployment:&str = {}",learning_git);
+println!("let commitment:&str = {}",commitment);
+println!("let vitamin_c:&str = {}",vitamin_c);
+ 
+    Capacity: 11
+ 
+(length) of characters (in UTF8, each character has 1-4 
+ 
+English 
+ 
+English 
+ 
+, allocate in heap
+ 
+
+// use rand::Rng;
+// use std::cmp::Ordering;
+// use std::fs::File;
+// use std::io;
+// use std::io::{BufRead, BufReader, ErrorKind, Write};
+// use std::ops::{Range, RangeInclusive};
+
+fn push_str(s: &mut String) {
+    s.push_str("world")
+}
+fn borrow_object(s: String) {}
+fn borrow_and_object(s: &String) {}
+fn borrow_mut_object(s: &mut String) {}
+ 
+PRINTING THE MEMORY ADDRESS
+ 
+// let x = 112;
+// let p = &x;
+// println!("the memory address of x is {:p}", p); 
+// println!("the value of x is {}", p); 
+// println!("the value of x is {:}", p); 
+
+//**************************************************************************************************
+// EXAMPLE NO.2 STAR (*) = ACCESSING THE ORIGINAL VALUE
+//**************************************************************************************************
+// let x = 5;
+// let y = &x;
+// //assert_eq!(5, y); // invalid
+// assert_eq!(5, x);   // valid because x = 5
+// assert_eq!(&5, y);  // valid because &5 = y  = the reference of 5
+// assert_eq!(&x, y);  // valid because &x = y  = the reference of 5
+// assert_eq!(&x, &5); // valid because &x = &5 = the reference of 5
+// // * mean to access the original value that the pointer refer to.
+// assert_eq!(5, *y);  // valid because 5 = *y  = the original value of 5
+// assert_eq!(5, *&5); // valid because 5 = *&5 = the original value of 5
+// assert_eq!(5, *&x); // valid because 5 = *&x = the original value of 5
+
+//**************************************************************************************************
+// EXAMPLE NO.3 SPECIFY IF THE INPUT VALUE IS REFERENCE OR NOT.
+//**************************************************************************************************
+// let mut s = String::from("hello, ");
+// // You must specify if the input value of the function
+// // is mutable or immutable reference, or non-reference variable.
+// // And the input value must match with the input attribute of the function.
+// push_str(&mut s);
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.4 ALL OF THE MUTABLE VARIABLE CANNOT HAVE IMMUTABLE REFERENCE.
+//**************************************************************************************************
+// let mut s = String::from("hello, ");
+// let p = &mut s;
+// p.push_str("world");
+
+//**************************************************************************************************
+// EXAMPLE NO.5 REF IS THE SAME AS &, EXCEPT IT MAKE CODE MORE READABLE IN SOMECASE.
+//**************************************************************************************************
+// let c = '中';
+// let r1 = &c;
+// let ref r2 = c;
+// assert_eq!(r1,r2);
+
+//**************************************************************************************************
+// EXAMPLE NO.6 USING MULTIPLE IMMUTABLE REFERENCE.
+//**************************************************************************************************
+// let mut s = String::from("hello");
+// let r1 = & s;
+// let r2 = & s;
+// println!("{}, {}", r1, r2);
+
+//**************************************************************************************************
+// EXAMPLE NO.7 SPECIFY IF THE INPUT VALUE IS REFERENCE OR NOT.
+//**************************************************************************************************
+// let  s = String::from("hello, ");
+// borrow_object(s);
+// let mut s = String::from("hello, ");
+// borrow_mut_object(&mut s);
+// println!("No Error!");
+
+//**************************************************************************************************
+// EXAMPLE NO.8 SPECIFY IF THE INPUT VALUE IS REFERENCE OR NOT.
+//**************************************************************************************************
+// let mut s = String::from("hello, ");
+// borrow_and_object(&s);
+// s.push_str("world");
+
+//**************************************************************************************************
+// EXAMPLE NO.9 VALID BECAUSE THE PREVIOUS MUTABLE REFERENCE IS NOT LONGER USED.
+//**************************************************************************************************
+// let mut s = String::from("hello, ");
+// let r1 = &mut s;
+// r1.push_str("world");
+// let r2 = &mut s;
+// r2.push_str("!");
+// println!("{}",r2);
+ 
+//**************************************************************************************************
+// EXAMPLE NO.9 VALID BECAUSE THE PREVIOUS MUTABLE REFERENCE IS NOT LONGER USED.
+//**************************************************************************************************
+
+ 
+borrow_object(s);
+ 
+&mut 
+ 
+: &mut String
+ 
+// Fill the blank，dont change other code
+ 
+    // Fill the blank to make it work
+ 
+//assert_eq!(5, y); // invalid
+ 
+in
+ 
+
+    // Modify this line only
+ 
+memory addres
+ 
+   // Fill the blank
+ 
+fn writing()->String{
+    let text=String::from("Harry Potter");
+    text    // allow
+    //&text // does not allow because when text is not longer use
+            // the reference that borrow the text cannot
+            // reference the text anymore, causing dangling problem. 
+}
+ 
+    let book = writing();      
+ 
+// In order to use multiple immutable and a mutable reference in different time
+// the target variable must be mutable.
+let mut exam = String::from("f'(x) = lim_{h->0} ( f(x+h) - f(x) ) / (h) ");
+let honeststudent1=&exam;   // Rust does not allow both immutable and mutable reference.
+let honeststudent2=&exam;   // Rust allows multiple immutable references.
+println!("{}, {}",honeststudent1,honeststudent2);
+// the cheater takes alone exam after 2 honest students finished the exam.
+// So the cheater cannot cheat on the exam.
+let cheater=&mut exam;      // Rust allows one mutable reference.
+println!("{}",cheater);        
+ 
+alone 
+ 
+use std::mem::size_of_val;
+use std::env;
+ 
+env::remove_var(honeststudent1);
+env::remove_var(honeststudent2);
+ 
+fn add_his_famous_song(album: &mut String,songname:&str){
+    album.push_str(songname)
+}
+ 
+println!("");
+ 
+use std::mem::size_of_val;
+ 
+.to_string()
+ 
+songname:String
+ 
+// another example
+ 
+fn add_his_famous_song(album: String,songname:&str)->String{
+    // https://stackoverflow.com/questions/30154541/how-do-i-concatenate-strings
+    let mut album=album;
+    let songname:&str=songname;
+    album.push_str(songname)
+}
+ 
+    completealbum
+ 
+let completealbum:String=
+ 
+String::from(
+ 
+String::from(
+ 
+", One day you doing to die!"
+ 
+.to_string()
+ 
+.push_str(
+ 
+mut 
+ 
+mut 
+ 
+&mut
+ 
+
+fn take_ownership(s: String)->String {
+    println!("{}", s);
+    s
+}
+fn give_ownership() -> String {
+    let s = String::from("Hello world");
+    // Convert String to Vector u8
+    // into_bytes switch the owner of HelloWorld from s to _s
+    // as_bytes create new variable, and does not effect the owner ship of HelloWorld.
+    let _s = s.as_bytes();
+    s
+}
+fn print_str(s: String) ->String {
+    println!("{}",s);
+    s
+}
+ 
+//**************************************************************************************************
+// EXAMPLE NO.1
+//**************************************************************************************************
+    // This cause error, because the variable can only have 1 ownership.
+    // and String variable is heap variable that only be access by pointer.
+    // let x = String::from("Hello world");
+    // let y = x;
+    // println!("{}, {}",x, y);
+
+    // Solution 1
+    // clone copy the heap data.
+    // beware that the heap data is memory expensive
+    // let x = String::from("Hello world");
+    // let y = x.clone();
+    // println!("{}, {}",x, y);
+
+    // Solution 2
+    // let x = String::from("Hello world");
+    // let y = String::from("Hello world");
+    // println!("{}, {}",x, y);
+
+    // Solution 3
+    // let x = String::from("Hello world");
+    // println!("{}",x);
+
+    // Solution 4
+    // let x = String::from("Hello world");
+    // let y = x;
+    // println!("{}",y);
+
+//**************************************************************************************************
+// EXAMPLE NO.2
+//**************************************************************************************************
+    //let s1 = String::from("Hello world");
+    //let s2 = take_ownership(s1);
+    //println!("{}", s2);
+
+//**************************************************************************************************
+// EXAMPLE NO.3
+//**************************************************************************************************
+    //let s = give_ownership();
+    //println!("{}", s);
+
+//**************************************************************************************************
+// EXAMPLE NO.4
+//**************************************************************************************************
+    // let s = String::from("Hello World");
+    // let ss = print_str(s);
+    // println!("{}", ss);
+
+//**************************************************************************************************
+// EXAMPLE NO.5
+//**************************************************************************************************
+//let tupless:(i32,i32,i32,String,(),String)= (255,0,0,"Red".to_string(),()," is my Lucky Color!".to_string());
+//let x:(i32,i32,(),&str) = (1, 2, (), "hello");
+//let y = x;
+//println!("{:?} == {:?}", x, y);
+//let mut mbti:&str="intp";
+//mbti="lgbt";
+//mbti="UFO";
+//mbti="pseudoscience";
+//println!("{}",mbti);
+/*
+The similarity between &str and String
+ * Both store string
+
+The different between &str and String
+ * String have unknown size
+ * &str have fixed size.
+*/
+
+//**************************************************************************************************
+// EXAMPLE NO.6
+//**************************************************************************************************
+// let s = String::from("Hello ");
+// let mut s1 = s;
+// s1.push_str("World!");
+
+//**************************************************************************************************
+// EXAMPLE NO.7
+//**************************************************************************************************
+// https://doc.rust-lang.org/rust-by-example/std/box.html
+// By default the value is stored in stack.
+// Box allow the value store in heap.
+let x = Box::new(5);
+println!("x = {}",x);
+println!("*x = {}",*x);
+let mut y=x.clone();
+*y = 4;
+assert_eq!(*x, 5);
+// y is equal 5_i32
+// y is stored in Stack.
+let y=*x;
+println!("y = {}",y);
+println!("{}",x);
+
+//**************************************************************************************************
+// EXAMPLE NO.8 STRUCT
+//**************************************************************************************************
+// struct Coffee{
+//     name:String,
+//     cost:Box<i32>,
+//     caffeine:Box<f32>,
+//     sugar:f32,
+//     water:f32,
+// };
+// let jojocofee=Coffee{
+//     name:String::from("Yuzu Coffee"),
+//     cost:Box::new(120),
+//     caffeine:Box::new(2.5),
+//     sugar:1.5,
+//     water:4.0
+// };
+// println!("jojocofee.name = {}",jojocofee.name);
+// println!("jojocofee.cost = {}",jojocofee.cost);
+// println!("jojocofee.caffeine = {}",jojocofee.caffeine);
+// let Coffee {name,cost,ref caffeine,sugar, ref water} = jojocofee;
+// println!("let Coffee {{ name ,cost,ref caffeine,sugar, ref water}} = jojocofee;");
+// // println!("jojocofee.name = {}",jojocofee.name); // Error
+// println!("jojocofee.name = {}",name);
+// println!("jojocofee.cost = {}",cost);
+// println!("jojocofee.caffeine = {}",caffeine);
+// println!("jojocofee.water = {}",water);
+
+//**************************************************************************************************
+// EXAMPLE NO.9
+//**************************************************************************************************
+// let t = (String::from("hello"), String::from("world"));
+// // _s borrow the value of t
+// let _s = &t;
+// println!("{:?}", t);
+// // let _s = String::from("hello")
+// let _s = t.0;
+// // t.1 == String::from("world")
+// println!("{:?}", t.1);
+
+
+//**************************************************************************************************
+// EXAMPLE NO.10
+//**************************************************************************************************
+let t = (String::from("hello"), String::from("world"));
+// Fill the blanks
+let (s1, s2) = &t; // t.clone()
+println!("{:?}, {:?}, {:?}", s1, s2, t);
+ 
+//**************************************************************************************************
+// EXAMPLE NO.1
+//**************************************************************************************************
+    // This cause error, because the variable can only have 1 ownership.
+    // and String variable is heap variable that only be access by pointer.
+    // let x = String::from("Hello world");
+    // let y = x;
+    // println!("{}, {}",x, y);
+
+    // Solution 1
+    // clone copy the heap data.
+    // beware that the heap data is memory expensive
+    // let x = String::from("Hello world");
+    // let y = x.clone();
+    // println!("{}, {}",x, y);
+
+    // Solution 2
+    // let x = String::from("Hello world");
+    // let y = String::from("Hello world");
+    // println!("{}, {}",x, y);
+
+    // Solution 3
+    // let x = String::from("Hello world");
+    // println!("{}",x);
+
+    // Solution 4
+    // let x = String::from("Hello world");
+    // let y = x;
+    // println!("{}",y);
+
+//**************************************************************************************************
+// EXAMPLE NO.2
+//**************************************************************************************************
+    //let s1 = String::from("Hello world");
+    //let s2 = take_ownership(s1);
+    //println!("{}", s2);
+
+//**************************************************************************************************
+// EXAMPLE NO.3
+//**************************************************************************************************
+    //let s = give_ownership();
+    //println!("{}", s);
+
+//**************************************************************************************************
+// EXAMPLE NO.4
+//**************************************************************************************************
+    // let s = String::from("Hello World");
+    // let ss = print_str(s);
+    // println!("{}", ss);
+
+//**************************************************************************************************
+// EXAMPLE NO.5
+//**************************************************************************************************
+//let tupless:(i32,i32,i32,String,(),String)= (255,0,0,"Red".to_string(),()," is my Lucky Color!".to_string());
+//let x:(i32,i32,(),&str) = (1, 2, (), "hello");
+//let y = x;
+//println!("{:?} == {:?}", x, y);
+//let mut mbti:&str="intp";
+//mbti="lgbt";
+//mbti="UFO";
+//mbti="pseudoscience";
+//println!("{}",mbti);
+/*
+The similarity between &str and String
+ * Both store string
+
+The different between &str and String
+ * String have unknown size
+ * &str have fixed size.
+*/
+
+//**************************************************************************************************
+// EXAMPLE NO.6
+//**************************************************************************************************
+// let s = String::from("Hello ");
+// let mut s1 = s;
+// s1.push_str("World!");
+
+//**************************************************************************************************
+// EXAMPLE NO.7
+//**************************************************************************************************
+// https://doc.rust-lang.org/rust-by-example/std/box.html
+// By default the value is stored in stack.
+// Box allow the value store in heap.
+let x = Box::new(5);
+println!("x = {}",x);
+println!("*x = {}",*x);
+let mut y=x.clone();
+*y = 4;
+assert_eq!(*x, 5);
+// y is equal 5_i32
+// y is stored in Stack.
+let y=*x;
+println!("y = {}",y);
+println!("{}",x);
+
+//**************************************************************************************************
+// EXAMPLE NO.8 STRUCT
+//**************************************************************************************************
+// struct Coffee{
+//     name:String,
+//     cost:Box<i32>,
+//     caffeine:Box<f32>,
+//     sugar:f32,
+//     water:f32,
+// };
+// let jojocofee=Coffee{
+//     name:String::from("Yuzu Coffee"),
+//     cost:Box::new(120),
+//     caffeine:Box::new(2.5),
+//     sugar:1.5,
+//     water:4.0
+// };
+// println!("jojocofee.name = {}",jojocofee.name);
+// println!("jojocofee.cost = {}",jojocofee.cost);
+// println!("jojocofee.caffeine = {}",jojocofee.caffeine);
+// let Coffee {name,cost,ref caffeine,sugar, ref water} = jojocofee;
+// println!("let Coffee {{ name ,cost,ref caffeine,sugar, ref water}} = jojocofee;");
+// // println!("jojocofee.name = {}",jojocofee.name); // Error
+// println!("jojocofee.name = {}",name);
+// println!("jojocofee.cost = {}",cost);
+// println!("jojocofee.caffeine = {}",caffeine);
+// println!("jojocofee.water = {}",water);
+
+//**************************************************************************************************
+// EXAMPLE NO.9
+//**************************************************************************************************
+// let t = (String::from("hello"), String::from("world"));
+// // _s borrow the value of t
+// let _s = &t;
+// println!("{:?}", t);
+// // let _s = String::from("hello")
+// let _s = t.0;
+// // t.1 == String::from("world")
+// println!("{:?}", t.1);
+
+
+//**************************************************************************************************
+// EXAMPLE NO.10
+//**************************************************************************************************
+let t = (String::from("hello"), String::from("world"));
+// Fill the blanks
+let (s1, s2) = &t; // t.clone()
+println!("{:?}, {:?}, {:?}", s1, s2, t);
+ 
+2 Rules of Borrowing
+* In anytime, ypu can have one of 2 things
+ 1. One mutable reference 
+ 2. any number of immutable reference 
+* Reference must always be valid. (pointer must reference to the available data.)
+ 
+// input borrow
+ 
+ *
+ 
+ by
+ 
+let 
+ 
+.clone()
+ 
+// Modify this line only, don't use `_s`
+ 
+println!("jojocofee.caffeine = ",jojocofee.caffeine);
+ 
+println!("jojocofee.caffeine = ",jojocofee.water);
+ 
+println!("let jojocofee=Coffee\{
+    name:String::from('Yuzu Coffee'),
+    cost:Box::new(120),
+    caffeine:Box::new(2.5),
+    sugar:1.5,
+    water:4.0
+};");
+ 
+"let jojocofee=Coffee\{
+    name:String::from('Yuzu Coffee'),
+    cost:Box::new(120),
+    caffeine:Box::new(2.5),
+    sugar:1.5,
+    water:4.0
+};"
+ 
+jojocofee.
+ 
+ojocofee.
+ 
+jojocofee.
+ 
+ame, cost, caffeine, ref sugar, water
+ 
+ref 
+ 
+let x = Box::new(5);
+ 
+ mut
+ 
+ EXAMPLE NO.6
+ 
+.to_string()
+ 
 :(i32,i32,(),&str)
  
 .to_string()

@@ -1,0 +1,178 @@
+#![allow(unused)]
+
+// https://youtu.be/BpPEoZW5IiY?si=goDW5z6qEkPok4pe
+
+// use rand::Rng;
+// use std::cmp::Ordering;
+// use std::fs::File;
+// use std::io;
+// use std::io::{BufRead, BufReader, ErrorKind, Write};
+// use std::ops::{Range, RangeInclusive};
+use std::mem::size_of_val;
+
+fn take_ownership(s: String)->String {
+    println!("{}", s);
+    s
+}
+fn give_ownership() -> String {
+    let s = String::from("Hello world");
+    // Convert String to Vector u8
+    // into_bytes switch the owner of HelloWorld from s to _s
+    // as_bytes create new variable, and does not effect the owner ship of HelloWorld.
+    let _s = s.as_bytes();
+    s
+}
+fn print_str(s: String) ->String {
+    println!("{}",s);
+    s
+}
+fn main() {
+//**************************************************************************************************
+// EXAMPLE NO.1
+//**************************************************************************************************
+    // This cause error, because the variable can only have 1 ownership.
+    // and String variable is heap variable that only be access by pointer.
+    // let x = String::from("Hello world");
+    // let y = x;
+    // println!("{}, {}",x, y);
+
+    // Solution 1
+    // clone copy the heap data.
+    // beware that the heap data is memory expensive
+    // let x = String::from("Hello world");
+    // let y = x.clone();
+    // println!("{}, {}",x, y);
+
+    // Solution 2
+    // let x = String::from("Hello world");
+    // let y = String::from("Hello world");
+    // println!("{}, {}",x, y);
+
+    // Solution 3
+    // let x = String::from("Hello world");
+    // println!("{}",x);
+
+    // Solution 4
+    // let x = String::from("Hello world");
+    // let y = x;
+    // println!("{}",y);
+
+//**************************************************************************************************
+// EXAMPLE NO.2
+//**************************************************************************************************
+    //let s1 = String::from("Hello world");
+    //let s2 = take_ownership(s1);
+    //println!("{}", s2);
+
+//**************************************************************************************************
+// EXAMPLE NO.3
+//**************************************************************************************************
+    //let s = give_ownership();
+    //println!("{}", s);
+
+//**************************************************************************************************
+// EXAMPLE NO.4
+//**************************************************************************************************
+    // let s = String::from("Hello World");
+    // let ss = print_str(s);
+    // println!("{}", ss);
+
+//**************************************************************************************************
+// EXAMPLE NO.5
+//**************************************************************************************************
+//let tupless:(i32,i32,i32,String,(),String)= (255,0,0,"Red".to_string(),()," is my Lucky Color!".to_string());
+//let x:(i32,i32,(),&str) = (1, 2, (), "hello");
+//let y = x;
+//println!("{:?} == {:?}", x, y);
+//let mut mbti:&str="intp";
+//mbti="lgbt";
+//mbti="UFO";
+//mbti="pseudoscience";
+//println!("{}",mbti);
+/*
+The similarity between &str and String
+ * Both store string
+
+The different between &str and String
+ * String have unknown size
+ * &str have fixed size.
+*/
+
+//**************************************************************************************************
+// EXAMPLE NO.6
+//**************************************************************************************************
+// let s = String::from("Hello ");
+// let mut s1 = s;
+// s1.push_str("World!");
+
+//**************************************************************************************************
+// EXAMPLE NO.7
+//**************************************************************************************************
+// https://doc.rust-lang.org/rust-by-example/std/box.html
+// By default the value is stored in stack.
+// Box allow the value store in heap.
+let x = Box::new(5);
+println!("x = {}",x);
+println!("*x = {}",*x);
+let mut y=x.clone();
+*y = 4;
+assert_eq!(*x, 5);
+// y is equal 5_i32
+// y is stored in Stack.
+let y=*x;
+println!("y = {}",y);
+println!("{}",x);
+
+//**************************************************************************************************
+// EXAMPLE NO.8 STRUCT
+//**************************************************************************************************
+// struct Coffee{
+//     name:String,
+//     cost:Box<i32>,
+//     caffeine:Box<f32>,
+//     sugar:f32,
+//     water:f32,
+// };
+// let jojocofee=Coffee{
+//     name:String::from("Yuzu Coffee"),
+//     cost:Box::new(120),
+//     caffeine:Box::new(2.5),
+//     sugar:1.5,
+//     water:4.0
+// };
+// println!("jojocofee.name = {}",jojocofee.name);
+// println!("jojocofee.cost = {}",jojocofee.cost);
+// println!("jojocofee.caffeine = {}",jojocofee.caffeine);
+// let Coffee {name,cost,ref caffeine,sugar, ref water} = jojocofee;
+// println!("let Coffee {{ name ,cost,ref caffeine,sugar, ref water}} = jojocofee;");
+// // println!("jojocofee.name = {}",jojocofee.name); // Error
+// println!("jojocofee.name = {}",name);
+// println!("jojocofee.cost = {}",cost);
+// println!("jojocofee.caffeine = {}",caffeine);
+// println!("jojocofee.water = {}",water);
+
+//**************************************************************************************************
+// EXAMPLE NO.9
+//**************************************************************************************************
+// let t = (String::from("hello"), String::from("world"));
+// // _s borrow the value of t
+// let _s = &t;
+// println!("{:?}", t);
+// // let _s = String::from("hello")
+// let _s = t.0;
+// // t.1 == String::from("world")
+// println!("{:?}", t.1);
+
+
+//**************************************************************************************************
+// EXAMPLE NO.10
+//**************************************************************************************************
+let t = (String::from("hello"), String::from("world"));
+// Fill the blanks
+let (s1, s2) = &t; // t.clone()
+println!("{:?}, {:?}, {:?}", s1, s2, t);
+}
+
+/*
+cargo run
+*/

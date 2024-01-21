@@ -1,0 +1,132 @@
+//**************************************************************************************************
+// BORROWING
+//**************************************************************************************************
+
+Borrowing
+ * A way of temporarily access data without taking ownership of it
+   by creating the pointer that reference to the data.
+ * The purpose is to prevent dangling pointers and data races.
+
+2 Rules of Borrowing
+* In anytime, ypu can have one of 2 things
+ 1. One mutable reference 
+ 2. any number of immutable reference 
+* Reference must always be valid. (pointer must reference to the available data.)
+
+//**************************************************************************************************
+// DATA RACE PROBLEM
+//**************************************************************************************************
+
+What is data race problem?
+* Suppose that there are 3 subfunctions in function A
+1. Read Data
+2. Do somethings
+3. Update
+* If the user use A 2 times before the first A is updated properly
+  The second A will update the data with the unexpected value.
+* e.g. The customer spending twice, but left with money more that expected.
+* https://youtu.be/RWRicNoWKOY?si=4uqg0MoV2wNq7wnG
+
+//**************************************************************************************************
+// EXAMPLE NO.1 REFERENCE
+//**************************************************************************************************
+
+/*
+// input --> message --> "One day you going to die."
+fn main(){
+    // message is heap variable. It have the pointer that reference to "One day ..."
+    let message = String::from("One day you going to die.")
+    // input borrows the value from message.
+    // input is immutable reference.
+    let countword = countingword(&message);
+    println!("length of {} = {}",message,countword);
+}
+fn countingword(input:&String)->usize{
+    input.len()
+}
+*/
+
+//**************************************************************************************************
+// EXAMPLE NO.1 MUTABLE REFERENCE
+//**************************************************************************************************
+/*
+fn main(){
+    let mut willwoodalbum = String::from("Normal Album");
+    add_his_famous_song(&mut willwoodalbum);
+}
+fn add_his_famous_song(album: &mut String){
+    album.push_str(", songname")
+}
+*/
+/*
+// another example
+fn add_his_famous_song(album: &mut String,songname:&str){
+    album.push_str(songname)
+}
+fn main() {
+    let mut willwoodalbum = String::from("Normal Album");
+    add_his_famous_song(&mut willwoodalbum,", one day you going to die!");
+}
+*/
+
+//**************************************************************************************************
+// EXAMPLE NO.2 USING MULTIPLE MUTABLE REFERENCES IN DIFFERENT TIME.
+//**************************************************************************************************
+/*
+// This is invalid not because cheating in exam is bad,
+// but because there must be only one mutable reference in Rust.
+let exam = String::from("f'(x) = lim_{h->0} ( f(x+h) - f(x) ) / (h) ");
+let first_student = &mut exam;
+let cheater = &mut exam;
+*/
+
+/*
+// This is valid, not because the first and second student take the exam 
+// in different room. (so the cheater cannot cheat on the first student).
+// but because there is only one mutable reference in a time.
+let exam = String::from("f'(x) = lim_{h->0} ( f(x+h) - f(x) ) / (h) ");
+{
+    let first_student = &mut exam;
+}
+let cheater = &mut exam;
+*/
+//**************************************************************************************************
+// EXAMPLE NO.3 USING IMMUTABLE AND MUTABLE REFERENCE IN DIFFERENT TIMES.
+//**************************************************************************************************
+
+/*
+// Invalid
+let exam = String::from("f'(x) = lim_{h->0} ( f(x+h) - f(x) ) / (h) ");
+let honeststudent1=&exam;   // Rust allow multiple immutable references.
+let honeststudent2=&exam;   // Rust allow multiple immutable references.
+let cheater=&mut exam;      // Rust does not allow both immutable and mutable reference.
+*/
+
+/*
+// Valid 
+// In order to use multiple immutable and a mutable reference in different time
+// the target variable must be mutable.
+let mut exam = String::from("f'(x) = lim_{h->0} ( f(x+h) - f(x) ) / (h) ");
+let honeststudent1=&exam;   // Rust does not allow both immutable and mutable reference.
+let honeststudent2=&exam;   // Rust allows multiple immutable references.
+println!("{}, {}",honeststudent1,honeststudent2);
+// the cheater takes exam alone after 2 honest students finished the exam.
+// So the cheater cannot cheat on the exam.
+let cheater=&mut exam;      // Rust allows one mutable reference.
+println!("{}",cheater);   
+// Both honeststudents and immutable references do not interfere with each other.
+*/
+
+//**************************************************************************************************
+// EXAMPLE NO.4 PREVENTING DANGLING REFERENCE PROBLEM.
+//**************************************************************************************************
+fn writing()->String{
+    let text=String::from("Harry Potter");
+    text    // allow
+    //&text // does not allow because when text is not longer use
+            // the reference that borrow the text cannot
+            // reference the text anymore, causing dangling problem. 
+}
+fn main() {
+    let book = writing();      
+}

@@ -1,0 +1,5 @@
+Type of Smart Pointer 
+1. Box
+ * Allow the value stored in heap instead of stack by default.
+
+
