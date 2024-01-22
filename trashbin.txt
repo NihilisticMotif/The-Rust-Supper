@@ -1,3 +1,197 @@
+//**************************************************************************************************
+// EXAMPLE NO.1, BOX<STR> AND &STR
+//**************************************************************************************************
+// let name:Box<str>="Jojo".into();
+// greetings_box(name);
+// // Hello, Jojo
+// let name:&str="Jojo";
+// greetings_str(name);
+// // Hello, Jojo
+
+//**************************************************************************************************
+// EXAMPLE NO.2
+//**************************************************************************************************
+// let s = String::from("I like dogs");
+// // Allocate new memory and store the modified string there
+// let s1 = s.replace("dogs", "cats");
+// assert_eq!(s1, "I like cats");
+// println!("{}",s1);
+
+//**************************************************************************************************
+// EXAMPLE NO.3 CONCAT STRING
+//**************************************************************************************************
+// let s1:String = String::from("hello,");
+// let s2:String = String::from("world!");
+// // let s3 = s1+s2; // invalid
+// let s3:String = format!("{}{}",s1,s2); // valid
+// let s3:String = s1+&s2;                // valid
+// let s1:String = String::from("hello,");
+// let s3:String = s1+s2.as_str();        // valid
+
+//**************************************************************************************************
+// EXAMPLE NO.4 INSERT STRING::FROM AS THE INPUT OF THE FUNCTION
+//**************************************************************************************************
+// let s = "hello, world";
+// greetings_string(String::from(s))
+
+//**************************************************************************************************
+// EXAMPLE NO.5 CONVERT STRING TO &STR
+//**************************************************************************************************
+// let s = "hello, world".to_string();
+// let s1: &str = s.as_str();
+// let s1: &str = &s;
+
+//**************************************************************************************************
+// EXAMPLE NO.6 CHAR IN BYTES
+//**************************************************************************************************
+// // https://stackoverflow.com/questions/56485167/how-to-format-a-byte-into-a-2-digit-hex-string-in-rust
+// // https://stackoverflow.com/questions/53353764/how-to-convert-a-very-large-decimal-string-to-hexadecimal
+// let b_t='t' as u32;
+// println!("b_t (dec) = {}",b_t);
+// // b_t (dec) = 116
+// let my_string = b_t.to_string();  // `parse()` works with `&str` and `String`!
+// let my_int = my_string.parse::<u128>().unwrap();
+// let my_hex = format!("{:X}", my_int);
+// println!("b_t (hex) = {}", my_hex);     
+// // b_t (hex) = 74
+// // You can use escapes to write bytes by their hexadecimal values
+// // Fill the blank below to show "I'm writing Rust"
+// let byte_escape = "I'm writing Ru\x73\x74!";
+// println!("What are you doing\x3F (\\x3F means ?) {}", byte_escape);
+// let unicode_codepoint = "\u{211D}";
+// let character_name = "\"DOUBLE-STRUCK CAPITAL R\"";
+// println!("Unicode character {} (U+211D) is called {}",
+//             unicode_codepoint, character_name );
+// let long_string = "String literals
+//                     can span multiple lines.
+//                     The linebreak and indentation here \
+//                      can be escaped too!";
+// println!("{}", long_string);
+
+//**************************************************************************************************
+// EXAMPLE NO.7 BACKWARD SLASK, ESCAPED
+//**************************************************************************************************
+//let raw_str = "Escapes don't work here: \x3F \u{211D}";
+//println!("{}",raw_str);
+//assert_eq!(raw_str, "Escapes don't work here: ? ℝ");
+////
+//let raw_str = r"Escapes don't work here: \x3F \u{211D}";
+//println!("{}",raw_str);
+//// "Escapes don't work here: \x3F \u{211D}"
+////
+//// If you need quotes in a raw string, add a pair of #s
+//let quotes = r#"And then I said: "There is no escape!""#;
+//println!("{}", quotes);
+////
+//// If you need "# in your string, just use more #s in the delimiter.
+//// You can use up to 65535 #s.
+//let delimiter = r###"A string with "# in it. And even "##!"###;
+//println!("{}", delimiter);
+////
+//let long_delimiter = "Hello, \"##\"";
+//assert_eq!(long_delimiter, "Hello, \"##\"");
+
+//**************************************************************************************************
+// EXAMPLE NO.8 CONVERT CHAR TO U8 TO BINARY NUMBER, INDEXING CHAR IN STRING
+//**************************************************************************************************
+// let message = String::from("hi,中国");
+// // convert char to u8 and binary number
+// //println!("message.bytes() = {:?}",message.bytes());
+// let mut count:u8=0;
+// for b in message.bytes(){
+//     println!("({}.) {:#b} = {} = {}",count,b,b,format!("{:?}",b as char));
+//     // (1.) 0b1101000 = 104 = 'h'
+//     // (2.) 0b1101001 = 105 = 'i'
+//     // (3.) 0b101100 = 44 = ','
+//     // (4.) 0b11100100 = 228 = 'ä'
+//     // (5.) 0b10111000 = 184 = '¸'
+//     // (6.) 0b10101101 = 173 = '\u{ad}'
+//     // (7.) 0b11100101 = 229 = 'å'
+//     // (8.) 0b10011011 = 155 = '\u{9b}'
+//     // (9.) 0b10111101 = 189 = '½'
+//     count+=1;
+// };
+// // convert u8 to char
+// //https://stackoverflow.com/questions/35833329/how-to-convert-i32-to-a-string-representing-the-ascii-character
+// let target_number:u8=104;
+// let s_str: String = format!("{:?}",target_number as char);
+// println!("'h' = {s_str}");
+// println!("h = {}",&message[0..1]);
+// println!("中 = {}",&message[3..6]);
+// let h = &message[0..1]; 
+// assert_eq!(h, "h");
+// let h1 = &message[3..6]; 
+// assert_eq!(h1, "中");
+// println!("Success");
+
+//**************************************************************************************************
+// EXAMPLE NO.9 STRING_SOMETHING.CHARS()
+//**************************************************************************************************
+// for c in "你好，世界".chars() {
+//     println!("{}", c)
+// }
+ 
+fn greetings_box(s: Box<str>) {
+    println!("Hello, {}",s);
+}
+fn greetings_str(s: &str) {
+    println!("Hello, {}",s);
+}
+
+fn greetings_string(s: String) {
+    println!("{}", s)
+}
+
+
+
+ 
+
+// slice string
+ 
+nly takes 1 byte in UTF8 format
+ 
+// Modify this line to fix the error, tips: `h` o
+ 
+kes 3 bytes in UTF8 format
+ 
+// Modify this line to fix the error, tips: `中`  ta
+ 
+]
+ 
+count+=1;
+ 
+pub fn leading_bits(arr: &[u8; 32]) -> u32 {
+    // https://stackoverflow.com/questions/74495816/how-to-convert-u8-32-type-to-binary
+    let mut count = 0;
+    for x in arr {
+        let bits = x.leading_zeros();
+        count += bits;
+        if bits != 8 {
+            break;
+        }
+    }
+    count
+}
+ 
+; 32
+ 
+// Fill the blank
+ 
+// Modify above line to make it work
+ 
+println!("{}",long_delimiter);
+ 
+ let raw_str = r"Escapes don't work here: \x3F \u{211D}";
+ 
+// Modify above line to make it work
+ 
+// Fill the blank
+ 
+// If you need "# in your string, just use more #s in the delimiter.
+// You can use up to 65535 #s.
+ 
+__
+ 
 .to_string()
  
 
