@@ -1,0 +1,66 @@
+#![allow(unused)]
+
+// https://youtu.be/BpPEoZW5IiY?si=goDW5z6qEkPok4pe
+fn sum_multiply(nums: (i32, i32)) -> (i32, i32) {
+    (nums.0 + nums.1, nums.0 * nums.1)
+}
+fn main() {
+//**************************************************************************************************
+// EXAMPLE NO.1 INITIALIZE TUPLE
+//**************************************************************************************************
+// let _t0: (u8,i16) = (0, -1);
+// // Tuples can be tuple's members
+// let _t1: (u8, (i16, u32)) = (0, (-1, 1));
+// // Fill the blanks to make the code work
+// let t: (u8, u16, i64, &str, String) = (1u8, 2u16, 3i64, "hello", String::from(", world"));
+
+//**************************************************************************************************
+// EXAMPLE NO.2 INDEXING
+//**************************************************************************************************
+// let t = ("i", "am", "sunface");
+// assert_eq!(t.2, "sunface");
+// // println!("{}",t[0]); // invalid
+// println!("{}",t.0); // valid
+// println!("{}",t.1); // valid
+// println!("{}",t.2); // valid
+
+//**************************************************************************************************
+// EXAMPLE NO.3 MAX LENGTH = 12
+//**************************************************************************************************
+// // https://www.reddit.com/r/rust/comments/11gvkda/why_rust_std_only_provides_trait_implementation/
+// // Rust currently doesn’t have a general way to write a single trait implementation for tuples of any length. So instead you have to pick an arbitrary maximum length, and use a macro (or hand-written implementations) to implement your trait for every tuple type up to that length.
+// // I believe 12 is just the arbitrary maximum that the Rust maintainers picked. It’s more than large enough for the overwhelming majority of tuples that will ever be encountered in real code.
+// //let too_long_tuple = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13);
+// let too_long_tuple = (1, 2, 3,4,5,6,7,8,9,10,11,12);
+// println!("too long tuple: {:?}", too_long_tuple);
+
+//**************************************************************************************************
+// EXAMPLE NO.4
+//**************************************************************************************************
+// let tup = (1, 6.4, "hello");
+// let (x,z,y) = tup;
+// assert_eq!(x, 1);
+// assert_eq!(y, "hello");
+// assert_eq!(z, 6.4);
+
+//**************************************************************************************************
+// EXAMPLE NO.5
+//**************************************************************************************************
+// let (x, y, z);
+// (y,z,x) = (1, 2, 3);
+// assert_eq!(x, 3);
+// assert_eq!(y, 1);
+// assert_eq!(z, 2);
+
+//**************************************************************************************************
+// EXAMPLE NO.6 TUPLE FUNCTION
+//**************************************************************************************************
+// let (x, y) = sum_multiply((3,2));
+// assert_eq!(x, 5);
+// assert_eq!(y, 6);
+
+}
+
+/*
+cargo run
+*/

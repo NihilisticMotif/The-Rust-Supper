@@ -1,0 +1,9 @@
+Array
+ * The collection of object that have the same type.
+ * It is stored in Stack because the size and type of Array is known in comply time.
+ * It cannot change their size.
+
+Attribute of Array 
+1. T = Type 
+2. Length = total number of all element.
+* [T;len]

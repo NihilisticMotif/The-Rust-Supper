@@ -1,0 +1,4 @@
+Tuple 
+* Compound data type that store different variable with different type.
+* stored as a fixed size contiguous block of memory on the stack.
+* (T, T, T)

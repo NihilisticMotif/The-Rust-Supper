@@ -1,0 +1,9 @@
+Slice
+1. Slice reference (borrow or &) to the part of the array, vectors, String or other collections
+2. The length of slice is not known at comply time.
+
+/*
+let a = [0,1,2,3,4];
+let slice = &a[1..3]
+assert_eq!(slice,[1,2])
+*/

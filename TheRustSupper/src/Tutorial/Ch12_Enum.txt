@@ -1,0 +1,14 @@
+Enum 
+* A compound data type 
+* defining a type with only one of a possible set of values 
+* we can only access one value at the time.
+* can hold additional information using tuple 
+* useful when using in match statement
+
+/*
+enum ThreeLargestNumberBelow100 {
+    Zero=97,
+    One,    // 98
+    Two,    // 99
+}
+*/

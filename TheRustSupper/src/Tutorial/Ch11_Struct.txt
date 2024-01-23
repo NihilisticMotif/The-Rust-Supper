@@ -1,0 +1,38 @@
+Struct 
+* Similar to tuple, but each value in struct can be accessed through its name. 
+
+/*
+struct GitRepo{
+    project_id:u64,
+    project_name:&str,
+    author:&str
+    read_me:String,
+    code:String,
+    date:(u8,u8,u32),
+}
+
+let jocr = GitRepo{
+    project_id:1103263,
+    project_name: "JOCR",
+    // ...
+}
+
+let mut cloned_jocr = GitRepo{
+    project_id:1339453,
+    ..jocr
+}
+
+fn git_create_repo(author:&str,name:&str)->GitRepo{
+    GitRepo{
+        //...
+    }
+}
+*/
+
+Tuple Struct 
+/*
+struct RGB(u8,u8,u8);
+fn main(){
+    let red = RGB(255,0,0);
+}
+*/
