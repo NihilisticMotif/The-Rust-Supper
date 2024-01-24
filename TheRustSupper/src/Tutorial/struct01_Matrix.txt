@@ -1,0 +1,66 @@
+//**************************************************************************************************
+// IMPL
+//**************************************************************************************************
+// https://www.youtube.com/watch?v=LKYSl7kM5q8
+/* 
+Question: When to use self, &self, &mut self in methods?
+Answer:
+&self
+ * Read the static data without modify it. (we don’t want to take ownership)
+&mut self
+ * If we wanted to change the instance that we’ve called the method on as part of what the method does, we’d use &mut self as the first parameter.
+self
+ * Rarely use.
+Reference: https://stackoverflow.com/questions/59018413/when-to-use-self-self-mut-self-in-methods
+*/
+/*
+Question: The different between self and Self?
+Answer:
+Self (uppercase)
+ * The type of the struct which is also the input of the method.
+self 
+ * The instance of the selected object.
+Reference: https://www.reddit.com/r/rust/comments/obs9qd/what_is_self_in_rust/
+*/
+struct Matrix{
+    row:u32,
+    col:u32
+}
+
+impl Matrix{
+    fn new(row:u32,col:u32)->Self{
+        Matrix{row:row,col:col}
+    }
+    fn print_shape(self){
+        let data=&self;
+        println!("[{} x {}]",data.row,data.col);
+    }
+    fn product_dim(&self,&b:Self)->Self{
+        //let b = &b;
+        if self.col == b.row{
+        Matrix{row:self.row,col:b.col}
+        } else{
+            //self.print_shape();
+            //b.print_shape();
+            println!("[{} x {}]",b.row,b.col);
+            println!("The product of both matrix is invalid.");
+            Matrix{row:self.row,col:self.col}
+        }
+    }
+    fn check_equality(&self,b:Self){
+        let b =&b;
+        if self.row==b.row && self.col==b.col{
+            println!("The 2 matrix have same dimensions");
+        }else{
+            println!("The 2 matrix have different dimensions");
+        }
+    }
+    fn transpose(&self)->Self{
+        Matrix{row:self.col,col:self.row}
+    }
+    // fn add_row
+    // fn sub_row
+    // fn add_col
+    // fn sub_col
+    // fn determinant
+}

@@ -1,0 +1,215 @@
+#![allow(unused)]
+// #[derive(Debug)]
+use std::fmt;
+// https://youtu.be/BpPEoZW5IiY?si=goDW5z6qEkPok4pe
+// #[derive(Debug)] // used for debugging
+
+//**************************************************************************************************
+
+enum Number {
+    Zero,
+    One,
+    Two,
+}
+enum Number1 {
+    Zero = 0,
+    One,
+    Two,
+}
+enum Number2 {
+    // You cannot use f32 and f64 in Enum
+    Zero = 0,
+    One = 1,
+    Two = 2,
+}
+
+
+//**************************************************************************************************
+// PRINTLN ENUM
+//**************************************************************************************************
+
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor((i32, i32, i32)),
+}
+impl fmt::Display for Message{
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Message::Quit => write!(f, "Quit"),
+            Message::Move{x, y} => write!(f, "Move: ({}, {})",x,y),
+            Message::Write(text) => write!(f, "Write: {}",text),
+            Message::ChangeColor(rgb) => write!(f, "ChangeColor: ({:?})",rgb),
+        }
+    }
+}
+
+enum Suit {
+    Heart,
+    Diamond,
+    Spade,
+    Club
+}
+impl fmt::Display for Suit {
+    // https://stackoverflow.com/questions/28024373/is-there-a-way-to-print-enum-values
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+       match self {
+           Suit::Heart => write!(f, "♥"),
+           Suit::Diamond => write!(f, "♦"),
+           Suit::Spade => write!(f, "♠"),
+           Suit::Club => write!(f, "♣"),
+       }
+    }
+}
+
+//**************************************************************************************************
+
+fn show_message(msg: Message) {
+    println!("{}", msg);
+}
+/*
+fn plus_one(x: Option<i32>) -> Option<i32> {
+    match x {
+        __ => None,
+        __ => Some(i + 1),
+    }
+}
+*/
+fn absolutenaturalnumber(x:i32)->Option<u16>{
+    if x==0{
+        None
+    } else{
+        if x>0{
+            Some(x as u16)
+        }
+        else{
+            Some((-1*x) as u16)
+        }
+    }
+}
+
+fn matrixproduct_dim(a:(i32,i32),b:(i32,i32))->Option<(i32,i32)>{
+    if a.1==b.0{
+        Some((a.0,b.1))
+    } else{
+        None
+    }
+}
+
+fn plus_one(x: Option<i32>) -> Option<i32> {
+    match x {
+        None => None,
+        Some(i) => Some(i + 1),
+    }
+}
+
+fn main() {
+//**************************************************************************************************
+// EXAMPLE NO.1 INITIALIZE ENUM
+//**************************************************************************************************
+// assert_eq!(Number::One as i32, Number1::One as i32);
+// assert_eq!(Number1::One as i32, Number2::One as i32);
+
+//**************************************************************************************************
+// EXAMPLE NO.2 EACH ENUM CAN HOLD ITS OWN DATA.
+//**************************************************************************************************
+// let msg1:Message = Message::Move{x:1_i32,y:2_i32}; // Instantiating with x = 1, y = 2 
+// let msg2:Message = Message::Write("hello, world!".to_string()); // Instantiating with "hello, world!"
+
+//**************************************************************************************************
+// EXAMPLE NO.3
+//**************************************************************************************************
+//let msg = Message::Move{x: 1, y: 1};
+// if let Message::Move{x:a,y:b} = msg {
+//     assert_eq!(a, b);
+// } else {
+//     panic!("NEVER LET THIS RUN！");
+// }
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.4 PRINTLN ENUM
+//**************************************************************************************************
+// https://stackoverflow.com/questions/28024373/is-there-a-way-to-print-enum-values
+// let s = Suit::Heart;
+// println!("s = {}", s);
+// let msg = Message::Move{x: 1, y: 1};
+// println!("msg = {}",msg);
+// let msg = Message::Quit;
+// println!("msg = {}",msg);
+// let msg = Message::Write("Hello World".to_string());
+// println!("msg = {}",msg);
+// let msg = Message::ChangeColor { rgb: (255,0,0) };
+// println!("msg = {}",msg);
+// // s = ♥
+// // msg = Move: (1, 1)
+// // msg = Quit
+// // msg = Write: Hello World
+// // msg = ChangeColor: ((255, 0, 0))
+
+//**************************************************************************************************
+// EXAMPLE NO.5
+//**************************************************************************************************
+// let msgs:[Message;3] = [
+//     Message::Quit,
+//     Message::Move{x:1, y:3},
+//     Message::ChangeColor((255,255,0))
+// ];
+// for msg in msgs {
+//         show_message(msg)
+// }
+
+//**************************************************************************************************
+// EXAMPLE NO.6 SOME AND NONE
+//**************************************************************************************************
+// // https://doc.rust-lang.org/std/option/
+// let lists:[i32;3] = [0,1,-1];
+// for i in lists{
+//     match absolutenaturalnumber(i){
+//         Some(i) => println!("i = {i}"),
+//         None => println!("Zero is not a natural number"),
+//     }
+// }
+
+//**************************************************************************************************
+// EXAMPLE NO.7 SOME AND NONE, DIMENSION OF MATRIX PRODUCT
+//**************************************************************************************************
+// let matrixpair_dim:[[(i32,i32);2];6]=[
+//     [(2,3),(3,4)],
+//     [(5,5),(3,4)],
+//     [(2,5),(5,4)],
+//     [(1,3),(3,1)],
+//     [(2,3),(1,4)],
+//     [(2,2),(1,4)],
+//     ];
+// for i in matrixpair_dim{
+//     let a:(i32,i32) = i[0];
+//     let b:(i32,i32) = i[1];
+//     let c:Option<(i32,i32)> = matrixproduct_dim(a,b);
+//     match c{
+//         Some(c) =>println!("{:?} * {:?} = {:?}",a,b,c),
+//         None=>println!("The product of {:?} and {:?} is invalid",a,b)
+//     }
+// };
+
+//**************************************************************************************************
+// EXAMPLE NO.8
+//**************************************************************************************************
+// let five = Some(5);
+// let six = plus_one(five);
+// let none = plus_one(None);
+// if let Some(n) = six {
+//     // if six != None
+//     println!("{}", n);
+//     println!("Success!");
+// } 
+// else{
+//     // if six == None
+// panic!("NEVER LET THIS RUN！");
+// }
+}
+
+/*
+cargo run
+*/

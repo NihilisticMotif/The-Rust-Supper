@@ -1,0 +1,40 @@
+//**************************************************************************************************
+// PRINTLN ENUM
+//**************************************************************************************************
+
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor((i32, i32, i32)),
+}
+impl fmt::Display for Message{
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Message::Quit => write!(f, "Quit"),
+            Message::Move{x, y} => write!(f, "Move: ({}, {})",x,y),
+            Message::Write(text) => write!(f, "Write: {}",text),
+            Message::ChangeColor(rgb) => write!(f, "ChangeColor: ({:?})",rgb),
+        }
+    }
+}
+
+enum Suit {
+    Heart,
+    Diamond,
+    Spade,
+    Club
+}
+impl fmt::Display for Suit {
+    // https://stackoverflow.com/questions/28024373/is-there-a-way-to-print-enum-values
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+       match self {
+           Suit::Heart => write!(f, "♥"),
+           Suit::Diamond => write!(f, "♦"),
+           Suit::Spade => write!(f, "♠"),
+           Suit::Club => write!(f, "♣"),
+       }
+    }
+}
+
+//**************************************************************************************************

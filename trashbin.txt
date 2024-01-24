@@ -1,3 +1,568 @@
+//**************************************************************************************************
+
+enum Number {
+    Zero,
+    One,
+    Two,
+}
+enum Number1 {
+    Zero = 0,
+    One,
+    Two,
+}
+enum Number2 {
+    // You cannot use f32 and f64 in Enum
+    Zero = 0,
+    One = 1,
+    Two = 2,
+}
+
+
+//**************************************************************************************************
+// PRINTLN ENUM
+//**************************************************************************************************
+
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor((i32, i32, i32)),
+}
+impl fmt::Display for Message{
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Message::Quit => write!(f, "Quit"),
+            Message::Move{x, y} => write!(f, "Move: ({}, {})",x,y),
+            Message::Write(text) => write!(f, "Write: {}",text),
+            Message::ChangeColor(rgb) => write!(f, "ChangeColor: ({:?})",rgb),
+        }
+    }
+}
+
+enum Suit {
+    Heart,
+    Diamond,
+    Spade,
+    Club
+}
+impl fmt::Display for Suit {
+    // https://stackoverflow.com/questions/28024373/is-there-a-way-to-print-enum-values
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+       match self {
+           Suit::Heart => write!(f, "♥"),
+           Suit::Diamond => write!(f, "♦"),
+           Suit::Spade => write!(f, "♠"),
+           Suit::Club => write!(f, "♣"),
+       }
+    }
+}
+
+//**************************************************************************************************
+
+fn show_message(msg: Message) {
+    println!("{}", msg);
+}
+/*
+fn plus_one(x: Option<i32>) -> Option<i32> {
+    match x {
+        __ => None,
+        __ => Some(i + 1),
+    }
+}
+*/
+fn absolutenaturalnumber(x:i32)->Option<u16>{
+    if x==0{
+        None
+    } else{
+        if x>0{
+            Some(x as u16)
+        }
+        else{
+            Some((-1*x) as u16)
+        }
+    }
+}
+
+fn matrixproduct_dim(a:(i32,i32),b:(i32,i32))->Option<(i32,i32)>{
+    if a.1==b.0{
+        Some((a.0,b.1))
+    } else{
+        None
+    }
+}
+
+fn plus_one(x: Option<i32>) -> Option<i32> {
+    match x {
+        None => None,
+        Some(i) => Some(i + 1),
+    }
+}
+ 
+/**************************************************************************************************
+// EXAMPLE NO.1 INITIALIZE ENUM
+//**************************************************************************************************
+// assert_eq!(Number::One as i32, Number1::One as i32);
+// assert_eq!(Number1::One as i32, Number2::One as i32);
+
+//**************************************************************************************************
+// EXAMPLE NO.2 EACH ENUM CAN HOLD ITS OWN DATA.
+//**************************************************************************************************
+// let msg1:Message = Message::Move{x:1_i32,y:2_i32}; // Instantiating with x = 1, y = 2 
+// let msg2:Message = Message::Write("hello, world!".to_string()); // Instantiating with "hello, world!"
+
+//**************************************************************************************************
+// EXAMPLE NO.3
+//**************************************************************************************************
+//let msg = Message::Move{x: 1, y: 1};
+// if let Message::Move{x:a,y:b} = msg {
+//     assert_eq!(a, b);
+// } else {
+//     panic!("NEVER LET THIS RUN！");
+// }
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.4 PRINTLN ENUM
+//**************************************************************************************************
+// https://stackoverflow.com/questions/28024373/is-there-a-way-to-print-enum-values
+// let s = Suit::Heart;
+// println!("s = {}", s);
+// let msg = Message::Move{x: 1, y: 1};
+// println!("msg = {}",msg);
+// let msg = Message::Quit;
+// println!("msg = {}",msg);
+// let msg = Message::Write("Hello World".to_string());
+// println!("msg = {}",msg);
+// let msg = Message::ChangeColor { rgb: (255,0,0) };
+// println!("msg = {}",msg);
+// // s = ♥
+// // msg = Move: (1, 1)
+// // msg = Quit
+// // msg = Write: Hello World
+// // msg = ChangeColor: ((255, 0, 0))
+
+//**************************************************************************************************
+// EXAMPLE NO.5
+//**************************************************************************************************
+// let msgs:[Message;3] = [
+//     Message::Quit,
+//     Message::Move{x:1, y:3},
+//     Message::ChangeColor((255,255,0))
+// ];
+// for msg in msgs {
+//         show_message(msg)
+// }
+
+//**************************************************************************************************
+// EXAMPLE NO.6 SOME AND NONE
+//**************************************************************************************************
+// // https://doc.rust-lang.org/std/option/
+// let lists:[i32;3] = [0,1,-1];
+// for i in lists{
+//     match absolutenaturalnumber(i){
+//         Some(i) => println!("i = {i}"),
+//         None => println!("Zero is not a natural number"),
+//     }
+// }
+
+//**************************************************************************************************
+// EXAMPLE NO.7 SOME AND NONE, DIMENSION OF MATRIX PRODUCT
+//**************************************************************************************************
+// let matrixpair_dim:[[(i32,i32);2];6]=[
+//     [(2,3),(3,4)],
+//     [(5,5),(3,4)],
+//     [(2,5),(5,4)],
+//     [(1,3),(3,1)],
+//     [(2,3),(1,4)],
+//     [(2,2),(1,4)],
+//     ];
+// for i in matrixpair_dim{
+//     let a:(i32,i32) = i[0];
+//     let b:(i32,i32) = i[1];
+//     let c:Option<(i32,i32)> = matrixproduct_dim(a,b);
+//     match c{
+//         Some(c) =>println!("{:?} * {:?} = {:?}",a,b,c),
+//         None=>println!("The product of {:?} and {:?} is invalid",a,b)
+//     }
+// };
+
+//**************************************************************************************************
+// EXAMPLE NO.8
+//**************************************************************************************************
+// let five = Some(5);
+// let six = plus_one(five);
+// let none = plus_one(None);
+// if let Some(n) = six {
+//     // if six != None
+//     println!("{}", n);
+//     println!("Success!");
+// } 
+// else{
+//     // if six == None
+// panic!("NEVER LET THIS RUN！");
+// }
+ 
+//**************************************************************************************************
+// EXAMPLE NO.9 IMPL MATRIX
+//**************************************************************************************************
+let mut a = Matrix::new(5,7);
+let b = Matrix{
+    row:5,
+    col:7
+};
+a.print_shape();
+b.print_shape();
+a.check_equality(b);
+a=a.transpose();
+a.print_shape();
+a.check_equality(b);
+ 
+//**************************************************************************************************
+// IMPL
+//**************************************************************************************************
+// https://www.youtube.com/watch?v=LKYSl7kM5q8
+/* 
+Question: When to use self, &self, &mut self in methods?
+Answer:
+&self
+ * Read the static data without modify it. (we don’t want to take ownership)
+&mut self
+ * If we wanted to change the instance that we’ve called the method on as part of what the method does, we’d use &mut self as the first parameter.
+self
+ * Rarely use.
+Reference: https://stackoverflow.com/questions/59018413/when-to-use-self-self-mut-self-in-methods
+*/
+/*
+Question: The different between self and Self?
+Answer:
+Self (uppercase)
+ * The type of the struct which is also the input of the method.
+self 
+ * The instance of the selected object.
+Reference: https://www.reddit.com/r/rust/comments/obs9qd/what_is_self_in_rust/
+*/
+struct Matrix{
+    row:u32,
+    col:u32
+}
+
+impl Matrix{
+    fn new(row:u32,col:u32)->Self{
+        Matrix{row:row,col:col}
+    }
+    fn print_shape(self){
+        let data=&self;
+        println!("[{} x {}]",data.row,data.col);
+    }
+    fn product_dim(&self,&b:Self)->Self{
+        //let b = &b;
+        if self.col == b.row{
+        Matrix{row:self.row,col:b.col}
+        } else{
+            //self.print_shape();
+            //b.print_shape();
+            println!("[{} x {}]",b.row,b.col);
+            println!("The product of both matrix is invalid.");
+            Matrix{row:self.row,col:self.col}
+        }
+    }
+    fn check_equality(&self,b:Self){
+        let b =&b;
+        if self.row==b.row && self.col==b.col{
+            println!("The 2 matrix have same dimensions");
+        }else{
+            println!("The 2 matrix have different dimensions");
+        }
+    }
+    fn transpose(&self)->Self{
+        Matrix{row:self.col,col:self.row}
+    }
+    // fn add_row
+    // fn sub_row
+    // fn add_col
+    // fn sub_col
+    // fn determinant
+}
+
+ 
+//**************************************************************************************************
+// IMPL
+//**************************************************************************************************
+// https://www.youtube.com/watch?v=LKYSl7kM5q8
+/* 
+Question: When to use self, &self, &mut self in methods?
+Answer:
+&self
+ * Read the static data without modify it. (we don’t want to take ownership)
+&mut self
+ * If we wanted to change the instance that we’ve called the method on as part of what the method does, we’d use &mut self as the first parameter.
+self
+ * Rarely use.
+Reference: https://stackoverflow.com/questions/59018413/when-to-use-self-self-mut-self-in-methods
+*/
+/*
+Question: The different between self and Self?
+Answer:
+Self (uppercase)
+ * The type of the struct which is also the input of the method.
+self 
+ * The instance of the selected object.
+Reference: https://www.reddit.com/r/rust/comments/obs9qd/what_is_self_in_rust/
+*/
+struct Matrix{
+    row:u32,
+    col:u32
+}
+
+impl Matrix{
+    fn new(row:u32,col:u32)->Self{
+        Matrix{row:row,col:col}
+    }
+    fn print_shape(self){
+        let data=&self;
+        println!("[{} x {}]",data.row,data.col);
+    }
+    fn product_dim(&self,&b:Self)->Self{
+        //let b = &b;
+        if self.col == b.row{
+        Matrix{row:self.row,col:b.col}
+        } else{
+            //self.print_shape();
+            //b.print_shape();
+            println!("[{} x {}]",b.row,b.col);
+            println!("The product of both matrix is invalid.");
+            Matrix{row:self.row,col:self.col}
+        }
+    }
+    fn check_equality(&self,b:Self){
+        let b =&b;
+        if self.row==b.row && self.col==b.col{
+            println!("The 2 matrix have same dimensions");
+        }else{
+            println!("The 2 matrix have different dimensions");
+        }
+    }
+    fn transpose(&self)->Self{
+        Matrix{row:self.col,col:self.row}
+    }
+    // fn add_row
+    // fn sub_row
+    // fn add_col
+    // fn sub_col
+    // fn determinant
+}
+
+ 
+        let data=&self
+ 
+        let b2=b;
+ 
+a.check_equality(b);
+ 
+    // If the mut keyword is used with the & symbol, we can modify a borrowed value:
+ 
+/*
+What is Ownership?
+ * Each value in Rust have only one owner (variable) at the time.
+ * 
+Reference: https://www.educative.io/answers/how-to-use-references-in-rust
+*/
+ 
+
+{
+    let pi = 22/7
+}
+ 
+pi is the owner and 3.14 is the value
+ 
+let e:f64=2.7;
+ 
+The constant variable
+ 
+ * Owner is the variable in Rust, that have the value.
+ 
+struct LinkedFib{
+    x:u32,
+    y:u32
+}
+
+struct LinkedFibArray{
+
+}
+
+impl LinkedFib{
+    // https://doc.rust-lang.org/book/ch05-01-defining-structs.html
+    // https://youtu.be/Nuba5LNy5cY?si=y29SjSBAJ6yGGels
+    fn start_fib()->[LinkedFib;1]{
+        let first_element:LinkedFib=LinkedFib{x:0,y:1};
+        [first_element]
+    }
+    fn push_fib([LinkedFib;num as u32]){}
+
+}
+ 
+    //fn add_obs(&mut self)->[LinkedFib;]{}
+    fn read_len(&self)->u32{
+        self.len() as u32
+    }
+ 
+
+struct LinkedFib{
+    Vec<LinkFib
+}
+ 
+/* 
+
+*/
+ 
+{x:0,y:1}
+ 
+let mut list = List::new();
+list = list.prepend(1);
+list = list.prepend(2);
+list = list.prepend(3);
+println!("linked list has length: {}", list.len());
+println!("{}", list.stringify());
+ 
+use crate::List::*;
+
+enum List {
+    Cons(u32, Box<List>),
+    Nil,
+}
+
+impl List {
+    fn new() -> List {
+        Nil
+    }
+
+    fn prepend(self, elem: u32) -> crate::List {
+        Cons(elem, Box::new(self))
+    }
+
+    fn len(&self) -> u32 {
+        match *self {
+            Cons(_, ref tail) => 1 + tail.len(),
+            Nil => 0
+        }
+    }
+
+    fn stringify(&self) -> String {
+        match *self {
+            Cons(head,__ tail) => {
+                format!("{}, {}", head, tail.__())
+            },
+            Nil => {
+                format!("Nil")
+            },
+        }
+    }
+}
+*/
+ 
+
+    // Prepend some elements
+ 
+
+    // Show the final state of the list
+ 
+                // `format!` is similar to `print!`, but returns a heap
+                // allocated string instead of printing to the console
+ 
+    // Return representation of the list as a (heap allocated) string
+ 
+            // Base Case: An empty list has zero length
+ 
+            // Can't take ownership of the tail, because `self` is borrowed;
+            // Instead take a reference to the tail
+ 
+rg/edition-guide/rust-2018/ownership-and-lifetimes/default-match-bindings.html
+ 
+        // See https://doc.rust-lang.o
+ 
+        // `self` has to be matched, because the behavior of this method
+        // depends on the variant of `self`
+        // `self` has type `&List`, and `*self` has type `List`, matching on a
+        // concrete type `T` is preferred over a match on a reference `&T`
+        // After Rust 2018 you can use self here and tail (with no ref) below as well,
+        // rust will infer &s and ref tail. 
+ 
+
+    // Return the length of the list
+ 
+(u32,Box<List>)
+ 
+    // Consume a list, and return the same list with a new element at its front
+ 
+        // `Cons` also has type List
+ 
+    // Cons: Tuple struct that wraps an element and a pointer to the next node
+ 
+    // Nil: A node that signifies the end of the linked list
+ 
+        // `Nil` has type `List`
+ 
+    // Create an empty list
+ 
+
+// impl = 
+ 
+*/
+ 
+let mut list = List::new();
+list = list.prepend(1);
+list = list.prepend(2);
+list = list.prepend(3);
+println!("linked list has length: {}", list.len());
+println!("{}", list.stringify());
+ 
+// Show the final state of the list
+ 
+// Prepend some elements
+ 
+[(i32,i32);2]
+ 
+let negative = 
+ 
+let possitive = 
+ 
+println!("{}",);
+ 
+ as u16 * 
+ 
+
+// let six = plus_one(five);
+// let none = plus_one(None);
+// if let __ = six {
+//     println!("{}", n);
+//     println!("Success!");
+// } 
+//     
+// panic!("NEVER LET THIS RUN！");
+ 
+// 04:02:52 Enums
+ 
+{rgb:
+ 
+// let mut msg = Message::Move{x: 1, y: 1};
+// msg = Message::Write("Hello".to_string());
+// msg = Message::ChangeColor(255,0,0);
+// println!("{:?}",msg);
+ 
+Move{x: 1, y: 1}
+ 
+{},{},{}
+ 
+ui
+ 
+o point
+ 
+println!("{:?}", msg);
+ 
+    let Message::Move { a, b}=msg;
+ 
+Message::Move{a,b}
+ 
 // C-like enum
  
 STRUCTS

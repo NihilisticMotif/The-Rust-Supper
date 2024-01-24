@@ -1,0 +1,55 @@
+
+Immutable Variable
+ * By default the variable cannot be change.
+ * It is stored in stack memory.
+
+/*
+let e:f64=2.7;
+*/
+
+Mutable Variable
+ * The variable can be change if it have mut.
+ * It is stored in heap memory.
+
+/*
+let mut dxdy = 0;
+dxdy=1;
+*/
+
+What is Owner?
+ * The variable that have the value in rust.
+1. Each value has an ower.
+2. There can only be one owner at a time.
+3. When the owner go out of scope, the value will be drop.
+/* 
+{
+    // In thiscase, pi is the owner and 3.14 is the value
+    let pi = 3.14;
+    // the value of pi is only in this scope
+    {
+        // The value of pi does not exist
+    }
+}
+// The value of pi does not exist.
+*/
+
+What is borrowing and reference?
+ * Reference is the variable (owner) that have the pointer as its value.
+   The pointer store the address data of the target variable.
+ * Borrowing is the way to create new reference that point to other existing variable.
+ * There is the Borrowing rule, in order to prevent memory safty problem.
+1. There can only be one mutable reference or several immutable references at the same time in the same scope.
+   (There cannot be both immutable and mutable reference. There cannot be several mutable references.)
+/*
+let e = 2.7;
+// euler is point to e.
+// use immutable reference when we only want to get the data.
+// use mutable reference when we want to modify the data directly.
+let euler=&e;
+*/
+
+
+Reference:
+ * https://youtu.be/5C_HPTJg5ek?si=QBbBMNyiXXsSTXg6
+ * https://www.educative.io/answers/how-to-use-references-in-rust
+ * https://www.educative.io/answers/moving-ownership-in-rust
