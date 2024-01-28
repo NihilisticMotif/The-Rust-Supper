@@ -1,3 +1,619 @@
+use crate::List::*;
+// https://doc.rust-lang.org/book/ch15-01-box.html
+enum List {
+    Cons(char, Box<List>),
+    Nil,
+}
+
+impl List {
+    fn new() -> List {
+        Nil
+        // https://doc.rust-lang.org/book/ch15-01-box.html
+        // Cons('A',Box::new(Nil))
+        // 'A' is the first string.
+    }
+
+    fn prepend(self, elem: char) -> List {
+        // List = Type of the output
+        Cons(elem, Box::new(self))
+    }
+
+    // len = length
+    fn len(&self) -> u32 { 
+        // https://doc.rust-lang.org/edition-guide/rust-2018/ownership-and-lifetimes/default-match-bindings.html
+        match *self {
+            Cons(ii, ref tail) => 1 + tail.len(),
+            Nil => 0
+        }
+    }
+
+    fn stringify(&self) -> String {
+        match *self {
+            Cons(head,  ref tail) => {
+                // ref tail = get the reference of tail
+                format!("{}{}", tail.stringify(),head)
+            },
+            Nil => {
+                format!("")
+            },
+        }
+    }
+
+    fn index(&self,max:u32)->char{
+        // Helped by ChatGPT
+        fn counting(node: &List, count: u32, max: u32) -> Option<char> {
+            match node {
+                Cons(head, tail) => {
+                    if count == max {
+                        Some(*head)
+                    } else {
+                        counting(tail, count + 1, max)
+                    }
+                },
+                Nil => None,
+            }
+        }
+        let count:u32=0;
+        let output:Option<char>=counting(self,count,max);
+        match output{
+            Some(c)=>{
+                c
+            }
+            None=>{
+                println!("The Input is invalid");
+                ' '
+            }
+        }
+    }
+
+}
+ 
+    // Create an empty linked list
+    let mut list = List::new();
+
+    // Prepend some elements
+    list = list.prepend('H');
+    list = list.prepend('e');
+    list = list.prepend('l');
+    list = list.prepend('l');
+    list = list.prepend('o');
+    list = list.prepend(' ');
+    list = list.prepend('W');
+    list = list.prepend('o');
+    list = list.prepend('r');
+    list = list.prepend('l');
+    list = list.prepend('d');
+
+    // Show the final state of the list
+    //println!("linked list has length: {}", list.len());
+    println!("{}", list.stringify());
+    let mut i=0;
+    println!("For Loop");
+    while i<list.len(){
+        println!("list[{}] = {}",i, list.index(i));
+        i=i+1
+    }
+ 
+    // Return the length of the list
+ 
+    // Return the length of the list
+ 
+    // Return representation of the list as a (heap allocated) string
+ 
+ console
+ 
+                // `format!` is similar to `print!`, but returns a heap
+                // allocated string instead of printing to the
+ 
+println!("list[0] = {}", list.index(0));
+ 
+ref 
+ 
+ref 
+ 
+        /*
+no method named `counting` found for reference `&List` in the current scope
+method not found in `&List`
+        */
+ 
+tail.
+ 
+self.
+ 
+                    count=count+1;
+ 
+ mut
+ 
+                
+ 
+            }
+ 
+    */
+ 
+
+
+    /*
+ 
+    fn index(&self,index:u32)->char{
+        let mut count:u32=0;
+        match *self{
+            Cons(ii, ref tail) => {
+                if index==count{
+                    ii
+                }else{
+                    count=count+1;
+                    tail.index(index,count);
+                }
+            },
+            // 1 + tail.len()
+            Nil => ' '
+        }
+    }
+ 
+tail.index()
+ 
+    fn index()
+ 
+let mut count:u32=0;
+ 
+List::
+ 
+ref 
+ 
+                // format!("{}{}", tail.count(),head)
+ 
+output
+ 
+        let output:char=' ';
+ 
+mut 
+ 
+output=
+ 
+Option<
+ 
+count
+ 
+,c:u32
+ 
+c=
+ 
+ing
+ 
+            //
+        }
+ 
+println!(\"
+ 
+stringify()
+ 
+tail.stringify()
+ 
+")"
+ 
+{
+            
+ 
+    fn stringify(&self)->String{
+        self.stringifys()+")"
+    }
+ 
+println!(
+ 
+.to_string()
+ 
+        if self.len==1{
+            self.prepend(')')
+        }
+ 
+head
+ 
+    list = list.prepend('o');
+ 
+.to_string()
+ 
+Cons
+ 
+Cons
+ 
+.Cons
+ 
+.to_string()
+ 
+            // Base Case: An empty list has zero length
+ 
+            // Can't take ownership of the tail, because `self` is borrowed;
+            // Instead take a reference to the tail
+ 
+        // `self` has to be matched, because the behavior of this method
+        // depends on the variant of `self`
+        // `self` has type `&List`, and `*self` has type `List`, matching on a
+        // concrete type `T` is preferred over a match on a reference `&T`
+        // After Rust 2018 you can use self here and tail (with no ref) below as well,
+        // rust will infer &s and ref tail.
+ 
+
+    // Return the length of the list
+ 
+        // `Cons` also has type List
+ 
+
+    // Consume a list, and return the same list with a new element at its front
+ 
+u32,Box<List>
+ 
+        // `Nil` has type `List`
+ 
+    // Create an empty list
+ 
+
+// Methods can be attached to an enum
+ 
+    // Cons: Tuple struct that wraps an element and a pointer to the next node
+ 
+    // Nil: A node that signifies the end of the linked list
+ 
+ -> (u32,Box<List>)
+ 
+Cons
+ 
+Cons
+ 
+    let msgs: [Message;3] = [
+        Message::Quit,
+        Message::Move{x:1, y:3},
+        Message::ChangeColor(255,255,0)
+    ];
+
+    for msg in msgs {
+        show_message(msg)
+    }
+ 
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+impl fmt::Display for Message{
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Message::Quit => write!(f, "Quit"),
+            Message::Move{x, y} => write!(f, "Move: ({}, {})",x,y),
+            Message::Write(text) => write!(f, "Write: {}",text),
+            Message::ChangeColor(r,g,b) => write!(f, "ChangeColor: ({:?})",(r,g,b)),
+        }
+    }
+}
+fn show_message(msg: Message) {
+    println!("{}", msg);
+    //dbg!(msg);
+}
+
+ 
+rgb
+ 
+// 
+ 
+println!("\n//**************************************************************************************************");
+println!("// INITIALIZE TWOWUV");
+println!("//**************************************************************************************************");
+let mut island_in_the_sun:TwoWuv=TwoWuv{
+    x:(2.0_f64).powf(0.5_f64),
+    y:0.0
+};
+// https://doc.rust-lang.org/rust-by-example/hello/print/print_debug.html
+// println!("{:?}",island_in_the_sun); // invalid
+let hawaii_part_ii:TwoWuv=TwoWuv{
+    x:5.1413,
+    y:2.8172
+};
+// https://prince.dev/debug-struct
+// dbg!(hawaii_part_ii.x); // valid
+// dbg!(hawaii_part_ii); // invalid
+dbg!(island_in_the_sun.x);
+dbg!(island_in_the_sun.y);
+dbg!(hawaii_part_ii.x);
+dbg!(hawaii_part_ii.y);
+
+println!("\n//**************************************************************************************************");
+println!("// PLUS, MINUS, TIMES, DEVIDE, POWER, LOG");
+println!("//**************************************************************************************************");
+println!("{} + {} = {}",hawaii_part_ii.x,hawaii_part_ii.y,hawaii_part_ii.plus());
+println!("{} - {} = {}",hawaii_part_ii.x,hawaii_part_ii.y,hawaii_part_ii.minus());
+println!("{} * {} = {}",hawaii_part_ii.x,hawaii_part_ii.y,hawaii_part_ii.times());
+println!("{} / {} = {}",hawaii_part_ii.x,hawaii_part_ii.y,hawaii_part_ii.divide());
+println!("{} ^ {} = {}",hawaii_part_ii.x,hawaii_part_ii.y,hawaii_part_ii.power());
+println!("log _{} ({}) = {}",hawaii_part_ii.y,hawaii_part_ii.x,hawaii_part_ii.logarithm());
+
+println!("\n//**************************************************************************************************");
+println!("// FUNCTION");
+println!("//**************************************************************************************************");
+
+hawaii_part_ii.help();
+println!("sin({}) = {}",hawaii_part_ii.x,hawaii_part_ii.function(Some('x'),Some('s')));
+println!("sin({}) = {}",hawaii_part_ii.y,hawaii_part_ii.function(Some('y'),Some('s')));
+println!("log({}) = {}",hawaii_part_ii.y,hawaii_part_ii.function(Some('y'),Some('l')));
+println!("cos({}) = {}",hawaii_part_ii.x,hawaii_part_ii.function(Some('x'),Some('c')));
+println!("tan({}) = {}",hawaii_part_ii.x,hawaii_part_ii.function(Some('x'),Some('t')));
+
+println!("\n//**************************************************************************************************");
+println!("// ERROR");
+println!("//**************************************************************************************************");
+println!("{} / {} = {}",island_in_the_sun.x,island_in_the_sun.y,island_in_the_sun.divide());
+println!("log({}) = {}",island_in_the_sun.y,island_in_the_sun.function(Some('y'),Some('l')));
+println!("log _{} ({}) = {}",island_in_the_sun.y,island_in_the_sun.x,hawaii_part_ii.logarithm());
+
+println!("\n//**************************************************************************************************");
+println!("// UPDATE");
+println!("//**************************************************************************************************");
+island_in_the_sun.y=(3.0_f64).powf(0.5_f64);
+println!("{} / {} = {}",island_in_the_sun.x,island_in_the_sun.y,island_in_the_sun.divide());
+
+ 
+
+// https://doc.rust-lang.org/std/f64/consts/constant.E.html
+pub const E: f64 = 2.71828182845904523536028747135266250_f64; // 2.7182818284590451f64
+// https://doc.rust-lang.org/std/f64/consts/constant.PI.html
+pub const PI: f64 = 3.14159265358979323846264338327950288_f64; 
+
+struct TwoWuv{
+    x:f64,
+    y:f64
+}
+
+impl TwoWuv{
+
+    fn plus(&self)->f64{
+        self.x+self.y
+    }
+    fn minus(&self)->f64{
+        self.x-self.y
+    }
+    fn times(&self)->f64{
+        self.x*self.y
+    }
+    fn divide(&self)->f64{
+        if self.y==0.0{
+            println!("The Input is invalid");
+            0.0
+        } else{
+            self.x/self.y
+        }
+    }
+    fn power(&self)->f64{
+        // https://stackoverflow.com/questions/51208703/how-to-raise-a-number-to-a-power
+        f64::powf(self.x,self.y)
+    }
+
+    fn logarithm(&self)->f64{
+        if(self.y!=1.0 && self.y>0.0_f64 && self.x>0.0_f64){
+            self.x.log(self.y)
+        } else{
+            println!("Input is in valid");
+            0.0
+        }
+    }
+
+    fn help(&self)->(){
+        println!("function");
+        println!("Input var");
+        println!("1. x == x");
+        println!("2. y == x");
+        println!("3. Default == x");
+        println!("Input fun");
+        println!("1. x == x");
+        println!("2. s == sin(x)");
+        println!("3. c == cos(x)");
+        println!("4. t == tan(x)");
+        println!("5. e == e^x");
+        println!("6. l == ln(x)");
+        println!("7. a == |a|");
+        println!("8. Default == x");
+    }
+
+    fn function(
+        &self,
+        var:Option<char>,
+        // x == x
+        // y == y
+        // default == x
+        fun:Option<char>
+        // x == x
+        // s == sin(x)
+        // c == cos(x)
+        // t == tan(x)
+        // e == e^x
+        // l == ln(x)
+        // a = |x|
+        // default == x
+    )->f64{
+        let mut z:f64=0.0;
+        let mut output:Option<f64>=None;
+        match var{
+            Some(vvv)=>{
+                if vvv=='y'{
+                    z=self.y;
+                } else {
+                    z=self.x;
+                }
+            }
+            None=>{z=self.x}
+        }
+        match fun{
+            Some(fff)=>{
+                if(fff=='x'){output=Some(z)}
+                else if(fff=='s'){output=Some(z.sin())}
+                else if(fff=='c'){output=Some(z.cos())}
+                else if(fff=='t'){
+                    // https://stackoverflow.com/questions/62144550/how-to-round-a-number-up-or-down-in-rust
+                    let floor:i32=((2.0*(z as f64)/PI-1.0)/2.0).floor() as i32;
+                    let ceil:i32=((2.0*(z as f64)/PI-1.0)/2.0).ceil() as i32;
+                    if((PI/2.0-0.00001)*((2*floor+1) as f64)<z&&z<(PI/2.0+0.00001)*((2*floor+1) as f64)){output=None}
+                    else if((PI/2.0-0.00001)*((2*ceil+1) as f64)<z&&z<(PI/2.0+0.00001)*((2*ceil+1) as f64)){output=None}
+                    else{output=Some(z.tan())}
+                }
+                else if(fff=='e'){output=Some(f64::powf(E,z))}
+                else if(fff=='l'){
+                    if z <= 0.0_f64 {
+                        output = None
+                    } else {
+                        output = Some(z.log(E))
+                    }
+                }
+                else if(fff=='a'){output=Some(z.abs())}
+                else{output=Some(z)}
+            }
+            None=>{output=Some(z)}
+        }
+        match output{
+            Some(yyy)=>{yyy}
+            None=>{
+                println!("The Input is invalid");
+                0.0
+            }
+        }
+    }
+}
+
+/*
+Reference
+1. https://doc.rust-lang.org/std/keyword.impl.html
+2. https://doc.rust-lang.org/rust-by-example/flow_control/if_else.html
+3. https://doc.rust-lang.org/std/option/
+4. https://stackoverflow.com/questions/51208703/how-to-raise-a-number-to-a-power
+*/
+
+ 
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    // https://prince.dev/debug-struct
+    f.debug_struct("TwoWuv")
+      .field("x", &self.x)
+      .field("y", &self.y)
+      .finish()
+    }
+ 
+
+impl fmt::Debug for TwoWuv{
+    fn 
+}
+ 
+// https://prince.dev/debug-struct
+// https://youtu.be/BpPEoZW5IiY?si=goDW5z6qEkPok4pe
+ 
+// 
+ 
+// `TwoWuv` doesn't implement `Debug`
+// the trait `Debug` is not implemented for `TwoWuv`
+ 
+// 
+ 
+.to_string()
+ 
+// #[derive(Debug)] // used for debugging
+ 
+// 
+ 
+Option<
+ 
+Option<
+ 
+fun=
+ 
+var=
+ 
+{} + {} = {}
+ 
+var
+ 
+
+//**************************************************************************************************
+// HELP
+//**************************************************************************************************
+hawaii_part_ii.help();
+
+ 
+let mut island_in_the_sun:TwoWuv=TwoWuv{
+    x:3.1415,
+    y:0.0
+};
+ 
+Some
+ 
+Option
+ 
+let irrational
+ 
+
+    fn 
+ 
+output=Some(
+ 
+        let mut output:Option<f64>=None;
+ 
+ as f64
+ 
+ln(x)
+ 
+Option<
+ 
+                
+ 
+                    
+ 
+                    if z <= 0.0_f64 {
+                        output = None;
+                    } else {
+                        output = Some(z);
+                    }
+ 
+9323846264338327950288_f64
+ 
+let mut ztan:i32=0;
+ 
+*ztan
+ 
+z==
+ 
+                        
+ 
+                    
+ 
+                        
+ 
+.cos()
+ 
+Option<f64>
+ 
+        fn select(&self,x:u8)->f64{
+            if(x==1){self.y}
+            else{self.x}
+        }
+ 
+            Some(1)=>
+ 
+ction
+ 
+iable
+ 
+iable
+ 
+_mode
+ 
+
+enum TwoWuv{
+    X,
+    Y
+}
+ 
+
+struct Diculator{
+    num1:i32,
+    num2:i32,
+}
+ 
+9. y=x,x=y
+ 
 //**************************************************************************************************
 
 enum Number {

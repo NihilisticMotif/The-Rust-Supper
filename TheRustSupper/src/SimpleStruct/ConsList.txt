@@ -1,0 +1,122 @@
+#![allow(unused)]
+// #[derive(Debug)] // used for debugging
+
+// https://prince.dev/debug-struct
+// https://youtu.be/BpPEoZW5IiY?si=goDW5z6qEkPok4pe
+use std::fmt;
+// What is crate?
+use crate::List::*;
+// https://doc.rust-lang.org/book/ch15-01-box.html
+enum List {
+    Cons(char, Box<List>),
+    Nil,
+}
+
+impl List {
+    fn new() -> List {
+        Nil
+        // https://doc.rust-lang.org/book/ch15-01-box.html
+        // Cons('A',Box::new(Nil))
+        // 'A' is the first string.
+    }
+
+    fn prepend(self, elem: char) -> List {
+        // List = Type of the output
+        Cons(elem, Box::new(self))
+    }
+
+    // len = length
+    fn len(&self) -> u32 { 
+        // https://doc.rust-lang.org/edition-guide/rust-2018/ownership-and-lifetimes/default-match-bindings.html
+        match *self {
+            Cons(ii, ref tail) => 1 + tail.len(),
+            Nil => 0
+        }
+    }
+
+    fn stringify(&self) -> String {
+        match *self {
+            Cons(head,  ref tail) => {
+                // ref tail = get the reference of tail
+                format!("{}{}", tail.stringify(),head)
+            },
+            Nil => {
+                format!("")
+            },
+        }
+    }
+
+    fn index(&self,max:u32)->char{
+        // Helped by ChatGPT
+        fn counting(node: &List, count: u32, max: u32) -> Option<char> {
+            match node {
+                Cons(head, tail) => {
+                    if count == max {
+                        Some(*head)
+                    } else {
+                        counting(tail, count + 1, max)
+                    }
+                },
+                Nil => None,
+            }
+        }
+        let count:u32=0;
+        let output:Option<char>=counting(self,count,max);
+        match output{
+            Some(c)=>{
+                c
+            }
+            None=>{
+                println!("The Input is invalid");
+                ' '
+            }
+        }
+    }
+
+}
+fn main() {
+    // Create an empty linked list
+    let mut list = List::new();
+
+    // Prepend some elements
+    list = list.prepend('H');
+    list = list.prepend('e');
+    list = list.prepend('l');
+    list = list.prepend('l');
+    list = list.prepend('o');
+    list = list.prepend(' ');
+    list = list.prepend('W');
+    list = list.prepend('o');
+    list = list.prepend('r');
+    list = list.prepend('l');
+    list = list.prepend('d');
+
+    // Show the final state of the list
+    //println!("linked list has length: {}", list.len());
+    println!("{}", list.stringify());
+    let mut i=0;
+    println!("For Loop");
+    while i<list.len(){
+        println!("list[{}] = {}",i, list.index(i));
+        i=i+1
+    }
+}
+
+/*
+cargo run
+*/
+
+/*
+Questions
+1. Why and how to borrowing (&) and dereference (*) the viriable when creating recursive function?
+2. Different between `var.func()` and `func(var)`?
+3. Why I cannot use nested function within the method that utilize self as its input?
+*/
+/*
+Note
+* This data structure is called "cons list"
+* It is linked list.
+* It is used for when the size of the variable is unknown.
+* e.g.: (1, (2, (3, Nil)))
+Reference: https://doc.rust-lang.org/book/ch15-01-box.html
+*/

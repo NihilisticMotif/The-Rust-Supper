@@ -1,0 +1,42 @@
+#![allow(unused)]
+// #[derive(Debug)] // used for debugging
+
+// https://prince.dev/debug-struct
+// https://youtu.be/BpPEoZW5IiY?si=goDW5z6qEkPok4pe
+use std::fmt;
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+impl fmt::Display for Message{
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Message::Quit => write!(f, "Quit"),
+            Message::Move{x, y} => write!(f, "Move: ({}, {})",x,y),
+            Message::Write(text) => write!(f, "Write: {}",text),
+            Message::ChangeColor(r,g,b) => write!(f, "ChangeColor: ({:?})",(r,g,b)),
+        }
+    }
+}
+fn show_message(msg: Message) {
+    println!("{}", msg);
+    //dbg!(msg);
+}
+
+fn main() {
+    let msgs: [Message;3] = [
+        Message::Quit,
+        Message::Move{x:1, y:3},
+        Message::ChangeColor(255,255,0)
+    ];
+
+    for msg in msgs {
+        show_message(msg)
+    }
+}
+
+/*
+cargo run
+*/
