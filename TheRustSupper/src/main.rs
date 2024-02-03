@@ -6,7 +6,7 @@
 use std::fmt;
 
 fn main() {
-
+println!("Installation Successful");
 }
 
 /*
