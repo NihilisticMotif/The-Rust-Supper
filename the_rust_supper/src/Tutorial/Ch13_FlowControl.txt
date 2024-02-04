@@ -1,0 +1,75 @@
+Flow Control 
+1. Statement (Top to Bottom)
+2. Condition 
+2.1 if/else 
+2.2 match 
+3. Loop 
+3.1 for/while/loop 
+3.2 continue break
+
+//**************************************************************************************************
+// EXAMPLE NO.1 IF/ELSE
+//**************************************************************************************************
+let n = 5;
+
+if n < 0 {
+    println!("{} is negative", n);
+} else if n > 0 {
+    println!("{} is positive", n);
+} else {
+    println!("{} is zero", n);
+}
+
+//**************************************************************************************************
+// EXAMPLE NO.2 FOR 1 TO 99
+//**************************************************************************************************
+// Loop 1 to 99
+for n in 1..=99 { 
+    if n == 100 {
+        panic!("NEVER LET THIS RUN");
+        // panic is not executed.
+    }
+}
+println!("Success!");
+// Loop 1 to 99
+for n in 1..100 { 
+    println!("{}",n);
+    if n == 100 {
+        panic!("NEVER LET THIS RUN");
+        // panic is not executed.
+    }
+}
+println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.3 REFERENCE AND CLONE ARRAY BEFORE LOOPING IT
+//**************************************************************************************************
+/*
+Note 
+1. When deal with for loop, 
+ * if the collection variable is immutable, it is automatically copy, so do not worry about it. 
+ * if the collection variable is mutable, then reference (&) it, or clone it (recomment reference)
+*/
+
+let names:[String;2] = [String::from("liming"),String::from("hanmeimei")];
+// Ownership Rule
+// 1. Each value has an ower.
+// 2. There can only be one owner at a time.
+// 3. When the owner go out of scope, the value will be drop.
+
+// In this case, we need to & (borrowing the value of) names
+// because without &, the value of names will be used and droped in
+// this forloop, and thus cannot be used again in println!({:?},names)
+for name in &names {
+    // let name = *name // automatically
+    println!("{}",name);
+}
+println!("{:?}", names);
+
+let numbers:[i32;3] = [1, 2, 3];
+// In the second loop, we do not need to use & because the value of numbers
+// are copy automatically, and thus it not droped inside the for loop.
+for n in numbers {
+    println!("{}",n);
+}
+println!("{:?}", numbers);

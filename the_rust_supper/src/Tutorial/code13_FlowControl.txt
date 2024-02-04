@@ -1,0 +1,290 @@
+#![allow(unused)]
+// #[derive(Debug)] // used for debugging
+
+// https://prince.dev/debug-struct
+// https://youtu.be/BpPEoZW5IiY?si=goDW5z6qEkPok4pe
+// use std::fmt;
+
+fn main() {
+//**************************************************************************************************
+// EXAMPLE NO.1 IF/ELSE
+//**************************************************************************************************
+// let n = 5;
+// 
+// if n < 0 {
+//     println!("{} is negative", n);
+// } else if n > 0 {
+//     println!("{} is positive", n);
+// } else {
+//     println!("{} is zero", n);
+// }
+
+//**************************************************************************************************
+// EXAMPLE NO.2 USE CONDITION IN VARIABLE INITIALIZATION
+//**************************************************************************************************
+// let n = 5;
+// let big_n:f64 =if n < 10 && n > -10 {
+//     println!(", and is a small number, increase ten-fold");
+//     10.0 * (n as f64)
+// } else {
+//     println!(", and is a big number, halve the number");
+//     (n as f64)/ 2.0 
+// };
+// println!("{} -> {}", n, big_n);
+
+//**************************************************************************************************
+// EXAMPLE NO.2.2 YOU CAN CEIL THE FRACTIONAL NUMBER AS I32
+//**************************************************************************************************
+// let n:i32=55;
+// let m:i32=n/2.0 as i32;
+// println!("{} / 2 = {}",n,m);
+// let n:i32=56;
+// let m:i32=n/2.0 as i32;
+// println!("{} / 2 = {}",n,m);
+
+//**************************************************************************************************
+// EXAMPLE NO.3 FOR 1 TO 99
+//**************************************************************************************************
+// // Loop 1 to 99
+// for n in 1..=99 { 
+//     if n == 100 {
+//         panic!("NEVER LET THIS RUN");
+//         // panic is not executed.
+//     }
+// }
+// println!("Success!");
+// // Loop 1 to 99
+// for n in 1..100 { 
+//     println!("{}",n);
+//     if n == 100 {
+//         panic!("NEVER LET THIS RUN");
+//         // panic is not executed.
+//     }
+// }
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.4 REFERENCE AND CLONE ARRAY BEFORE LOOPING IT
+//**************************************************************************************************
+// let names:[String;2] = [String::from("liming"),String::from("hanmeimei")];
+// // Ownership Rule
+// // 1. Each value has an ower.
+// // 2. There can only be one owner at a time.
+// // 3. When the owner go out of scope, the value will be drop.
+
+// // In this case, we need to & (borrowing the value of) names
+// // because without &, the value of names will be used and droped in
+// // this forloop, and thus cannot be used again in println!({:?},names)
+// for name in &names {
+//     // let name = *name // automatically
+//     println!("{}",name);
+// }
+// println!("{:?}", names);
+
+// let numbers:[i32;3] = [1, 2, 3];
+// // In the second loop, we do not need to use & because the value of numbers
+// // are copy automatically, and thus it not droped inside the for loop.
+// for n in numbers {
+//     println!("{}",n);
+// }
+// println!("{:?}", numbers);
+
+//**************************************************************************************************
+// EXAMPLE NO.5 GET INDEX FOR THE CURRENT ELEMENT IN FOR LOOP
+//**************************************************************************************************
+// https://stackoverflow.com/questions/66288515/how-do-i-get-the-index-of-the-current-element-in-a-for-loop-in-rust
+// let a = [4, 3, 2, 1];
+// // Iterate the indexing and value in 'a'
+// // a is copy automatically, thus a can be used again.
+// for (i,v) in a.iter().enumerate() {
+//     println!("The {}th element is {}",i+1,v);
+// }
+
+//**************************************************************************************************
+// EXAMPLE NO.6 WHILE LOOP
+//**************************************************************************************************
+// // A counter variable
+// let mut n = 1;
+// // Loop while the condition is true
+// while n < 10 {
+//     if n % 15 == 0 {
+//         println!("fizzbuzz");
+//     } else if n % 3 == 0 {
+//         println!("fizz");
+//     } else if n % 5 == 0 {
+//         println!("buzz");
+//     } else {
+//         println!("{}", n);
+//     }
+//     n=n+1;
+// }
+// println!("n reached {}, so loop is over",n);
+
+//**************************************************************************************************
+// EXAMPLE NO.7 BREAK
+//**************************************************************************************************
+// let mut n = 0;
+// for i in 0..=100 {
+//    if n == 66 {
+//        break
+//        // stop the loop
+//        // when n == 66
+//    }
+//    n += 1;
+// }
+// assert_eq!(n, 66);
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.8 CONTINUE
+//**************************************************************************************************
+// let mut n = 0;
+// for i in 0..=100 {
+//    if n != 66 {
+//        n+=1;
+//        continue
+//    }
+//    continue
+// }
+// assert_eq!(n, 66);
+// println!("{}",n);
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.9
+//**************************************************************************************************
+// let mut count = 0u32;
+// println!("Let's count until infinity!");
+// // Infinite loop
+// loop {
+//     count += 1;
+//     if count == 3 {
+//         println!("three");
+//         continue;
+//     }
+//     println!("{}", count);
+//     if count == 5 {
+//         println!("OK, that's enough");
+//         break;
+//     }
+// }
+// assert_eq!(count, 5);
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.10 BREAK RETURN VALUE
+//**************************************************************************************************
+// let mut counter = 0;
+// let result = loop {
+//     counter += 1;
+//     if counter == 10 {
+//         counter=counter*2;
+//         break counter;
+//     }
+// };
+// assert_eq!(result, 20);
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.11 BREAK NESTED LOOP
+//**************************************************************************************************
+// let mut count = 0;
+// let mut count_out = 0;
+// let mut count_in = 0;
+// 'outer: loop {
+//     println!("Out: {}",count_out);
+//     println!("count = {}",count);
+//     'inner1: loop {
+//         if count >= 20 {
+//             // This would break only the inner1 loop
+//             break 'inner1; // `break` is also works.
+//         }
+//         println!("In: {}",count_in );
+//         println!("count = {}",count);
+//         count += 2;
+//         count_in +=1;
+//     }
+//     count += 5;
+//     'inner2: loop {
+//         if count >= 30 {
+//             // This breaks the outer loop
+//             break 'outer;
+//         }
+//         // This will continue the outer loop
+//         continue 'outer;
+//     }
+//     count_out+=1
+// }
+// // assert!(count == __);
+// println!("{}",count);
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.12
+//**************************************************************************************************
+// let mut n=0;
+// let mut m=0;
+// for i in 0..10{
+//     let mut s="".to_string();
+//     for j in 0..10{
+//         if i%2==0{
+//             println!("{}",s);
+//         }
+//         // https://stackoverflow.com/questions/30154541/how-do-i-concatenate-strings
+//         // https://rustjobs.dev/blog/convert-int-to-string-in-rust/
+//         s.push_str(&j.to_string());
+//     }
+//     if i%2==1{
+//         for j in 0..10{
+//             println!("{}",s);
+//             // https://stackoverflow.com/questions/65976432/how-to-remove-first-and-last-character-of-a-string-in-rust
+//             s.pop();
+//         }
+//     }
+// }
+
+/*
+let mut n=0;
+let mut m=0;
+let mut i:u32=0;
+'out:loop {
+    let mut s="".to_string();
+    let mut bo:u32=0;
+    'in1: loop {
+        if i%2==0{
+            println!("{}",s);
+        }
+        if bo>=10{
+            break 'in1;
+        }
+        // https://stackoverflow.com/questions/30154541/how-do-i-concatenate-strings
+        // https://rustjobs.dev/blog/convert-int-to-string-in-rust/
+        s.push_str(&bo.to_string());
+        bo+=1;
+    }
+    let mut bo:u32=0;
+    if i%2==1{
+        'in2: loop{
+            println!("{}",s);
+            // https://stackoverflow.com/questions/65976432/how-to-remove-first-and-last-character-of-a-string-in-rust
+            s.pop();
+            bo+=1;
+            if bo>=10{
+                break 'in2;
+            }
+        }
+    }
+
+    i+=1;
+    'in3: loop{
+        if i>=10{
+            break 'out;
+        }
+    }
+}
+*/
+} 
+
+/*
+cargo run
+*/

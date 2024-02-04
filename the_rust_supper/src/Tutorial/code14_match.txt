@@ -1,0 +1,201 @@
+#![allow(unused)]
+// #[derive(Debug)] // used for debugging
+
+// https://prince.dev/debug-struct
+// https://youtu.be/BpPEoZW5IiY?si=goDW5z6qEkPok4pe
+// use std::fmt;
+
+//**************************************************************************************************
+// ENUM NO.1
+//**************************************************************************************************
+enum Direction01 {
+    East    ,
+    West    ,
+    North   ,
+    South   ,
+}
+
+//**************************************************************************************************
+// FUNCTION NO.2
+//**************************************************************************************************
+fn boolto01f02(b:bool)->u8{
+    match b{
+        true=>1,
+        _=>0
+    }
+}
+
+//**************************************************************************************************
+// EXAMPLE NO.3
+//**************************************************************************************************
+fn show_message03(msg: Message03) {
+    match msg {
+        Message03::Move{x:a,y:b} => { // match  Message::Move
+            assert_eq!(a, 1);
+            assert_eq!(b, 3);
+        },
+        Message03::ChangeColor(r, g, b) => {
+            assert_eq!(g, 255);
+            assert_eq!(b, 0);
+        }
+        _ => println!("no data in these variants")
+    }
+}
+enum Message03 {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+
+//**************************************************************************************************
+// ENUM NO.5
+//**************************************************************************************************
+enum MyEnum05 {
+    Foo,
+    Bar
+}
+
+//**************************************************************************************************
+// ENUM NO.7
+//**************************************************************************************************
+enum Foo07 {
+    Bar(u8)
+}
+
+//**************************************************************************************************
+// ENUM NO.8
+//**************************************************************************************************
+enum Foo08 {
+    Bar,
+    Baz,
+    Qux(u32)
+}
+
+//**************************************************************************************************
+// MAIN
+//**************************************************************************************************
+
+fn main() {
+//**************************************************************************************************
+// EXAMPLE NO.1 MATCH ENUM
+//**************************************************************************************************
+// let dire = Direction01::South;
+// if let dire {
+//     Direction01::East => println!("East"),
+//     (Direction01::South|Direction01::North)  => { // Matching South or North here
+//         println!("South or North");
+//     },
+//     _ => (),
+// };
+
+//**************************************************************************************************
+// EXAMPLE NO.2 MATCH BOOLEAN TO U8
+//**************************************************************************************************
+// let booleann = true;
+// let binary = boolto01f02(booleann);
+// assert_eq!(binary, 1);
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.3 MATCH ENUM WITH ENUM INPUT
+//**************************************************************************************************
+// let msgs = [
+//     Message03::Quit,
+//     Message03::Move{x:1, y:3},
+//     Message03::ChangeColor(255,255,0)
+// ];
+// for msg in msgs {
+//     show_message03(msg)
+// }
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.4 MATCHES, MATCH MULTIPLE VALUES, MATCH 'A','B',...,'Z'
+//**************************************************************************************************
+// let alphabets = ['a', 'E', 'Z', '0', 'x', '9' , 'Y'];
+// for ab in alphabets {
+//     // https://doc.rust-lang.org/stable/core/macro.matches.html
+//     // println!("{}",matches!(ab, 'A'..='Z' | 'a'..='z'))
+//     // a => true
+//     // E => true
+//     // 0 => false
+//     // 9 => false
+//     assert!(matches!(ab, 'A'..='Z' | 'a'..='z'|'0'..='9'));
+// }
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.5 ENUM CONDITION
+//**************************************************************************************************
+// let mut count = 0;
+// let v = vec![MyEnum05::Foo,MyEnum05::Bar,MyEnum05::Foo];
+// for e in v {
+//     match e { // Fix the error by changing only this line
+//         MyEnum05::Foo=>count += 1,
+//         _=>(),
+//     }
+// }
+// assert_eq!(count, 2);
+// println!("Success!");
+
+// //**************************************************************************************************
+// // EXAMPLE NO.6 IF LET SOME
+// //**************************************************************************************************
+// let o = Some(7);
+// // Remove the whole `match` block, using `if let` instead 
+// if let Some(i) =o{
+//     println!("This is a really long string and `{:?}`", i);
+//     println!("Success!");
+// };
+
+//**************************************************************************************************
+// EXAMPLE NO.7 IF LET ENUM
+//**************************************************************************************************
+// let a = Foo07::Bar(1);
+// if let Foo07::Bar(i)=a{
+//     println!("foobar holds the value: {}", i);
+//     println!("Success!");
+// }
+
+//**************************************************************************************************
+// EXAMPLE NO.8 USING MATCH RETURN MULTIPLE LINES FUNCTION
+//**************************************************************************************************
+// let a = Foo08::Qux(10);
+// // Remove the codes below, using `match` instead 
+// match a{
+//     Foo08::Bar=>{
+//         println!("The first options");
+//         println!("match foo::bar")},
+//     Foo08::Baz=>println!("match foo::baz"),
+//     _=>println!("match others")
+// }
+// let a = Foo08::Bar;
+// // Remove the codes below, using `match` instead 
+// match a{
+//     Foo08::Bar=>{
+//         println!("The first options");
+//         println!("match foo::bar")},
+//     Foo08::Baz=>println!("match foo::baz"),
+//     _=>println!("match others")
+// }
+
+//**************************************************************************************************
+// EXAMPLE NO.9 IF LET DE-SOME
+//**************************************************************************************************
+// let age = Some(30);
+// if let Some(age) = age {
+//     // The age in this scope is automatically copied.
+//    assert_eq!(age, 30);
+// } // The cloned age variable goes out of scope here
+// match age {
+//     // The true age variable is not dropped.
+//     Some(age) =>  println!("age is a new variable, it's value is {}",age),
+//     _ => ()
+// }
+}
+
+/*
+cargo run
+*/

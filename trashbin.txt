@@ -1,3 +1,728 @@
+Note 
+1. When deal with for loop, 
+ * if the collection variable is immutable, it is automatically copy, so do not worry about it. 
+ * if the collection variable is mutable, then reference (&) it, or clone it (recomment reference)
+ 
+ conditional
+ 
+println!("{}",numbers.0);
+ 
+
+
+// match msg {
+//     Message03::Hello {id:3} => {
+//         println!("id == 3")
+//     },
+//     Message03::Hello {id:i} => println!("id != 3"),
+// }
+ 
+match msg {
+    Message03::Hello {
+        id:  id@3..=7
+    } => println!("Found an id in range [3, 7]: {}", id),
+    Message03::Hello { id: id@(10 | 11 | 12) } => {
+        println!("Found an id in another range [10, 12]: {}", id)
+    }
+    Message03::Hello { id:i } => println!("Found some other id: {}", i),
+}
+ 
+(10 | 11 | 12)
+ 
+
+// match msg {
+//     Message03::Hello {id:3} => {
+//         println!("id == 3")
+//     },
+//     Message03::Hello {id:i} => println!("id != 3"),
+// }
+
+ 
+let msg = Message::Hello { id: 5 };
+ 
+"Found some other id: {}", id
+ 
+Found an id in range [3, 7]: {}", id
+ 
+    Message03::Hello { id: newid@10 | 11 | 12 } => {
+        println!("Found an id in another range [10, 12]: {}", newid)
+    }
+ 
+    
+ 
+        
+ 
+// Fill in the blank to let p match the second arm
+ 
+fn match_number(n: i32) {
+    match n {
+        // Match a single value
+        1 => println!("One!"),
+        // Fill in the blank with `|`, DON'T use `..` or `..=`
+        __ => println!("match 2 -> 5"),
+        // Match an inclusive range
+        6..=10 => {
+            println!("match 6 -> 10")
+        },
+        _ => {
+            println!("match -infinite -> 0 or 11 -> +infinite")
+        }
+    }
+}
+ 
+//**************************************************************************************************
+// ENUM NO.1
+//**************************************************************************************************
+enum Direction01 {
+    East    ,
+    West    ,
+    North   ,
+    South   ,
+}
+
+//**************************************************************************************************
+// FUNCTION NO.2
+//**************************************************************************************************
+fn boolto01f02(b:bool)->u8{
+    match b{
+        true=>1,
+        _=>0
+    }
+}
+
+//**************************************************************************************************
+// EXAMPLE NO.3
+//**************************************************************************************************
+fn show_message03(msg: Message03) {
+    match msg {
+        Message03::Move{x:a,y:b} => { // match  Message::Move
+            assert_eq!(a, 1);
+            assert_eq!(b, 3);
+        },
+        Message03::ChangeColor(r, g, b) => {
+            assert_eq!(g, 255);
+            assert_eq!(b, 0);
+        }
+        _ => println!("no data in these variants")
+    }
+}
+enum Message03 {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+
+//**************************************************************************************************
+// ENUM NO.5
+//**************************************************************************************************
+enum MyEnum05 {
+    Foo,
+    Bar
+}
+
+//**************************************************************************************************
+// ENUM NO.7
+//**************************************************************************************************
+enum Foo07 {
+    Bar(u8)
+}
+
+//**************************************************************************************************
+// ENUM NO.8
+//**************************************************************************************************
+enum Foo08 {
+    Bar,
+    Baz,
+    Qux(u32)
+}
+
+//**************************************************************************************************
+// MAIN
+//**************************************************************************************************
+
+ 
+/**************************************************************************************************
+// EXAMPLE NO.1 MATCH ENUM
+//**************************************************************************************************
+// let dire = Direction01::South;
+// if let dire {
+//     Direction01::East => println!("East"),
+//     (Direction01::South|Direction01::North)  => { // Matching South or North here
+//         println!("South or North");
+//     },
+//     _ => (),
+// };
+
+//**************************************************************************************************
+// EXAMPLE NO.2 MATCH BOOLEAN TO U8
+//**************************************************************************************************
+// let booleann = true;
+// let binary = boolto01f02(booleann);
+// assert_eq!(binary, 1);
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.3 MATCH ENUM WITH ENUM INPUT
+//**************************************************************************************************
+// let msgs = [
+//     Message03::Quit,
+//     Message03::Move{x:1, y:3},
+//     Message03::ChangeColor(255,255,0)
+// ];
+// for msg in msgs {
+//     show_message03(msg)
+// }
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.4 MATCHES, MATCH MULTIPLE VALUES, MATCH 'A','B',...,'Z'
+//**************************************************************************************************
+// let alphabets = ['a', 'E', 'Z', '0', 'x', '9' , 'Y'];
+// for ab in alphabets {
+//     // https://doc.rust-lang.org/stable/core/macro.matches.html
+//     // println!("{}",matches!(ab, 'A'..='Z' | 'a'..='z'))
+//     // a => true
+//     // E => true
+//     // 0 => false
+//     // 9 => false
+//     assert!(matches!(ab, 'A'..='Z' | 'a'..='z'|'0'..='9'));
+// }
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.5 ENUM CONDITION
+//**************************************************************************************************
+// let mut count = 0;
+// let v = vec![MyEnum05::Foo,MyEnum05::Bar,MyEnum05::Foo];
+// for e in v {
+//     match e { // Fix the error by changing only this line
+//         MyEnum05::Foo=>count += 1,
+//         _=>(),
+//     }
+// }
+// assert_eq!(count, 2);
+// println!("Success!");
+
+// //**************************************************************************************************
+// // EXAMPLE NO.6 IF LET SOME
+// //**************************************************************************************************
+// let o = Some(7);
+// // Remove the whole `match` block, using `if let` instead 
+// if let Some(i) =o{
+//     println!("This is a really long string and `{:?}`", i);
+//     println!("Success!");
+// };
+
+//**************************************************************************************************
+// EXAMPLE NO.7 IF LET ENUM
+//**************************************************************************************************
+// let a = Foo07::Bar(1);
+// if let Foo07::Bar(i)=a{
+//     println!("foobar holds the value: {}", i);
+//     println!("Success!");
+// }
+
+//**************************************************************************************************
+// EXAMPLE NO.8 USING MATCH RETURN MULTIPLE LINES FUNCTION
+//**************************************************************************************************
+// let a = Foo08::Qux(10);
+// // Remove the codes below, using `match` instead 
+// match a{
+//     Foo08::Bar=>{
+//         println!("The first options");
+//         println!("match foo::bar")},
+//     Foo08::Baz=>println!("match foo::baz"),
+//     _=>println!("match others")
+// }
+// let a = Foo08::Bar;
+// // Remove the codes below, using `match` instead 
+// match a{
+//     Foo08::Bar=>{
+//         println!("The first options");
+//         println!("match foo::bar")},
+//     Foo08::Baz=>println!("match foo::baz"),
+//     _=>println!("match others")
+// }
+
+//**************************************************************************************************
+// EXAMPLE NO.9 IF LET DE-SOME
+//**************************************************************************************************
+// let age = Some(30);
+// if let Some(age) = age {
+//     // The age in this scope is automatically copied.
+//    assert_eq!(age, 30);
+// } // The cloned age variable goes out of scope here
+// match age {
+//     // The true age variable is not dropped.
+//     Some(age) =>  println!("age is a new variable, it's value is {}",age),
+//     _ => ()
+// }
+ 
+//**************************************************************************************************
+// EXAMPLE NO.1
+//**************************************************************************************************
+
+ 
+ // Create a new variable with the same name as previous `age`
+ 
+// MY VER
+// let age = Some(30);
+// let age = if let Some(age) = age {
+//    assert_eq!(age, 30);
+//    Some(age)
+// }else{
+//     None
+// }; 
+// match age {
+//     Some(age) =>  println!("age is a new variable, it's value is {}",age),
+//     None => ()
+// }
+
+// TEACHER'S VER
+ 
+    // Match can also introduce a new shadowed variable
+ 
+// Create a new variable with the same name as previous `age
+ 
+// The new variable `age` goes out of scope here
+ 
+   return age
+ 
+if 
+ 
+if let Foo08::Bar = a {
+    println!("match foo::bar")
+} else if let Foo08::Baz = a {
+    println!("match foo::baz")
+} else {
+    println!("match others")
+}
+
+ 
+    }
+ 
+    Some(i) => {
+ 
+    _ => {}
+ 
+MyEnum05::Foo
+ 
+
+    // Fill the blank with `matches!` to make the code work
+ 
+:Message:
+ 
+//assert_eq!(binary, 1);
+// println!("{}",binary);
+
+ 
+
+// Fill the blank with a match expression:
+//
+// boolean = true => binary = 1
+// boolean = false =>  binary = 0
+ 
+
+
+let boolean = true;
+ 
+match booleann{
+    true=>println!("Honest"),
+    _=>println!("Lier"),
+};
+ 
+println!("Success!");
+ 
+let binary = match 
+ 
+boolean==
+ 
+    // Fill the blank with a match expression:
+    //
+    // boolean = true => binary = 1
+    // boolean = false =>  binary = 0
+ 
+    _ => (),
+ 
+Direction01::
+ 
+    _ => (),
+ 
+//
+ 
+    Direction01::West => println!("East"),
+    Direction01::North=> println!("East"),
+    Direction01::South=> println!("East"),
+ 
+    None => (),
+ 
+
+fn main() {
+//**************************************************************************************************
+// EXAMPLE NO.1 IF/ELSE
+//**************************************************************************************************
+// let n = 5;
+// 
+// if n < 0 {
+//     println!("{} is negative", n);
+// } else if n > 0 {
+//     println!("{} is positive", n);
+// } else {
+//     println!("{} is zero", n);
+// }
+
+//**************************************************************************************************
+// EXAMPLE NO.2 USE CONDITION IN VARIABLE INITIALIZATION
+//**************************************************************************************************
+// let n = 5;
+// let big_n:f64 =if n < 10 && n > -10 {
+//     println!(", and is a small number, increase ten-fold");
+//     10.0 * (n as f64)
+// } else {
+//     println!(", and is a big number, halve the number");
+//     (n as f64)/ 2.0 
+// };
+// println!("{} -> {}", n, big_n);
+
+//**************************************************************************************************
+// EXAMPLE NO.2.2 YOU CAN CEIL THE FRACTIONAL NUMBER AS I32
+//**************************************************************************************************
+// let n:i32=55;
+// let m:i32=n/2.0 as i32;
+// println!("{} / 2 = {}",n,m);
+// let n:i32=56;
+// let m:i32=n/2.0 as i32;
+// println!("{} / 2 = {}",n,m);
+
+//**************************************************************************************************
+// EXAMPLE NO.3 FOR 1 TO 99
+//**************************************************************************************************
+// // Loop 1 to 99
+// for n in 1..=99 { 
+//     if n == 100 {
+//         panic!("NEVER LET THIS RUN");
+//         // panic is not executed.
+//     }
+// }
+// println!("Success!");
+// // Loop 1 to 99
+// for n in 1..100 { 
+//     println!("{}",n);
+//     if n == 100 {
+//         panic!("NEVER LET THIS RUN");
+//         // panic is not executed.
+//     }
+// }
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.4 REFERENCE AND CLONE ARRAY BEFORE LOOPING IT
+//**************************************************************************************************
+// let names:[String;2] = [String::from("liming"),String::from("hanmeimei")];
+// // Ownership Rule
+// // 1. Each value has an ower.
+// // 2. There can only be one owner at a time.
+// // 3. When the owner go out of scope, the value will be drop.
+
+// // In this case, we need to & (borrowing the value of) names
+// // because without &, the value of names will be used and droped in
+// // this forloop, and thus cannot be used again in println!({:?},names)
+// for name in &names {
+//     // let name = *name // automatically
+//     println!("{}",name);
+// }
+// println!("{:?}", names);
+
+// let numbers:[i32;3] = [1, 2, 3];
+// // In the second loop, we do not need to use & because the value of numbers
+// // are copy automatically, and thus it not droped inside the for loop.
+// for n in numbers {
+//     println!("{}",n);
+// }
+// println!("{:?}", numbers);
+
+//**************************************************************************************************
+// EXAMPLE NO.5 GET INDEX FOR THE CURRENT ELEMENT IN FOR LOOP
+//**************************************************************************************************
+// https://stackoverflow.com/questions/66288515/how-do-i-get-the-index-of-the-current-element-in-a-for-loop-in-rust
+// let a = [4, 3, 2, 1];
+// // Iterate the indexing and value in 'a'
+// // a is copy automatically, thus a can be used again.
+// for (i,v) in a.iter().enumerate() {
+//     println!("The {}th element is {}",i+1,v);
+// }
+
+//**************************************************************************************************
+// EXAMPLE NO.6 WHILE LOOP
+//**************************************************************************************************
+// // A counter variable
+// let mut n = 1;
+// // Loop while the condition is true
+// while n < 10 {
+//     if n % 15 == 0 {
+//         println!("fizzbuzz");
+//     } else if n % 3 == 0 {
+//         println!("fizz");
+//     } else if n % 5 == 0 {
+//         println!("buzz");
+//     } else {
+//         println!("{}", n);
+//     }
+//     n=n+1;
+// }
+// println!("n reached {}, so loop is over",n);
+
+//**************************************************************************************************
+// EXAMPLE NO.7 BREAK
+//**************************************************************************************************
+// let mut n = 0;
+// for i in 0..=100 {
+//    if n == 66 {
+//        break
+//        // stop the loop
+//        // when n == 66
+//    }
+//    n += 1;
+// }
+// assert_eq!(n, 66);
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.8 CONTINUE
+//**************************************************************************************************
+// let mut n = 0;
+// for i in 0..=100 {
+//    if n != 66 {
+//        n+=1;
+//        continue
+//    }
+//    continue
+// }
+// assert_eq!(n, 66);
+// println!("{}",n);
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.9
+//**************************************************************************************************
+// let mut count = 0u32;
+// println!("Let's count until infinity!");
+// // Infinite loop
+// loop {
+//     count += 1;
+//     if count == 3 {
+//         println!("three");
+//         continue;
+//     }
+//     println!("{}", count);
+//     if count == 5 {
+//         println!("OK, that's enough");
+//         break;
+//     }
+// }
+// assert_eq!(count, 5);
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.10 BREAK RETURN VALUE
+//**************************************************************************************************
+// let mut counter = 0;
+// let result = loop {
+//     counter += 1;
+//     if counter == 10 {
+//         counter=counter*2;
+//         break counter;
+//     }
+// };
+// assert_eq!(result, 20);
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.11 BREAK NESTED LOOP
+//**************************************************************************************************
+// let mut count = 0;
+// let mut count_out = 0;
+// let mut count_in = 0;
+// 'outer: loop {
+//     println!("Out: {}",count_out);
+//     println!("count = {}",count);
+//     'inner1: loop {
+//         if count >= 20 {
+//             // This would break only the inner1 loop
+//             break 'inner1; // `break` is also works.
+//         }
+//         println!("In: {}",count_in );
+//         println!("count = {}",count);
+//         count += 2;
+//         count_in +=1;
+//     }
+//     count += 5;
+//     'inner2: loop {
+//         if count >= 30 {
+//             // This breaks the outer loop
+//             break 'outer;
+//         }
+//         // This will continue the outer loop
+//         continue 'outer;
+//     }
+//     count_out+=1
+// }
+// // assert!(count == __);
+// println!("{}",count);
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.12
+//**************************************************************************************************
+// let mut n=0;
+// let mut m=0;
+// for i in 0..10{
+//     let mut s="".to_string();
+//     for j in 0..10{
+//         if i%2==0{
+//             println!("{}",s);
+//         }
+//         // https://stackoverflow.com/questions/30154541/how-do-i-concatenate-strings
+//         // https://rustjobs.dev/blog/convert-int-to-string-in-rust/
+//         s.push_str(&j.to_string());
+//     }
+//     if i%2==1{
+//         for j in 0..10{
+//             println!("{}",s);
+//             // https://stackoverflow.com/questions/65976432/how-to-remove-first-and-last-character-of-a-string-in-rust
+//             s.pop();
+//         }
+//     }
+// }
+
+/*
+let mut n=0;
+let mut m=0;
+let mut i:u32=0;
+'out:loop {
+    let mut s="".to_string();
+    let mut bo:u32=0;
+    'in1: loop {
+        if i%2==0{
+            println!("{}",s);
+        }
+        if bo>=10{
+            break 'in1;
+        }
+        // https://stackoverflow.com/questions/30154541/how-do-i-concatenate-strings
+        // https://rustjobs.dev/blog/convert-int-to-string-in-rust/
+        s.push_str(&bo.to_string());
+        bo+=1;
+    }
+    let mut bo:u32=0;
+    if i%2==1{
+        'in2: loop{
+            println!("{}",s);
+            // https://stackoverflow.com/questions/65976432/how-to-remove-first-and-last-character-of-a-string-in-rust
+            s.pop();
+            bo+=1;
+            if bo>=10{
+                break 'in2;
+            }
+        }
+    }
+
+    i+=1;
+    'in3: loop{
+        if i>=10{
+            break 'out;
+        }
+    }
+}
+*/
+} 
+
+
+ 
+bo+=1;
+ 
+for j in 0..10
+ 
+for j in 0..10
+ 
+    println!("{}",s)
+ 
+        let mut s:&str=&s;
+ 
+// https://stackoverflow.com/questions/30154541/how-do-i-concatenate-strings
+ 
+println!("{}",s);
+ 
+}
+    else{
+    for j in 0..10{
+        println!("{}",s);
+        // https://stackoverflow.com/questions/30154541/how-do-i-concatenate-strings
+        s.push_str("*")
+    }}
+ 
+if i%2==0{
+ 
+let mut s="".to_string();
+ 
+println!("{}",s);
+    s.push_str("*")
+ 
+let mut s="".to_string();
+ 
+//**************************************************************************************************
+// EXAMPLE NO.1
+//**************************************************************************************************
+
+ 
+ // `break` is also works.
+ 
+            // This would break only the inner1 loop
+ 
+            // This breaks the outer loop
+ 
+        // This will continue the outer loop
+ 
+            // This would break only the inner1 loop
+ 
+counter
+ 
+        counter*2
+ 
+       __;
+ 
+.clone()
+ 
+ref
+ 
+// The elements in numbers are Copy，so there is no move here
+ 
+// 
+ 
+i32
+ 
+String
+ 
+// 
+ 
+    // Do something with name...
+ 
+let n:i32=55;
+let m:i32=n/2.0 as i32;
+println!("{} / 2 = {}",n,m);
+let n:i32=56;
+let m:i32=n/2.0 as i32;
+println!("{} / 2 = {}",n,m);
+ 
+    println!("{}",n);
+ 
+
+fn main() {
+// Fill in the blanks
+ 
+// modify this line to make the code work
+ 
 use crate::List::*;
 // https://doc.rust-lang.org/book/ch15-01-box.html
 enum List {
