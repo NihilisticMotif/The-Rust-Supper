@@ -1,3 +1,124 @@
+.into_iter()
+ 
+.into_iter()
+ 
+
+impl <T,const COUNT: usize> Array <VectorS>{
+    fn sigma(){
+        //
+    }
+}
+ 
+Cities!
+ 
+impl <const COUNT: usize> Array <[i32; COUNT],COUNT>{
+    fn sigma(){
+        //
+    }
+}
+ 
+:Display
+ 
+T:Display,
+ 
+:Display
+ 
+:Display
+ 
+trait 
+ 
+<T:Display,const COUNT: usize> 
+ 
+,
+ 
+<T:Display,const COUNT: usize> 
+ 
+<T:i32,const COUNT: usize>
+ 
+()
+ 
+struct Vec<T: Sized, const COUNT: usize> {
+    a: [T; COUNT],
+}
+
+ 
+fn printloop<T: Display>(arg:[T;5]){
+    for i in arg{
+        println!("{}",i);
+    }
+}
+ 
+// https://www.reddit.com/r/learnrust/comments/hrv6az/println_in_another_function_with_generics/
+ 
+use generic_array::typenum::U5;
+ 
+    // fn new(b:usize)->Self{
+    //     Array(i32,b)
+    // }
+ 
+.to_string()
+ 
+.to_string()
+ 
+.to_string()
+ 
+format!("{}",i)
+ 
+    fn longname(&self)->String{
+        format!("{}",&self)
+    }
+ 
+:Display
+ 
+:Display
+ 
+<T
+ 
+<T: Display>(arg:[T;5])
+ 
+oun
+ 
+ee:i32,
+ 
+
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl fmt::Display for Point {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "({}, {})", self.x, self.y)
+    }
+}
+ 
+
+// fn println_t<T: Debug>(x: &T) {
+//     println!("{:?}", x);
+// }
+
+// impl fmt::Display for V<T>{
+//     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+//         write!(f, "{}", self.value)
+//     }
+// }
+ 
+
+fn largest<T>(list: &[T]) -> &T {
+    let mut largest = &list[0];
+
+    for item in list {
+        if item > largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+
+ 
+//+surname
+ 
 // use std::fmt::{self, Debug};
 // https://prince.dev/debug-struct
 // https://youtu.be/BpPEoZW5IiY?si=goDW5z6qEkPok4pe
