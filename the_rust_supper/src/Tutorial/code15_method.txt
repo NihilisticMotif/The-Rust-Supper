@@ -1,0 +1,180 @@
+#![allow(unused)]
+#[derive(Debug)] // used for debugging
+// use std::fmt::{self, Debug};
+// https://prince.dev/debug-struct
+// https://youtu.be/BpPEoZW5IiY?si=goDW5z6qEkPok4pe
+// use std::fmt;
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+struct Rectangle01{
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle01 {
+    // Complete the area method which return the area of a Rectangle.
+    fn area(&self)->u32{
+        self.width*self.height
+    }
+}
+
+//**************************************************************************************************
+// EXAMPLE NO.2
+//**************************************************************************************************
+#[derive(Debug)] 
+struct TrafficLight02 {
+    color: String,
+}
+
+impl TrafficLight02 {
+    pub fn show_state(&self)  {
+        let text=&self.color;
+        println!("the current state is {}", text);
+    }
+}
+impl TrafficLight02 {
+    pub fn change_state(&mut self, new_color:String) {
+        self.color = new_color
+    }
+}
+#[derive(Debug)] 
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+//**************************************************************************************************
+// EXAMPLE NO.4
+//**************************************************************************************************
+
+#[derive(Debug)]
+struct TrafficLight04 {
+    color: String,
+}
+// `Self` refers to the current type that implements a trait, 
+// `self` on the other hand refers to the instance.
+// https://stackoverflow.com/questions/32304595/whats-the-difference-between-self-and-self
+impl TrafficLight04 {
+    pub fn new()->Self{
+    // pub fn new()->TrafficLight04{
+        Self {
+        // TrafficLight04 {
+            color: "red".to_string(),
+        }
+    }
+
+    pub fn get_state(&self) -> &str {
+        &self.color
+    }
+}
+
+
+//**************************************************************************************************
+// EXAMPLE NO.5
+//**************************************************************************************************
+#[derive(Debug)]
+
+struct Rectangle05 {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle05 {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+
+    fn can_hold(&self, other: &Self) -> bool {
+        self.width > other.width && self.height > other.height
+    }
+}
+
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+#[derive(Debug)]
+enum TrafficLightColor {
+    Red,
+    Yellow,
+    Green,
+}
+
+// Implement TrafficLightColor with a method.
+impl TrafficLightColor {
+    fn color(&self)->String{
+        match self{
+            // TrafficLightColor::Red=>"red".to_string(),
+            Self::Red=>"red".to_string(),
+            Self::Yellow=>"yellow".to_string(),
+            Self::Green=>"green".to_string(),
+        }
+    }
+}
+
+
+fn main() {
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+// let rect1 = Rectangle01 { width: 30, height: 50 };
+// assert_eq!(rect1.area(), 1500);
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.1.2 PRINTLN STRUCT AND ARRAY
+//**************************************************************************************************
+// let origin = [1,2,3];
+// println!("The origin is: {:?}", origin);
+// let origin = Point { x: 0, y: 0 };
+// println!("The origin is: {:?}", origin);    // Error
+
+//**************************************************************************************************
+// EXAMPLE NO.2 &SELF
+//**************************************************************************************************
+// let light = TrafficLight02{
+//     color: "red".to_owned(),
+// };
+// light.show_state();
+// println!("{:#?}", light);
+
+//**************************************************************************************************
+// EXAMPLE NO.3 &MUT SELF
+//**************************************************************************************************
+// let mut light = TrafficLight02{
+//     color: "red".to_owned(),
+// };
+// light.show_state();
+// println!("{:#?}", light);
+// light.change_state("Orange".to_string());
+// println!("{:#?}", light);
+
+//**************************************************************************************************
+// EXAMPLE NO.4
+//**************************************************************************************************
+// let light = TrafficLight04::new();
+// assert_eq!(light.get_state(), "red");
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.5 MATHOD TAKES 2 INSTANCE
+//**************************************************************************************************
+// let aaa=Rectangle05{width:10,height:20};
+// let a=Rectangle05{width:5,height:5};
+// println!("{}",aaa.can_hold(&a));
+
+
+//**************************************************************************************************
+// EXAMPLE NO.6
+//**************************************************************************************************
+// let c = TrafficLightColor::Yellow;
+// assert_eq!(c.color(), "yellow");
+// println!("{:?}",c);
+
+}
+
+/*
+cargo run
+*/

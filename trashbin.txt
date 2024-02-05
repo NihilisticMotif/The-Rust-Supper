@@ -1,3 +1,1209 @@
+// use std::fmt::{self, Debug};
+// https://prince.dev/debug-struct
+// https://youtu.be/BpPEoZW5IiY?si=goDW5z6qEkPok4pe
+// use std::fmt;
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+struct A;          // Concrete type `A`.
+struct S(A);       // Concrete type `S`.
+struct SGen<T>(T); // Generic type `SGen`.
+
+fn reg_fn(_s: S) {}
+
+fn gen_spec_t(_s: SGen<A>) {}
+
+fn gen_spec_i32(_s: SGen<i32>) {}
+
+fn generic<T>(_s: SGen<T>) {}
+
+ 
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+// Using the non-generic functions
+reg_fn(S(A));          // Concrete type.
+gen_spec_t(SGen(A));   // Implicitly specified type parameter `A`.
+gen_spec_i32(SGen(4)); // Implicitly specified type parameter `i32`.
+// Explicitly specified type parameter `char` to `generic()`.
+generic::<char>(SGen('a'));
+// Implicitly specified type parameter `char` to `generic()`.
+generic(SGen('a'));
+println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+ 
+// let rect1 = Rectangle01 { width: 30, height: 50 };
+// assert_eq!(rect1.area(), 1500);
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.1.2 PRINTLN STRUCT AND ARRAY
+//**************************************************************************************************
+// let origin = [1,2,3];
+// println!("The origin is: {:?}", origin);
+// let origin = Point { x: 0, y: 0 };
+// println!("The origin is: {:?}", origin);    // Error
+
+//**************************************************************************************************
+// EXAMPLE NO.2 &SELF
+//**************************************************************************************************
+// let light = TrafficLight02{
+//     color: "red".to_owned(),
+// };
+// light.show_state();
+// println!("{:#?}", light);
+
+//**************************************************************************************************
+// EXAMPLE NO.3 &MUT SELF
+//**************************************************************************************************
+// let mut light = TrafficLight02{
+//     color: "red".to_owned(),
+// };
+// light.show_state();
+// println!("{:#?}", light);
+// light.change_state("Orange".to_string());
+// println!("{:#?}", light);
+
+//**************************************************************************************************
+// EXAMPLE NO.4
+//**************************************************************************************************
+// let light = TrafficLight04::new();
+// assert_eq!(light.get_state(), "red");
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.5 MATHOD TAKES 2 INSTANCE
+//**************************************************************************************************
+// let aaa=Rectangle05{width:10,height:20};
+// let a=Rectangle05{width:5,height:5};
+// println!("{}",aaa.can_hold(&a));
+
+
+//**************************************************************************************************
+// EXAMPLE NO.6
+//**************************************************************************************************
+// let c = TrafficLightColor::Yellow;
+// assert_eq!(c.color(), "yellow");
+// println!("{:?}",c);
+ 
+//#[derive(Debug)] // used for debugging
+ 
+
+struct Rectangle01{
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle01 {
+    // Complete the area method which return the area of a Rectangle.
+    fn area(&self)->u32{
+        self.width*self.height
+    }
+}
+
+//**************************************************************************************************
+// EXAMPLE NO.2
+//**************************************************************************************************
+#[derive(Debug)] 
+struct TrafficLight02 {
+    color: String,
+}
+
+impl TrafficLight02 {
+    pub fn show_state(&self)  {
+        let text=&self.color;
+        println!("the current state is {}", text);
+    }
+}
+impl TrafficLight02 {
+    pub fn change_state(&mut self, new_color:String) {
+        self.color = new_color
+    }
+}
+#[derive(Debug)] 
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+//**************************************************************************************************
+// EXAMPLE NO.4
+//**************************************************************************************************
+
+#[derive(Debug)]
+struct TrafficLight04 {
+    color: String,
+}
+// `Self` refers to the current type that implements a trait, 
+// `self` on the other hand refers to the instance.
+// https://stackoverflow.com/questions/32304595/whats-the-difference-between-self-and-self
+impl TrafficLight04 {
+    pub fn new()->Self{
+    // pub fn new()->TrafficLight04{
+        Self {
+        // TrafficLight04 {
+            color: "red".to_string(),
+        }
+    }
+
+    pub fn get_state(&self) -> &str {
+        &self.color
+    }
+}
+
+
+//**************************************************************************************************
+// EXAMPLE NO.5
+//**************************************************************************************************
+#[derive(Debug)]
+
+struct Rectangle05 {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle05 {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+
+    fn can_hold(&self, other: &Self) -> bool {
+        self.width > other.width && self.height > other.height
+    }
+}
+
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+#[derive(Debug)]
+enum TrafficLightColor {
+    Red,
+    Yellow,
+    Green,
+}
+
+// Implement TrafficLightColor with a method.
+impl TrafficLightColor {
+    fn color(&self)->String{
+        match self{
+            // TrafficLightColor::Red=>"red".to_string(),
+            Self::Red=>"red".to_string(),
+            Self::Yellow=>"yellow".to_string(),
+            Self::Green=>"green".to_string(),
+        }
+    }
+}
+
+ 
+    pub fn show_state(&self)  {
+        let text=&self.color;
+        println!("the current state is {}", text);
+    }
+ 
+    pub fn change_state(&mut self, new_color:String) {
+        self.color = new_color
+    }
+ 
+
+    pub fn get_state(&self) -> &str {
+        &self.color
+    }
+ 
+    pub fn new()->Self{
+    // pub fn new()->TrafficLight04{
+        Self {
+        // TrafficLight04 {
+            color: "red".to_string(),
+        }
+    }
+ 
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+ 
+    // 1. Implement an associated function `new`,
+    // 2. It will return a TrafficLight contains color "red"
+    // 3. Must use `Self`, DONT use `TrafficLight` in fn signatures or body
+ 
+show_state();
+ 
+ METHOD
+ 
+#[derive(Debug)] 
+struct TrafficLight03 {
+    color: String,
+}
+
+impl TrafficLight03 {
+    // Using `Self` to fill in the blank.
+    pub fn show_state(&self)  {
+        println!("the current state is {}", self.color);
+    }
+
+    // Fill in the blank, DON'T use any variants of `Self`.
+    pub fn change_state(&mut self) {
+        self.color = "green".to_string()
+    }
+}
+
+ 
+println!("{:#?}", light);
+ 
+// ... Otherwise, there will be an error below
+//let light=light;
+//println!("{:?}", light);
+ 
+// Don't take the ownership of `light` here.
+ 
+/*
+// I get this error
+error[E0277]: `TrafficLight02` doesn't implement `Debug`
+  --> src/main.rs:39:22
+   |
+39 |     println!("{:?}", light);
+   |                      ^^^^^ `TrafficLight02` cannot be formatted using `{:?}`
+   |
+   = help: the trait `Debug` is not implemented for `TrafficLight02`
+   = note: add `#[derive(Debug)]` to `TrafficLight02` or manually `impl Debug for TrafficLight02`
+   = note: this error originates in the macro `$crate::format_args_nl` which comes from the expansion of the macro `println` (in Nightly builds, run with -Z macro-backtrace for more info)
+help: consider annotating `TrafficLight02` with `#[derive(Debug)]`
+   |
+16 + #[derive(Debug)]
+17 | struct TrafficLight02 {
+   |
+ */
+ 
+Cargo.toml
+
+[package]
+name = "the_rust_supper"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+I use MacOS version 12.6.7 and VSCode. Why there is the error? How can I fix it?
+
+imac@iMacs-iMac the_rust_supper % rustc --version
+rustc 1.75.0 (82e1608df 2023-12-21)
+ 
+#![allow(unused)]
+#[derive(Debug)] // used for debugging
+// use std::fmt::{self, Debug};
+// https://prince.dev/debug-struct
+// https://youtu.be/BpPEoZW5IiY?si=goDW5z6qEkPok4pe
+// use std::fmt;
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+struct Rectangle01{
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle01 {
+    // Complete the area method which return the area of a Rectangle.
+    fn area(&self)->u32{
+        self.width*self.height
+    }
+}
+
+//**************************************************************************************************
+// EXAMPLE NO.2
+//**************************************************************************************************
+#[derive(Debug)] 
+struct TrafficLight02 {
+    color: String,
+}
+
+impl TrafficLight02 {
+    pub fn show_state(&self)  {
+        let text=&self.color;
+        println!("the current state is {}", text);
+    }
+}
+#[derive(Debug)] 
+struct Point {
+    x: i32,
+    y: i32,
+}
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+fn main() {
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+// let rect1 = Rectangle01 { width: 30, height: 50 };
+// assert_eq!(rect1.area(), 1500);
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.1.2 PRINTLN STRUCT AND ARRAY
+//**************************************************************************************************
+// let origin = [1,2,3];
+// println!("The origin is: {:?}", origin);
+// let origin = Point { x: 0, y: 0 };
+// println!("The origin is: {:?}", origin);    // Error
+
+//**************************************************************************************************
+// EXAMPLE NO.2
+//**************************************************************************************************
+let light = TrafficLight02{
+    color: "red".to_owned(),
+};
+println!("{:#?}", light);
+// Don't take the ownership of `light` here.
+light.show_state();
+// ... Otherwise, there will be an error below
+//let light=light;
+//println!("{:?}", light);
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+}
+
+/*
+cargo run
+*/
+ 
+/*
+cargo run
+*/
+ 
+
+struct Rectangle01{
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle01 {
+    // Complete the area method which return the area of a Rectangle.
+    fn area(&self)->u32{
+        self.width*self.height
+    }
+}
+ 
+TrafficLight0
+ 
+
+struct Rectangle01{
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle01 {
+    // Complete the area method which return the area of a Rectangle.
+    fn area(&self)->u32{
+        self.width*self.height
+    }
+}
+
+struct TrafficLight02 {
+    color: String,
+}
+
+impl TrafficLight02 {
+    pub fn show_state(&self)  {
+        println!("the current state is {}", self.color);
+    }
+}
+ 
+struct Rectangle01{
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle01 {
+    // Complete the area method which return the area of a Rectangle.
+    fn area(&self)->u32{
+        self.width*self.height
+    }
+}
+ 
+struct Rectangle01{
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle01 {
+    // Complete the area method which return the area of a Rectangle.
+    fn area(&self)->u32{
+        self.width*self.height
+    }
+}
+ 
+// use std::fmt::{self, Debug};
+// https://prince.dev/debug-struct
+// https://youtu.be/BpPEoZW5IiY?si=goDW5z6qEkPok4pe
+// use std::fmt;
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+ 
+
+//**************************************************************************************************
+// EXAMPLE NO.2
+//**************************************************************************************************
+ 
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+ 
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+ 
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+// let rect1 = Rectangle01 { width: 30, height: 50 };
+// assert_eq!(rect1.area(), 1500);
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.1.2 PRINTLN STRUCT AND ARRAY
+//**************************************************************************************************
+// let origin = [1,2,3];
+// println!("The origin is: {:?}", origin);
+// let origin = Point { x: 0, y: 0 };
+// println!("The origin is: {:?}", origin);    // Error
+
+//**************************************************************************************************
+// EXAMPLE NO.2
+//**************************************************************************************************
+ 
+//let light=light;
+ 
+println!("{:#?}", light);
+ 
+        let text=&self.color;
+ 
+    // println!("{}", peter); // <- Error
+ 
+    // Pretty print
+ 
+struct Rectangle01{
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle01 {
+    // Complete the area method which return the area of a Rectangle.
+    fn area(&self)->u32{
+        self.width*self.height
+    }
+}
+ 
+let origin:Point = Point { x: 0, y: 0 };
+println!("The origin is: {:?}", origin);   
+ 
+<'a>
+ 
+/**
+// I get this error
+error[E0277]: `Point` doesn't implement `Debug`
+  --> src/main.rs:33:34
+   |
+33 | println!("The origin is: {:#?}", origin);    
+   |                                  ^^^^^^ `Point` cannot be formatted using `{:?}`
+   |
+   = help: the trait `Debug` is not implemented for `Point`
+   = note: add `#[derive(Debug)]` to `Point` or manually `impl Debug for Point`
+   = note: this error originates in the macro `$crate::format_args_nl` which comes from the expansion of the macro `println` (in Nightly builds, run with -Z macro-backtrace for more info)
+help: consider annotating `Point` with `#[derive(Debug)]`
+   |
+24 + #[derive(Debug)]
+25 | struct Point {
+   |
+ */ 
+ 
+// Why there is the error in println?
+ 
+//**************************************************************************************************
+// EXAMPLE NO.2
+//**************************************************************************************************
+struct TrafficLight02 {
+    color: String,
+}
+
+impl TrafficLight02 {
+    pub fn show_state(&self)  {
+        let text=&self.color;
+        println!("the current state is {}", text);
+    }
+}
+ 
+
+struct Rectangle01{
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle01 {
+    // Complete the area method which return the area of a Rectangle.
+    fn area(&self)->u32{
+        self.width*self.height
+    }
+}
+
+//**************************************************************************************************
+// EXAMPLE NO.2
+//**************************************************************************************************
+struct TrafficLight02 {
+    color: String,
+}
+
+impl TrafficLight02 {
+    pub fn show_state(&self)  {
+        let text=&self.color;
+        println!("the current state is {}", text);
+    }
+}
+ 
+// Error
+ 
+struct Rectangle01{
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle01 {
+    // Complete the area method which return the area of a Rectangle.
+    fn area(&self)->u32{
+        self.width*self.height
+    }
+}
+
+//**************************************************************************************************
+// EXAMPLE NO.2
+//**************************************************************************************************
+struct TrafficLight02 {
+    color: String,
+}
+
+impl TrafficLight02 {
+    pub fn show_state(&self)  {
+        let text=&self.color;
+        println!("the current state is {}", text);
+    }
+}
+ 
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+ 
+//**************************************************************************************************
+// EXAMPLE NO.2
+//**************************************************************************************************
+let light = TrafficLight02{
+    color: "red".to_owned(),
+};
+println!("{:#?}", light);
+// Don't take the ownership of `light` here.
+light.show_state();
+ 
+// ... Otherwise, there will be an error below
+//let light=light;
+//println!("{:?}", light);
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+ 
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+// let rect1 = Rectangle01 { width: 30, height: 50 };
+// assert_eq!(rect1.area(), 1500);
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.1.2 PRINTLN STRUCT AND ARRAY
+//**************************************************************************************************
+// let origin = [1,2,3];
+// println!("The origin is: {:?}", origin);
+ 
+struct Rectangle01{
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle01 {
+    // Complete the area method which return the area of a Rectangle.
+    fn area(&self)->u32{
+        self.width*self.height
+    }
+}
+
+//**************************************************************************************************
+// EXAMPLE NO.2
+//**************************************************************************************************
+struct TrafficLight02 {
+    color: String,
+}
+
+impl TrafficLight02 {
+    pub fn show_state(&self)  {
+        let text=&self.color;
+        println!("the current state is {}", text);
+    }
+}
+ 
+// 
+ 
+#![allow(unused)]
+#[derive(Debug)] // used for debugging
+ 
+#![allow(unused)]
+#[derive(Debug)] // used for debugging
+// use std::fmt::{self, Debug};
+// https://prince.dev/debug-struct
+// https://youtu.be/BpPEoZW5IiY?si=goDW5z6qEkPok4pe
+// use std::fmt;
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+struct Rectangle01{
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle01 {
+    // Complete the area method which return the area of a Rectangle.
+    fn area(&self)->u32{
+        self.width*self.height
+    }
+}
+
+//**************************************************************************************************
+// EXAMPLE NO.2
+//**************************************************************************************************
+struct TrafficLight02 {
+    color: String,
+}
+
+impl TrafficLight02 {
+    pub fn show_state(&self)  {
+        let text=&self.color;
+        println!("the current state is {}", text);
+    }
+}
+struct Point {
+    x: i32,
+    y: i32,
+}
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+fn main() {
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+// let rect1 = Rectangle01 { width: 30, height: 50 };
+// assert_eq!(rect1.area(), 1500);
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.1.2 PRINTLN STRUCT AND ARRAY
+//**************************************************************************************************
+// let origin = [1,2,3];
+// println!("The origin is: {:?}", origin);
+// let origin = Point { x: 0, y: 0 };
+// println!("The origin is: {:?}", origin);    // Error
+
+//**************************************************************************************************
+// EXAMPLE NO.2
+//**************************************************************************************************
+let light = TrafficLight02{
+    color: "red".to_owned(),
+};
+println!("{:#?}", light);
+// Don't take the ownership of `light` here.
+light.show_state();
+// ... Otherwise, there will be an error below
+//let light=light;
+//println!("{:?}", light);
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.1 METHOD
+//**************************************************************************************************
+
+}
+
+/*
+cargo run
+*/
+ 
+// 
+ 
+write!("{}",
+ 
+)
+ 
+let origin = Point { x: 0, y: 0 };
+ 
+Point { x: 0, y: 0 };
+ 
+Debug = "0.1.1"
+ 
+format!("{:?}",
+ 
+// 
+ 
+format!("{:?}",
+ 
+to_owned()
+ 
+// 
+ 
+_
+ 
+
+//**************************************************************************************************
+// FUNCTION NO.1
+//**************************************************************************************************
+fn match_number01(n: i32) {
+    match n {
+        // Match a single value
+        1 => println!("One!"),
+        // Fill in the blank with `|`, DON'T use `..` or `..=`
+        2..=5 => println!("match 2 -> 5"),
+        // Match an inclusive range
+        6..=10 => {
+            println!("match 6 -> 10")
+        },
+        _ => {
+            println!("match -infinite -> 0 or 11 -> +infinite")
+        }
+    }
+}
+//**************************************************************************************************
+// STRUCT NO.2
+//**************************************************************************************************
+struct Point02 {
+    x: i32,
+    y: i32,
+}
+
+//**************************************************************************************************
+// EXAMPLE NO.3
+//**************************************************************************************************
+enum Message03 {
+    Hello { id: i32 },
+}
+
+fn match_message03(msg:Message03)->(){
+match msg {
+    Message03::Hello {
+        id:  id@3..=7
+    } => println!("Found an id in range [3, 7]: {}", id),
+    Message03::Hello { id: newid@(10 | 11 | 12) } => {
+        println!("Found an id in another range [10, 12]: {}", newid)
+    }
+    Message03::Hello { id:i } => println!("Found some other id: {}", i),
+}
+}
+
+//**************************************************************************************************
+// EXAMPLE NO.
+//**************************************************************************************************
+
+ 
+// match_number01(-11);
+// match_number01(2);
+// match_number01(5);
+// match_number01(6);
+// match_number01(8);
+// match_number01(88);
+
+//**************************************************************************************************
+// EXAMPLE NO.2 @ (AT SIGN)
+//**************************************************************************************************
+// let p = Point02 { x: 1, y: 10 };
+// match p {
+//     Point02 { x, y: 0 } => println!("On the x axis at {}", x),
+//     // Second arm
+//     Point02 { x: 0..=5, y: y@ (10 | 20 | 30) } => println!("On the y axis at {}", y),
+//     Point02 { x, y } => println!("On neither axis: ({}, {})", x, y),
+// }
+
+//**************************************************************************************************
+// EXAMPLE NO.3 IN (CHECK IF THE VALUE WITHIN THE SET) OF MATCH
+//**************************************************************************************************
+// let msg = Message03::Hello { id: 5 };
+// match_message03(msg);
+// let msg = Message03::Hello { id: 10 };
+// match_message03(msg);
+// let msg = Message03::Hello { id: 500 };
+// match_message03(msg);
+
+//**************************************************************************************************
+// EXAMPLE NO.4 CONDITION IN MATCH SOME
+//**************************************************************************************************
+// let num = Some(4);
+// let split = 5;
+// match num {
+//     // https://stackoverflow.com/questions/47852269/can-i-use-and-in-match
+//     Some(x) if x<split => assert!(x < split),
+//     Some(x) => assert!(x >= split),
+//     None => (),
+// }
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.5
+//**************************************************************************************************
+//// Because a tuple is technically a struct, we cannot iterate over its elements in a loop.
+//// If we want a data container that can be iterated over,
+//// it would be better to store our data into an array or a collection (like a HashMap ).
+//// https://www.koderhq.com/tutorial/rust/tuple/#loop
+//// Because tuple are struct, the size of tuple cannot be access.
+//// In Rust, the maximum size of tuple is 13.
+// let numbers = (2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048);
+// println!("The first element = {}",numbers.0);
+// let (first,last) = (numbers.0,numbers.10);
+// match numbers {
+//     numbers if numbers.0==2 && numbers.10==2048 => {
+//         let first=numbers.0;
+//         let last=numbers.10;
+//        assert_eq!(first, 2);
+//        assert_eq!(last, 2048);
+//     }
+//     _=>()
+// }
+// match numbers {
+//     (first,.., last) if numbers.0==2 && numbers.10==2048 => {
+//        assert_eq!(first, 2);
+//        assert_eq!(last, 2048);
+//     }
+//     _=>()
+// }
+//     println!("Success!");
+// match numbers {
+//     (first,.., last) => {
+//        assert_eq!(first, 2);
+//        assert_eq!(last, 2048);
+//     }
+//     _=>()
+// }
+//     println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.6
+//**************************************************************************************************
+// let mut v = String::from("hello,");
+// let r = &mut v;
+// let mut text="".to_string();
+// match r {
+//     // value:&mut String
+//     value => {
+//     value.push_str(" world!");
+//     text=value.to_string();
+// }
+// }
+// println!("{}",text);
+
+ 
+if numbers.0==2 && numbers.10==2048
+ 
+ if numbers.0==2 && numbers.10==2048 
+ 
+numbers
+ 
+        let first=numbers.0;
+        let last=numbers.10;
+ 
+// 
+ 
+.Copy()
+ 
+println!("{}",r);
+ 
+//**************************************************************************************************
+// EXAMPLE NO.
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.
+//**************************************************************************************************
+
+ 
+println!("length = {}",numbers.0);
+println!("length = {}",numbers.10);
+ 
+//
+ 
+println!("length = {}",first);
+println!("length = {}",last);
+ 
+,number.10:last
+ 
+numbers:(first,numbers.1 ..=numbers.9,last)
+ 
+:(first,last)(numbers.0,numbers.10)
+ 
+//println!("The last  element = {:?}",numbers.len);
+ 
+for i in numbers{
+    println!("{}",i);
+}
+ 
+for i in numbers.iter(){
+    println("{}",i);
+}
+ 
+last(
+ 
+ if x>=split
+ 
+x<split
+ 
+let nn=32;
+ 
+    println!("n = {}",n);
+ 
+fn match_number(n: i32)->(){
+    println!("n = {}",n);
+    //match n {
+    //    // Match a single value
+    //    1 => println!("One!"),
+    //    // Fill in the blank with `|`, DON'T use `..` or `..=`
+    //    //__ => println!("match 2 -> 5"),
+    //    // Match an inclusive range
+    //    // 6..=10 => {
+    //    //     println!("match 6 -> 10")
+    //    // },
+    //    _ => {
+    //        println!("match -infinite -> 0 or 11 -> +infinite")
+    //    }
+    //}
+}
+ 
+ as i32
+ 
+//**************************************************************************************************
+// FUNCTION NO.1
+//**************************************************************************************************
+fn match_number01(n: i32) {
+    match n {
+        // Match a single value
+        1 => println!("One!"),
+        // Fill in the blank with `|`, DON'T use `..` or `..=`
+        2..=5 => println!("match 2 -> 5"),
+        // Match an inclusive range
+        6..=10 => {
+            println!("match 6 -> 10")
+        },
+        _ => {
+            println!("match -infinite -> 0 or 11 -> +infinite")
+        }
+    }
+}
+//**************************************************************************************************
+// STRUCT NO.2
+//**************************************************************************************************
+struct Point02 {
+    x: i32,
+    y: i32,
+}
+
+//**************************************************************************************************
+// EXAMPLE NO.3
+//**************************************************************************************************
+enum Message03 {
+    Hello { id: i32 },
+}
+
+fn match_message03(msg:Message03)->(){
+match msg {
+    Message03::Hello {
+        id:  id@3..=7
+    } => println!("Found an id in range [3, 7]: {}", id),
+    Message03::Hello { id: newid@(10 | 11 | 12) } => {
+        println!("Found an id in another range [10, 12]: {}", newid)
+    }
+    Message03::Hello { id:i } => println!("Found some other id: {}", i),
+}
+}
+
+//**************************************************************************************************
+// EXAMPLE NO.
+//**************************************************************************************************
+
+ 
+
+/*
+cargo run
+*/
+ 
+
+//**************************************************************************************************
+// EXAMPLE NO.1 MATCH INTEGER WITHIN THE RANGE.
+//**************************************************************************************************
+// match_number01(-11);
+// match_number01(2);
+// match_number01(5);
+// match_number01(6);
+// match_number01(8);
+// match_number01(88);
+
+//**************************************************************************************************
+// EXAMPLE NO.2 @ (AT SIGN)
+//**************************************************************************************************
+// let p = Point02 { x: 1, y: 10 };
+// match p {
+//     Point02 { x, y: 0 } => println!("On the x axis at {}", x),
+//     // Second arm
+//     Point02 { x: 0..=5, y: y@ (10 | 20 | 30) } => println!("On the y axis at {}", y),
+//     Point02 { x, y } => println!("On neither axis: ({}, {})", x, y),
+// }
+
+//**************************************************************************************************
+// EXAMPLE NO.3 IN (CHECK IF THE VALUE WITHIN THE SET) OF MATCH
+//**************************************************************************************************
+// let msg = Message03::Hello { id: 5 };
+// match_message03(msg);
+// let msg = Message03::Hello { id: 10 };
+// match_message03(msg);
+// let msg = Message03::Hello { id: 500 };
+// match_message03(msg);
+
+//**************************************************************************************************
+// EXAMPLE NO.4 CONDITION IN MATCH SOME
+//**************************************************************************************************
+// let num = Some(4);
+// let split = 5;
+// match num {
+//     // https://stackoverflow.com/questions/47852269/can-i-use-and-in-match
+//     Some(x) if x<split => assert!(x < split),
+//     Some(x) => assert!(x >= split),
+//     None => (),
+// }
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.5
+//**************************************************************************************************
+let numbers = (2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048);
+println("The first element = {}",numbers.0);
+println("The first element = {}",numbers.-1);
+// match numbers {
+//     numbers:first@numbers.0 && => {
+//        assert_eq!(first, 2);
+//        assert_eq!(last, 2048);
+//     }
+// }
+// println!("Success!");
+
+//**************************************************************************************************
+// EXAMPLE NO.
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.
+//**************************************************************************************************
+
+//**************************************************************************************************
+// EXAMPLE NO.
+//**************************************************************************************************
+
+ 
 Note 
 1. When deal with for loop, 
  * if the collection variable is immutable, it is automatically copy, so do not worry about it. 

@@ -1,6 +1,6 @@
 Struct 
-* Similar to tuple, but each value in struct can be accessed through its name. 
-
+* Each value in struct can be accessed through its name. 
+* Tuple is also struct. (https://www.koderhq.com/tutorial/rust/tuple/#loop)
 /*
 struct GitRepo{
     project_id:u64,

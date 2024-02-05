@@ -1,0 +1,7 @@
+Generics 
+* Placeholders for concrete type 
+* Used for make the code more reusable and flexible.
+
+Const Generics 
+* Type parameter that represents a compile time constant value.
+* Allows to write generic code that operates on values that are known at compile time
