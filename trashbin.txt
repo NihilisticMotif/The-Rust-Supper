@@ -1,3 +1,247 @@
+1. ToDo
+ 
+ where T:i32
+ 
+impl <const COUNT: usize> SayMyName for Array<&str, COUNT> {
+    fn summarize_author(&self) -> String{
+        self.data[0].to_string()
+    }
+}
+ 
+default 
+ 
+String,
+ 
+    fn summarize_author(&self) -> String{
+        self.data[0]
+    }
+ 
+
+    fn say_my_name(&self)->String;
+ 
+{
+        format!("{} (Array)",self.name.to_string())
+    }
+ 
+String::from("Unknown")
+ 
+trait PrintElement{
+    fn print_element(&self,nums:u32) ->(){
+        println!("{}",self.data[nums]);
+    }
+}
+ 
+ String
+ 
+STRING T
+ 
+<T: Display, const COUNT: usize> 
+ 
+data[0].to_string()
+ 
+.to_string()
+ 
+.to_string()
+ 
+CheCh
+ 
+        Person
+ 
+Person
+ 
+    sarary:f64,
+    birthday:[u32;3],
+ 
+    sarary:f64,
+    birthday:[u32;3],
+ 
+STRUCT DISPLAY ARRA
+ 
+
+************************************");
+ 
+println!("//**************************************************************
+ 
+// printing(["Hello World","ChatGPT"]); // Error
+
+println!("//**************************************************************************************************");
+println!("// DISPLAY GENERIC ARRAY");
+ 
+
+impl<const COUNT: usize> VectorS<i32, COUNT> {
+    fn printing(&self){
+        println!("{:?}",self.data)
+    }
+}
+
+ 
+//**************************************************************************************************
+// TRAIT WITH DEFAULT BEHAVIOR
+//**************************************************************************************************
+
+
+ 
+impl <T,U>SayMyName for Dita<T,U>{
+    fn say_my_name(&self) -> String {
+        
+    }
+}
+ 
+#[derive(Debug)]
+ 
+tring
+ 
+    StandUser(String),
+    WaterBlender(String),
+    GrandMaster(String),
+ 
+    data1:f64,
+    data2:f64
+ 
+pub 
+ 
+4
+ 
+ummarize
+ 
+//**************************************************************************************************
+// STRUCT WITH 2 GENERIC TYPES (T,U)
+//**************************************************************************************************
+
+ 
+.longname()
+ 
+        const N:usize=33;
+ 
+    fn new(n:usize)->Self{
+        const N:usize=33;
+        let y:[u32;N]=[1;N];
+        Array{data:y}
+    }
+ 
+<T, COUNT> 
+ 
+        let m=n;
+ 
+n:u32
+ 
+        static N=n;
+ 
+        for i in 0..n{
+            //
+        }
+ 
+{
+            //
+        }
+ 
+match df{
+        DF::TrainX(x)=>{
+            dotproduct_f64(x,weight)+bias
+        },
+        DF::TestXX(x)=>{
+            dotproduct_f64(x,weight)+bias
+        },
+        _=>{
+            println!("Input is invalid");
+            0.0
+        }
+    }
+ 
+match df{
+        DF::TrainX(x)=>{
+            dotproduct_f64(x,weight)+bias
+        },
+        DF::TestXX(x)=>{
+            dotproduct_f64(x,weight)+bias
+        },
+        _=>{
+            println!("Input is invalid");
+            0.0
+        }
+    }
+ 
+.len()
+ 
+[Y; N
+ 
+println!("TrainX = {}",x.len())
+ 
+
+// fn printing<T: Display>(arg: T) {
+//     // https://www.reddit.com/r/learnrust/comments/hrv6az/println_in_another_function_with_generics/
+//     println!("{}", arg)
+// }
+
+ 
+        _=>{println!("Nothing")}
+ 
+x:[X;N]
+ 
+
+enum DF{
+    TrainX,
+    TrainY,
+    TestXX,
+    TestYY
+}
+ 
+<DF>
+ 
+<X,Y,const N:usize>
+ 
+impl DF 
+ 
+        let mean = self.means();
+ 
+        let n = self.data.len();
+ 
+        let n = self.data.len();
+ 
+/ mean
+ 
+        let mut count = 0;
+ 
+// rust t where t is i32 or f64
+// https://stackoverflow.com/questions/35766261/how-do-i-cast-generic-t-to-f32-if-i-know-that-its-possible
+ 
+trait MyInt {
+    fn blank();
+}
+
+impl MyInt for i32 {
+    fn blank() {
+        unimplemented!()
+    }
+}
+
+impl MyInt for f32 {
+    fn blank() {
+        unimplemented!()
+    }
+}
+
+struct MyStruct<T> where T: MyInt {
+    field: T
+}
+
+impl<T> MyStruct<T> where T: MyInt {
+    fn new(var: T) -> MyStruct<T> {
+        MyStruct {
+            field: var
+        }
+    }
+}
+
+ 
+trait Number32{
+    fn to_f64(self)->f64;
+}
+ 
+Number32 for 
+ 
+: Into<i32> + Into<f64> 
+ 
 .into_iter()
  
 .into_iter()
