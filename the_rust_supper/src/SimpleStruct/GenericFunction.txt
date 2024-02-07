@@ -1,0 +1,54 @@
+#![allow(unused)]
+
+use std::fmt;
+use std::fmt::Display;
+
+fn foo<T:Display>(x: T){
+    // https://medium.com/coderhack-com/coderhack-rust-keyword-where-how-and-when-to-use-it-and-when-not-to-use-it-a408f96829a3
+    println!("{}", x);
+}
+
+fn foo2<T:Display, U:Display>(x: T, y: U){
+    println!("{} {}", x, y); 
+ }
+
+// fn printing<T: Display>(arg: T) {
+fn printing<T>(arg: T) where T:Display {
+    // https://www.reddit.com/r/learnrust/comments/hrv6az/println_in_another_function_with_generics/
+    println!("{}", arg)
+}
+
+// fn printloop<T: Display, const COUNT: usize>(arg: [T; COUNT]) {
+// https://stackoverflow.com/questions/28136739/is-it-possible-to-control-the-size-of-an-array-using-the-type-parameter-of-a-gen
+// https://stackoverflow.com/questions/24831828/how-do-i-pass-an-array-to-a-function-in-rust-and-change-its-content
+fn printloop<T>(arg: &[T]) where
+    T:Display+Sized
+    {
+    for i in arg {
+        println!("{}", i);
+    }
+}
+
+// fn naming<T: Display>(arg: T, sirname: String) -> String {
+fn naming<T>(arg: T, sirname: String) -> String where 
+    T:Display
+{
+    format!("{}{}", arg, sirname)
+}
+
+fn main() {
+printing(3.14159);
+printing(2.71828);
+printing('A');
+printing("Hello World");
+let looop=["Hello World","ChatGPT","Alphafold","Alphazero","StockFish"];
+println!("LOOOP");
+printloop(&looop);
+println!("{}",naming(3.14159, "3B1B".to_string()));
+println!("{}",naming(2.71828, "Euler".to_string()));
+println!("{}",naming(3, "Pythagorus".to_string()));
+}
+
+/*
+cargo run
+*/

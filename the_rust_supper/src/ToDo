@@ -7,10 +7,10 @@ ToDo
 
 1. Read https://stackoverflow.com/questions/35766261/how-do-i-cast-generic-t-to-f32-if-i-know-that-its-possible
 2. Read https://doc.rust-lang.org/book/ch10-02-traits.html
-3. Implement trait
-4. make DF, Dita and VectorS able to use u32, i32, f64 and f32 as the input.
-5. loop CEO
-6. create new struct, trait and impl that accept String, &str and list of string as the data.
-7. copy main.ts and paste in GeneralTrait.txt, and clear main.ts
-8. Solve problem no.5 in this URL (https://practice.course.rs/pattern-match/patterns.html)
-9. Watch this video at 5:05:00 (https://youtu.be/BpPEoZW5IiY?si=mpUYzgDlC5cDmPQL)
+3. Fix RAM
+ * F64Array
+ * Dita 
+ * DF 
+ * SayMyName
+4. Solve problem no.5 in this URL (https://practice.course.rs/pattern-match/patterns.html)
+5. Watch this video at 5:05:00 (https://youtu.be/BpPEoZW5IiY?si=mpUYzgDlC5cDmPQL)

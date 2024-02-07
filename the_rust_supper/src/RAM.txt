@@ -1,0 +1,312 @@
+//**************************************************************************************************
+// DISPLAY ARRAY
+//**************************************************************************************************
+#[derive(Debug)]
+// https://stackoverflow.com/questions/28136739/is-it-possible-to-control-the-size-of-an-array-using-the-type-parameter-of-a-gen
+// https://stackoverflow.com/questions/28136739/is-it-possible-to-control-the-size-of-an-array-using-the-type-parameter-of-a-gen
+// https://www.reddit.com/r/learnrust/comments/hrv6az/println_in_another_function_with_generics/
+struct Array<T,N: ArrayLength> {
+    data: GenericArray<T,N>,
+}
+
+// impl<T: Display, const COUNT: usize> Array<T, COUNT> {
+impl<T:Display> Array <T>
+{
+    fn new(n:T)->Self{
+        let y:[u32]=[n;10];
+        Array{data:y}
+    }
+
+    fn printloop(&self) -> () {
+        for i in &self.data {
+            println!("{}", i);
+        }
+    }
+
+    fn longname(&self) -> String {
+        let mut name = "".to_string();
+        for i in &self.data {
+            name.push_str(&format!("{}", i));
+        }
+        name
+    }
+
+    fn joining(&self, space: String) -> String {
+        let mut name = "".to_string();
+        for i in &self.data {
+            name.push_str(&format!("{}{}", i, space));
+        }
+        name
+    }
+
+    fn lengths(&self) -> u32 {
+        self.data.len() as u32
+    }
+}
+
+//**************************************************************************************************
+// F64 ARRAY
+//**************************************************************************************************
+
+#[derive(Debug)]
+struct VectorS<T:Sized> {
+    data: [T],
+}
+
+impl <const COUNT: usize> VectorS <[f64; COUNT]> {
+    // https://www.becomebetterprogrammer.com/rust-fix-doesnt-implement-std-fmt-display/
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, ", ")
+    }
+
+    fn sigma(&self) -> f64 {
+        let mut y = 0.0;
+        for i in self.data {
+            y = y + i;
+        }
+        y
+    }
+
+    fn means(&self) -> f64 {
+        let mut y = 0.0;
+        for i in self.data {
+            y = y + i;
+        }
+        y as f64 / self.data.len() as f64
+    }
+
+    fn std(&self) -> f64 {
+        let mut y = 0.0;
+        let mean = self.means();
+        for i in self.data {
+            y = y + (i as f64 - mean).powf(2.0);
+        }
+        y / mean
+    }
+
+    fn product(&self) -> f64 {
+        let mut y = 0.0;
+        for i in self.data {
+            y = y * i;
+        }
+        y
+    }
+
+    fn dotproduct(&self,v:Self) ->f64{
+        let mut y = 0.0;
+        let mut count=0;
+        for i in self.data {
+            y = y + i * v.data[count] ;
+            count+=1;
+        }
+        y
+    }
+}
+
+//**************************************************************************************************
+// STRUCT WITH MULTIPLE GENERIC TYPES (T,U)
+//**************************************************************************************************
+#[derive(Debug)]
+struct Dita<T, U> {
+    data1: T,
+    data2: U,
+}
+
+impl Dita<String, u32> {
+    fn newnum(s: u32) -> Self {
+        Dita {
+            data1: format!("DitaNo{}", s).to_string(),
+            data2: s,
+        }
+    }
+    fn printing(&self) -> () {
+        println!("{} is {} year old.", self.data1, self.data2);
+    }
+}
+
+impl Dita<i32, i32> {
+    fn summ(&self) -> i32 {
+        self.data1 + self.data2
+    }
+    fn product(&self) -> i32 {
+        self.data1 * self.data2
+    }
+    fn subb(&self) -> i32 {
+        self.data1 - self.data2
+    }
+}
+
+//**************************************************************************************************
+// ENUM WITH GENERIC 2 TYPES
+//**************************************************************************************************
+enum DF<X,Y:Display,const N:usize>{
+    TrainX([X; N]),
+    TrainY(Y),
+    TestXX([X; N]),
+    TestYY(Y)
+}
+
+
+fn data_shape<X,Y:Display,const N:usize>(df:DF<X,Y,N>){
+    match df{
+        DF::TrainX(x)=>{println!("TrainX = {}",x.len())},
+        DF::TrainY(x)=>{println!("TrainY = {}",x)},
+        DF::TestXX(x)=>{println!("TestXX = {}",x.len())},
+        DF::TestYY(x)=>{println!("TestYY = {}",x)},
+    }
+}
+
+fn predict<const N:usize>(df:DF<f64,f64,N>,weight:[f64; N],bias:f64)->f64{
+    match df{
+        DF::TrainX(x)=>{
+            dotproduct_f64(x,weight)+bias
+        },
+        DF::TestXX(x)=>{
+            dotproduct_f64(x,weight)+bias
+        },
+        _=>{
+            println!("Input is invalid");
+            0.0
+        }
+    }
+}
+
+fn mean_square_error_f64<const N:usize>(df:DF<f64,f64,N>,weight:[f64; N],bias:f64,y:f64)->f64{
+    let prediction = predict(df,weight,bias);
+    (prediction-y).powf(2.0)
+}
+
+fn dotproduct_f64<const N:usize>(v:[f64; N],u:[f64; N])->f64{
+    let mut count=0;
+    let mut y=0.0;
+    for i in v{
+        y += i*u[count];
+        count+=1;
+    }
+    y
+}
+
+//**************************************************************************************************
+// TRAIT
+//**************************************************************************************************
+// https://doc.rust-lang.org/book/ch10-02-traits.html
+trait SayMyName{
+    fn my_name(&self) -> String{
+        String::from("unknown")
+    }
+    fn say_my_name(&self) -> String{
+        format!("{} (Unknown Type)",self.my_name())
+    }
+}
+
+trait Greeting{
+    fn hello(&self)->String{
+        "Hello".to_string()
+    }
+    fn my_type(&self)->String{
+        "is both Greeting and SayMyName.".to_string()
+    }
+}
+
+enum Occupation{
+    Programmer(String),
+    Engineer(String),
+    Scientist(String),
+    Doctor(String),
+    Artist(String),
+    Writer(String),
+    Teacher(String),
+    Politician(String),
+    Lawyer(String),
+    Farmer(String)
+}
+
+enum TierList{
+    S,
+    A,
+    B,
+    C,
+    D,
+    F
+}
+
+struct Person{
+    name:String,
+    age:u32,
+    occupation:Occupation,
+    tierlist:TierList
+}
+
+impl SayMyName for Person{
+    fn say_my_name(&self)->String{
+        format!("{} (Person)",self.name.to_string())
+    }
+}
+
+struct CEO<const N:usize>{
+    name:String,
+    age:u32,
+    field:String,
+    workers:[Person;N]
+}
+
+impl <const N:usize>SayMyName for CEO<N>{
+    fn say_my_name(&self)->String{
+        format!("{} (CEO)",self.name.to_string())
+    }
+}
+
+// https://users.rust-lang.org/t/how-to-exclude-a-type-from-generic-trait-implementation/26156/5
+impl <T> SayMyName for Array<T> {}
+impl <N: ArrayLength> SayMyName for [Array<[&str::N]>]{
+// impl <const COUNT: usize> SayMyName for [Array<&str, COUNT>] {
+    fn my_name(&self) -> String{
+        (*self)[0].data[0].to_string()
+    }
+}
+impl <N: ArrayLength> Greeting for [Array<[&str::N]>]{}
+
+// Traits as Parameters
+fn is_1st_char_capital(name:&impl SayMyName){
+    // https://www.educative.io/answers/how-to-check-if-a-character-is-uppercase-in-rust
+    // https://stackoverflow.com/questions/30811107/how-do-i-get-the-first-character-out-of-a-string
+    name.say_my_name().chars().nth(0).unwrap().is_uppercase()
+}
+
+fn count_char(name:&impl SayMyName){
+    // https://stackoverflow.com/questions/46290655/does-rusts-string-have-a-method-that-returns-the-number-of-characters-rather-th
+    name.say_my_name().chars().count()
+}
+
+// Trait Bound Syntax
+fn count_unknown_name<T: SayMyName, const N:usize>(item:[T;N]){
+    let mut count:i32=0;
+    for i in item{
+        if i.say_my_name()=="unknown (Unknown Type)".to_string(){
+            count+=1
+        }
+    }
+    count
+}
+
+fn greet_ii(item: &(impl SayMyName + Greeting))->String {
+    format!("{}, my name is {}",item.hello(),item.say_my_name())
+}
+
+fn its_type_ii<T:SayMyName + Greeting>(item:&T)->String {
+    format!("{} {}",item.say_my_name(),item.my_type)
+}
+
+fn println_2types<T,U,COUNT>(cheche:T,avatar:U)where 
+    T:SayMyName,
+    U:SayMyName+Greeting
+{
+    println!("Person = {}",cheche.say_my_name());
+    println!("Array  = {}",avatar.greet_ii());
+}
+
+// fn ReturnArray(n:usize,text:&str)->SayMyName{
+//     Array{
+//         data:[text;n]
+//     }
+// }

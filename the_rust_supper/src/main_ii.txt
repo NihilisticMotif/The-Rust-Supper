@@ -1,0 +1,474 @@
+#![allow(unused)]
+
+// Homeworks
+// 1. Read this: 
+// 2. code function with generic
+// 3. code multitypes struct with <T,U> generics
+// 4. code enum with generics
+// 5. code method that only works with specific type (e.g. f64, i32 etc.)
+// 6. Copy this code and paste it in SimpleStruct/Generics.txt, then clear main.rs
+// 6. Solve this: https://practice.course.rs/generics-traits/generics.html
+// 7. Watch this: https://youtu.be/BpPEoZW5IiY?si=ny9xkG2F8CqQemql (5:33:00)
+
+//**************************************************************************************************
+// GENERIC ARRAY
+//**************************************************************************************************
+
+use generic_array::{GenericArray, ArrayLength};
+
+struct Foo2<N: ArrayLength> {
+    data: GenericArray<i32, N>
+}
+
+trait Ba2{
+    type LEN: ArrayLength;
+    fn bar(&self) -> Foo2<Self::LEN>;
+}
+//**************************************************************************************************
+// FUNCTION THAT TAKES GENERICS INPUT
+//**************************************************************************************************
+
+
+//**************************************************************************************************
+// DISPLAY ARRAY
+//**************************************************************************************************
+#[derive(Debug)]
+// https://stackoverflow.com/questions/28136739/is-it-possible-to-control-the-size-of-an-array-using-the-type-parameter-of-a-gen
+// https://stackoverflow.com/questions/28136739/is-it-possible-to-control-the-size-of-an-array-using-the-type-parameter-of-a-gen
+// https://www.reddit.com/r/learnrust/comments/hrv6az/println_in_another_function_with_generics/
+struct Array<T,N: ArrayLength> {
+    data: GenericArray<T,N>,
+}
+
+// impl<T: Display, const COUNT: usize> Array<T, COUNT> {
+impl<T:Display> Array <T>
+{
+    fn new(n:T)->Self{
+        let y:[u32]=[n;10];
+        Array{data:y}
+    }
+
+    fn printloop(&self) -> () {
+        for i in &self.data {
+            println!("{}", i);
+        }
+    }
+
+    fn longname(&self) -> String {
+        let mut name = "".to_string();
+        for i in &self.data {
+            name.push_str(&format!("{}", i));
+        }
+        name
+    }
+
+    fn joining(&self, space: String) -> String {
+        let mut name = "".to_string();
+        for i in &self.data {
+            name.push_str(&format!("{}{}", i, space));
+        }
+        name
+    }
+
+    fn lengths(&self) -> u32 {
+        self.data.len() as u32
+    }
+}
+
+//**************************************************************************************************
+// F64 ARRAY
+//**************************************************************************************************
+
+#[derive(Debug)]
+struct VectorS<T:Sized> {
+    data: [T],
+}
+
+impl <const COUNT: usize> VectorS <[f64; COUNT]> {
+    // https://www.becomebetterprogrammer.com/rust-fix-doesnt-implement-std-fmt-display/
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, ", ")
+    }
+
+    fn sigma(&self) -> f64 {
+        let mut y = 0.0;
+        for i in self.data {
+            y = y + i;
+        }
+        y
+    }
+
+    fn means(&self) -> f64 {
+        let mut y = 0.0;
+        for i in self.data {
+            y = y + i;
+        }
+        y as f64 / self.data.len() as f64
+    }
+
+    fn std(&self) -> f64 {
+        let mut y = 0.0;
+        let mean = self.means();
+        for i in self.data {
+            y = y + (i as f64 - mean).powf(2.0);
+        }
+        y / mean
+    }
+
+    fn product(&self) -> f64 {
+        let mut y = 0.0;
+        for i in self.data {
+            y = y * i;
+        }
+        y
+    }
+
+    fn dotproduct(&self,v:Self) ->f64{
+        let mut y = 0.0;
+        let mut count=0;
+        for i in self.data {
+            y = y + i * v.data[count] ;
+            count+=1;
+        }
+        y
+    }
+}
+
+//**************************************************************************************************
+// STRUCT WITH MULTIPLE GENERIC TYPES (T,U)
+//**************************************************************************************************
+#[derive(Debug)]
+struct Dita<T, U> {
+    data1: T,
+    data2: U,
+}
+
+impl Dita<String, u32> {
+    fn newnum(s: u32) -> Self {
+        Dita {
+            data1: format!("DitaNo{}", s).to_string(),
+            data2: s,
+        }
+    }
+    fn printing(&self) -> () {
+        println!("{} is {} year old.", self.data1, self.data2);
+    }
+}
+
+impl Dita<i32, i32> {
+    fn summ(&self) -> i32 {
+        self.data1 + self.data2
+    }
+    fn product(&self) -> i32 {
+        self.data1 * self.data2
+    }
+    fn subb(&self) -> i32 {
+        self.data1 - self.data2
+    }
+}
+
+//**************************************************************************************************
+// ENUM WITH GENERIC 2 TYPES
+//**************************************************************************************************
+enum DF<X,Y:Display,const N:usize>{
+    TrainX([X; N]),
+    TrainY(Y),
+    TestXX([X; N]),
+    TestYY(Y)
+}
+
+
+fn data_shape<X,Y:Display,const N:usize>(df:DF<X,Y,N>){
+    match df{
+        DF::TrainX(x)=>{println!("TrainX = {}",x.len())},
+        DF::TrainY(x)=>{println!("TrainY = {}",x)},
+        DF::TestXX(x)=>{println!("TestXX = {}",x.len())},
+        DF::TestYY(x)=>{println!("TestYY = {}",x)},
+    }
+}
+
+fn predict<const N:usize>(df:DF<f64,f64,N>,weight:[f64; N],bias:f64)->f64{
+    match df{
+        DF::TrainX(x)=>{
+            dotproduct_f64(x,weight)+bias
+        },
+        DF::TestXX(x)=>{
+            dotproduct_f64(x,weight)+bias
+        },
+        _=>{
+            println!("Input is invalid");
+            0.0
+        }
+    }
+}
+
+fn mean_square_error_f64<const N:usize>(df:DF<f64,f64,N>,weight:[f64; N],bias:f64,y:f64)->f64{
+    let prediction = predict(df,weight,bias);
+    (prediction-y).powf(2.0)
+}
+
+fn dotproduct_f64<const N:usize>(v:[f64; N],u:[f64; N])->f64{
+    let mut count=0;
+    let mut y=0.0;
+    for i in v{
+        y += i*u[count];
+        count+=1;
+    }
+    y
+}
+
+//**************************************************************************************************
+// RAIT
+//**************************************************************************************************
+// https://doc.rust-lang.org/book/ch10-02-traits.html
+trait SayMyName{
+    fn my_name(&self) -> String{
+        String::from("unknown")
+    }
+    fn say_my_name(&self) -> String{
+        format!("{} (Unknown Type)",self.my_name())
+    }
+}
+
+trait Greeting{
+    fn hello(&self)->String{
+        "Hello".to_string()
+    }
+    fn my_type(&self)->String{
+        "is both Greeting and SayMyName.".to_string()
+    }
+}
+
+enum Occupation{
+    Programmer(String),
+    Engineer(String),
+    Scientist(String),
+    Doctor(String),
+    Artist(String),
+    Writer(String),
+    Teacher(String),
+    Politician(String),
+    Lawyer(String),
+    Farmer(String)
+}
+
+enum TierList{
+    S,
+    A,
+    B,
+    C,
+    D,
+    F
+}
+
+struct Person{
+    name:String,
+    age:u32,
+    occupation:Occupation,
+    tierlist:TierList
+}
+
+impl SayMyName for Person{
+    fn say_my_name(&self)->String{
+        format!("{} (Person)",self.name.to_string())
+    }
+}
+
+struct CEO<const N:usize>{
+    name:String,
+    age:u32,
+    field:String,
+    workers:[Person;N]
+}
+
+impl <const N:usize>SayMyName for CEO<N>{
+    fn say_my_name(&self)->String{
+        format!("{} (CEO)",self.name.to_string())
+    }
+}
+
+// https://users.rust-lang.org/t/how-to-exclude-a-type-from-generic-trait-implementation/26156/5
+impl <T> SayMyName for Array<T> {}
+impl <N: ArrayLength> SayMyName for [Array<[&str::N]>]{
+// impl <const COUNT: usize> SayMyName for [Array<&str, COUNT>] {
+    fn my_name(&self) -> String{
+        (*self)[0].data[0].to_string()
+    }
+}
+impl <N: ArrayLength> Greeting for [Array<[&str::N]>]{}
+
+// Traits as Parameters
+fn is_1st_char_capital(name:&impl SayMyName){
+    // https://www.educative.io/answers/how-to-check-if-a-character-is-uppercase-in-rust
+    // https://stackoverflow.com/questions/30811107/how-do-i-get-the-first-character-out-of-a-string
+    name.say_my_name().chars().nth(0).unwrap().is_uppercase()
+}
+
+fn count_char(name:&impl SayMyName){
+    // https://stackoverflow.com/questions/46290655/does-rusts-string-have-a-method-that-returns-the-number-of-characters-rather-th
+    name.say_my_name().chars().count()
+}
+
+// Trait Bound Syntax
+fn count_unknown_name<T: SayMyName, const N:usize>(item:[T;N]){
+    let mut count:i32=0;
+    for i in item{
+        if i.say_my_name()=="unknown (Unknown Type)".to_string(){
+            count+=1
+        }
+    }
+    count
+}
+
+fn greet_ii(item: &(impl SayMyName + Greeting))->String {
+    format!("{}, my name is {}",item.hello(),item.say_my_name())
+}
+
+fn its_type_ii<T:SayMyName + Greeting>(item:&T)->String {
+    format!("{} {}",item.say_my_name(),item.my_type)
+}
+
+fn println_2types<T,U,COUNT>(cheche:T,avatar:U)where 
+    T:SayMyName,
+    U:SayMyName+Greeting
+{
+    println!("Person = {}",cheche.say_my_name());
+    println!("Array  = {}",avatar.greet_ii());
+}
+
+// fn ReturnArray(n:usize,text:&str)->SayMyName{
+//     Array{
+//         data:[text;n]
+//     }
+// }
+
+//**************************************************************************************************
+// MAIN
+//**************************************************************************************************
+
+fn main() {
+println!("//**************************************************************************************************");
+println!("// FUNCTION THAT TAKES GENERICS INPUT");
+println!("//**************************************************************************************************");
+printing(3.14159);
+printing(2.71828);
+printing('A');
+printing("Hello World");
+printloop(["Hello World","ChatGPT","Alphafold","Alphazero","StockFish"]);
+println!("{}",naming(3.14159, "3B1B".to_string()));
+println!("{}",naming(2.71828, "Euler".to_string()));
+println!("{}",naming(3, "Pythagorus".to_string()));
+
+println!("//**************************************************************************************************");
+println!("// DISPLAY ARRAY");
+println!("//**************************************************************************************************");
+let avatar_friends=Array{data:["Aang","Katara","Zuko","Sokka","Toph","Suki","Bumi","Appa","Kuzon","Azula","Tylee","Mia"]};
+printloop(avatar_friends.data);
+avatar_friends.printloop();
+println!("avatar_friends.longname() = {}",avatar_friends.longname());
+println!("avatar_friends = {}",avatar_friends.joining("_,_".to_string()));
+println!("There are {} avatar friends",avatar_friends.data.len());
+let zeros=Array::new(0);
+printloop(zeros.data);
+let txt="TxT";
+let txts=Array::new(txt);
+printloop(txts.data);
+
+println!("//**************************************************************************************************");
+println!("// F64 ARRAY");
+println!("//**************************************************************************************************");
+
+println!("//**************************************************************************************************");
+println!("// STRUCT WITH MULTIPLE GENERIC TYPES (T,U)");
+println!("//**************************************************************************************************");
+
+println!("//**************************************************************************************************");
+println!("// ENUM WITH GENERIC 2 TYPES");
+println!("//**************************************************************************************************");
+
+println!("//**************************************************************************************************");
+println!("// TRAIT");
+println!("//**************************************************************************************************");
+let cheche:Person=Person{
+    name:"CheChe".to_string(),
+    age:23 as u32,
+    occupation:Occupation::Programmer("No Job".to_string()),
+    tierlist:TierList::F
+};
+let elon_musk:CEO<4>=CEO{
+    name:"Elon Musk".to_string(),
+    age:52 as u32,
+    field:"Technology".to_string(),
+    workers:[
+Person{
+    name:"Mumu".to_string(),
+    age:26 as u32,
+    occupation:Occupation::Scientist("Biologist".to_string()),
+    tierlist:TierList::A
+},
+Person{
+    name:"Tata".to_string(),
+    age:20 as u32,
+    occupation:Occupation::Engineer("Musical Civil Engineer".to_string()),
+    tierlist:TierList::A
+},
+Person{
+    name:"Khem".to_string(),
+    age:21 as u32,
+    occupation:Occupation::Programmer("ML Engineer".to_string()),
+    tierlist:TierList::A
+},
+Person{
+    name:"Phoom".to_string(),
+    age:22 as u32,
+    occupation:Occupation::Programmer("Rust Big O Optimizer".to_string()),
+    tierlist:TierList::A
+},
+]
+};
+println!("say_my_name()");
+println!("cheche {}",cheche.say_my_name());
+println!("elon_musk {}",elon_musk.say_my_name());
+println!("avatar_friends {}",avatar_friends.say_my_name());
+println!("zeros {}",zeros.say_my_name());
+println!("is_1st_char_capital()");
+println!("cheche {}",cheche.is_1st_char_capital());
+println!("elon_musk {}",elon_musk.is_1st_char_capital());
+println!("avatar_friends {}",avatar_friends.is_1st_char_capital());
+println!("zeros {}",zeros.is_1st_char_capital());
+println!("count_char");
+println!("cheche {}",cheche.count_char());
+println!("elon_musk {}",elon_musk.count_char());
+println!("avatar_friends {}",avatar_friends.count_char());
+println!("zeros {}",zeros.count_char());
+let z01=Array::new(1);
+let z02=Array::new(2);
+let z03=Array::new(3);
+let z04=Array::new(4);
+let z05=Array::new(5);
+let z06=Array::new(6);
+let ls:[SayMyName;9]=[
+    z01,
+    z02,
+    elon_musk,
+    z03,
+    z04,
+    avatar_friends,
+    z05,
+    z06,
+    cheche,
+];
+println!("There are {} entities with unknown name",ls.count_unknown_name());
+println!("{}",avatar_friends.greet_ii());
+println!("{}",avatar_friends.its_type_ii());
+println!("println_2types");
+println_2types(cheche,avatar_friends);
+println!("//**************************************************************************************************");
+println!("// ???");
+println!("//**************************************************************************************************");
+
+}
+
+/*
+cargo run
+*/
