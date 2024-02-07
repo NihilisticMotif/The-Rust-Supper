@@ -1,3 +1,500 @@
+
+#[derive(Debug)]
+struct Dita<T, U> {
+    data1: T,
+    data2: U,
+}
+
+impl Dita<String, u32> {
+    fn newnum(s: u32) -> Self {
+        Dita {
+            data1: format!("DitaNo{}", s).to_string(),
+            data2: s,
+        }
+    }
+    fn printing(&self) -> () {
+        println!("{} is {} year old.", self.data1, self.data2);
+    }
+}
+
+impl Dita<i32, i32> {
+    fn summ(&self) -> i32 {
+        self.data1 + self.data2
+    }
+    fn product(&self) -> i32 {
+        self.data1 * self.data2
+    }
+    fn subb(&self) -> i32 {
+        self.data1 - self.data2
+    }
+}
+
+fn main() {
+let d1=Dita::newnum(1);
+d1.printing();
+let d2=Dita::newnum(2);
+d2.printing();
+let d3=Dita::newnum(3);
+d3.printing();
+let d4=Dita::newnum(4);
+d4.printing();
+let df=Dita{data1:"ChatGPT".to_string(),data2:3};
+df.printing();
+let ring=Dita{data1:23,data2:32};
+println!("{}",ring.summ());
+println!("{}",ring.product());
+println!("{}",ring.subb());
+}
+
+ 
+
+//**************************************************************************************************
+// STRUCT WITH MULTIPLE GENERIC TYPES (T,U)
+//**************************************************************************************************
+#[derive(Debug)]
+struct Dita<T, U> {
+    data1: T,
+    data2: U,
+}
+
+impl Dita<String, u32> {
+    fn newnum(s: u32) -> Self {
+        Dita {
+            data1: format!("DitaNo{}", s).to_string(),
+            data2: s,
+        }
+    }
+    fn printing(&self) -> () {
+        println!("{} is {} year old.", self.data1, self.data2);
+    }
+}
+
+impl Dita<i32, i32> {
+    fn summ(&self) -> i32 {
+        self.data1 + self.data2
+    }
+    fn product(&self) -> i32 {
+        self.data1 * self.data2
+    }
+    fn subb(&self) -> i32 {
+        self.data1 - self.data2
+    }
+}
+ 
+let vec1=VectorF64{data:arr![
+    112.3444,
+    5.22123,
+    44.41,
+    2.003,
+    344.0,
+    11.4,
+    5.022,
+    2.12,
+    1.3,
+    44.0,
+    4.88,
+    5.2,
+    10.2,
+    12.34,
+    4.4,
+    5.2,
+    12.34,
+    4.4,
+    5.1,
+    2.3,
+    44.4,
+    5.2]};
+let vec2=VectorF64{data:arr![
+    33.2288,
+    23.2233,
+    22.9,
+    3.14159,
+    33.333333333,
+    22.22,
+    9.00321,
+    3.9,
+    3.999900654,
+    3.12213,
+    22.005,
+    1.93,
+    322.3,
+    22.9,
+    33.2,
+    2.9,
+    3.33,
+    22.9,
+    6.3,
+    33.8888,
+    22.9,
+    3.6]};
+println!("V");
+println!("dim_:{}",vec1.vector_space());
+println!("sum_:{}",vec1.sigma());
+println!("mean:{}",vec1.means());
+println!("std_:{}",vec1.std());
+println!("prod:{}",vec1.product());
+printloop(vec1.data);
+println!("U");
+println!("dim_:{}",vec2.vector_space());
+println!("sum_:{}",vec2.sigma());
+println!("mean:{}",vec2.means());
+println!("std_:{}",vec2.std());
+println!("prod:{}",vec2.product());
+printloop(vec2.data);
+println!("V * U = {}",vec1.dotproduct(vec2));
+ 
+#![allow(unused)]
+// https://stackoverflow.com/questions/37410672/expected-type-parameter-found-u8-but-the-type-parameter-is-u8
+use std::fmt;
+use std::fmt::Display;
+use std::fmt::Debug;
+use generic_array::{GenericArray, ArrayLength,arr};
+use std::iter::Iterator;
+use std::marker::Copy;
+use std::default::Default;
+
+trait Foo {
+    fn foo<T>(&self) -> T;
+}
+
+#[derive(Debug)]
+struct VectorF64<N: ArrayLength> {
+    data: GenericArray<f64, N>
+}
+
+impl <N: ArrayLength> VectorF64 <N> {
+    // https://stackoverflow.com/questions/37410672/expected-type-parameter-found-u8-but-the-type-parameter-is-u8
+    // https://www.becomebetterprogrammer.com/rust-fix-doesnt-implement-std-fmt-display/
+    
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, ", ")
+    }
+
+    fn sigma(&self) -> f64 {
+        let mut y = 0.0;
+        for i in &self.data {
+            y = y + i;
+        }
+        y
+    }
+
+    fn means(&self) -> f64 {
+        let mut y = 0.0;
+        for i in &self.data {
+            y = y + i;
+        }
+        y as f64 / self.data.len() as f64
+    }
+
+    fn std(&self) -> f64 {
+        let mut y = 0.0;
+        let mean = self.means();
+        for i in &self.data {
+            y = y + (*i as f64 - mean).powf(2.0);
+        }
+        y / mean
+    }
+
+    fn product(&self) -> f64 {
+        let mut y = 1.0;
+        for i in &self.data {
+            y = y * i;
+        }
+        y
+    }
+
+    fn dotproduct(&self,v:Self) ->f64{
+        let mut y = 0.0;
+        let mut count=0;
+        for i in &self.data {
+            y = y + i * v.data[count] ;
+            count+=1;
+        }
+        y
+    }
+
+    fn vector_space(&self)->usize{
+        self.data.len()
+    }
+
+}
+fn printloop<T,N>(arg: GenericArray<T,N>) where
+    T:Display,
+    N: ArrayLength
+    {
+    let mut count=0;
+    for i in arg {
+        println!("({}) {}", count,i);
+        count+=1;
+    }
+}
+fn main() {
+let vec1=VectorF64{data:arr![
+    112.3444,
+    5.22123,
+    44.41,
+    2.003,
+    344.0,
+    11.4,
+    5.022,
+    2.12,
+    1.3,
+    44.0,
+    4.88,
+    5.2,
+    10.2,
+    12.34,
+    4.4,
+    5.2,
+    12.34,
+    4.4,
+    5.1,
+    2.3,
+    44.4,
+    5.2]};
+let vec2=VectorF64{data:arr![
+    33.2288,
+    23.2233,
+    22.9,
+    3.14159,
+    33.333333333,
+    22.22,
+    9.00321,
+    3.9,
+    3.999900654,
+    3.12213,
+    22.005,
+    1.93,
+    322.3,
+    22.9,
+    33.2,
+    2.9,
+    3.33,
+    22.9,
+    6.3,
+    33.8888,
+    22.9,
+    3.6]};
+println!("V");
+println!("dim_:{}",vec1.vector_space());
+println!("sum_:{}",vec1.sigma());
+println!("mean:{}",vec1.means());
+println!("std_:{}",vec1.std());
+println!("prod:{}",vec1.product());
+printloop(vec1.data);
+println!("U");
+println!("dim_:{}",vec2.vector_space());
+println!("sum_:{}",vec2.sigma());
+println!("mean:{}",vec2.means());
+println!("std_:{}",vec2.std());
+println!("prod:{}",vec2.product());
+printloop(vec2.data);
+println!("V * U = {}",vec1.dotproduct(vec2));
+}
+
+/*
+cargo run
+*/
+
+ 
+
+trait Foo {
+    fn foo<T>(&self) -> T;
+}
+
+ 
+
+//**************************************************************************************************
+// F64 ARRAY
+//**************************************************************************************************
+
+#[derive(Debug)]
+struct VectorS<T:Sized> {
+    data: [T],
+}
+
+impl <const COUNT: usize> VectorS <[f64; COUNT]> {
+    // https://www.becomebetterprogrammer.com/rust-fix-doesnt-implement-std-fmt-display/
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, ", ")
+    }
+
+    fn sigma(&self) -> f64 {
+        let mut y = 0.0;
+        for i in self.data {
+            y = y + i;
+        }
+        y
+    }
+
+    fn means(&self) -> f64 {
+        let mut y = 0.0;
+        for i in self.data {
+            y = y + i;
+        }
+        y as f64 / self.data.len() as f64
+    }
+
+    fn std(&self) -> f64 {
+        let mut y = 0.0;
+        let mean = self.means();
+        for i in self.data {
+            y = y + (i as f64 - mean).powf(2.0);
+        }
+        y / mean
+    }
+
+    fn product(&self) -> f64 {
+        let mut y = 0.0;
+        for i in self.data {
+            y = y * i;
+        }
+        y
+    }
+
+    fn dotproduct(&self,v:Self) ->f64{
+        let mut y = 0.0;
+        let mut count=0;
+        for i in self.data {
+            y = y + i * v.data[count] ;
+            count+=1;
+        }
+        y
+    }
+}
+
+ 
+,12.344.4,5.2,12.344.4,5.22
+ 
+println!("std_:{}",vec1.std());
+println!("prod:{}",vec1.product());
+ 
+ where
+    T:Display+Sized
+    {
+ 
+
+fn printloop<T>(arg: &[T]) where
+    T:Display+Sized
+    {
+    let mut count=0;
+    for i in arg {
+        println!("({}) {}", count,i);
+        count+=1;
+    }
+
+}
+ 
+printloop(vec1);
+ 
+
+    fn cross_product_3d(&self,v:Self)->Self{
+        VectorF64{data:arr![1.2,3.4,5.22]}
+    }
+ 
+.try_into()
+ 
+
+trait Bar {
+    type N: ArrayLength;
+    fn new(&self) -> VectorS<Self::N>;
+}
+
+impl Bar for VectorS{
+    //
+}
+ 
+ where N:ArrayLength
+ 
+<N>
+ 
+where N: ArrayLength 
+ 
+trait Bar {
+    type LEN: ArrayLength;
+    fn bar(&self) -> VectorS<Self::LEN>;
+}
+ 
+    fn new()->Self{
+        VectorS { data:[1.0 as f64;10] }
+    }
+ 
+()
+ 
+T:Display+Debug+Copy,
+ 
+T:Display+Debug+Copy,
+ 
+    type FFT = f64;
+ 
+    type FFT = f64;
+ 
+dyn f64+Copy
+ 
+    fn foo(&self) -> T;
+ 
+T:Display+Debug+Copy
+ 
+<T:Sized> {
+    data: [T],
+}
+
+struct Array
+ 
+    let avatar_friends=Array{data:arr!["Aang","Katara","Zuko","Sokka","Toph","Suki","Bumi","Appa","Kuzon","Azula","Tylee","Mia"]};
+    printloop(&avatar_friends.data);
+    avatar_friends.printloop();
+    println!("avatar_friends.longname() = {}",avatar_friends.longname());
+    println!("avatar_friends = {}",avatar_friends.joining("_,_".to_string()));
+    println!("There are {} avatar friends",avatar_friends.data.len());  
+ 
+//**************************************************************************************************
+// DISPLAY ARRAY
+//**************************************************************************************************
+#[derive(Debug)]
+// https://stackoverflow.com/questions/28136739/is-it-possible-to-control-the-size-of-an-array-using-the-type-parameter-of-a-gen
+// https://stackoverflow.com/questions/28136739/is-it-possible-to-control-the-size-of-an-array-using-the-type-parameter-of-a-gen
+// https://www.reddit.com/r/learnrust/comments/hrv6az/println_in_another_function_with_generics/
+struct Array<T,N: ArrayLength> {
+    data: GenericArray<T,N>,
+}
+
+// impl<T: Display, const COUNT: usize> Array<T, COUNT> {
+impl<T:Display> Array <T>
+{
+    fn new(n:T)->Self{
+        let y:[u32]=[n;10];
+        Array{data:y}
+    }
+
+    fn printloop(&self) -> () {
+        for i in &self.data {
+            println!("{}", i);
+        }
+    }
+
+    fn longname(&self) -> String {
+        let mut name = "".to_string();
+        for i in &self.data {
+            name.push_str(&format!("{}", i));
+        }
+        name
+    }
+
+    fn joining(&self, space: String) -> String {
+        let mut name = "".to_string();
+        for i in &self.data {
+            name.push_str(&format!("{}{}", i, space));
+        }
+        name
+    }
+
+    fn lengths(&self) -> u32 {
+        self.data.len() as u32
+    }
+}
+
+ 
 1. ToDo
  
  where T:i32

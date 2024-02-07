@@ -1,5 +1,5 @@
 #![allow(unused)]
-
+// https://stackoverflow.com/questions/37410672/expected-type-parameter-found-u8-but-the-type-parameter-is-u8
 use std::fmt;
 use std::fmt::Display;
 use std::fmt::Debug;
@@ -7,61 +7,6 @@ use generic_array::{GenericArray, ArrayLength,arr};
 use std::iter::Iterator;
 use std::marker::Copy;
 use std::default::Default;
-#[derive(Debug)]
-// https://stackoverflow.com/questions/28136739/is-it-possible-to-control-the-size-of-an-array-using-the-type-parameter-of-a-gen
-// https://stackoverflow.com/questions/28136739/is-it-possible-to-control-the-size-of-an-array-using-the-type-parameter-of-a-gen
-// https://www.reddit.com/r/learnrust/comments/hrv6az/println_in_another_function_with_generics/
-struct Array<T:Display+Debug+Copy,N: ArrayLength> {
-    data: GenericArray<T, N>
-}
-
-impl<T:Display+Debug+Copy,N: ArrayLength> Array <T,N>
-{
-
-    fn printloop(&self) -> () {
-        for i in &self.data {
-            println!("{}", i);
-        }
-    }
-
-    fn longname(&self) -> String {
-        let mut name = "".to_string();
-        for i in &self.data {
-            name.push_str(&format!("{}", i));
-        }
-        name
-    }
-
-    fn joining(&self, space: String) -> String {
-        let mut name = "".to_string();
-        for i in &self.data {
-            name.push_str(&format!("{}{}", i, space));
-        }
-        name
-    }
-
-    fn lengths(&self) -> u32 {
-        self.data.len() as u32
-    }
-}
-
-fn printloop<T>(arg: &[T]) where
-    T:Display+Sized
-    {
-    for i in arg {
-        println!("{}", i);
-    }
-
-}
-
-fn main() {
-    let avatar_friends=Array{data:arr!["Aang","Katara","Zuko","Sokka","Toph","Suki","Bumi","Appa","Kuzon","Azula","Tylee","Mia"]};
-    printloop(&avatar_friends.data);
-    avatar_friends.printloop();
-    println!("avatar_friends.longname() = {}",avatar_friends.longname());
-    println!("avatar_friends = {}",avatar_friends.joining("_,_".to_string()));
-    println!("There are {} avatar friends",avatar_friends.data.len());    
-}
 
 /*
 cargo run

@@ -48,8 +48,10 @@ impl<T:Display+Debug+Copy,N: ArrayLength> Array <T,N>
 fn printloop<T>(arg: &[T]) where
     T:Display+Sized
     {
+    let mut count=0;
     for i in arg {
-        println!("{}", i);
+        println!("({}) {}", count,i);
+        count+=1;
     }
 
 }

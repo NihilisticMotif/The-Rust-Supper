@@ -1,0 +1,60 @@
+#![allow(unused)]
+// https://stackoverflow.com/questions/37410672/expected-type-parameter-found-u8-but-the-type-parameter-is-u8
+use std::fmt;
+use std::fmt::Display;
+use std::fmt::Debug;
+use generic_array::{GenericArray, ArrayLength,arr};
+use std::iter::Iterator;
+use std::marker::Copy;
+use std::default::Default;
+
+#[derive(Debug)]
+struct Dita<T, U> {
+    data1: T,
+    data2: U,
+}
+
+impl Dita<String, u32> {
+    fn newnum(s: u32) -> Self {
+        Dita {
+            data1: format!("DitaNo{}", s).to_string(),
+            data2: s,
+        }
+    }
+    fn printing(&self) -> () {
+        println!("{} is {} year old.", self.data1, self.data2);
+    }
+}
+
+impl Dita<i32, i32> {
+    fn summ(&self) -> i32 {
+        self.data1 + self.data2
+    }
+    fn product(&self) -> i32 {
+        self.data1 * self.data2
+    }
+    fn subb(&self) -> i32 {
+        self.data1 - self.data2
+    }
+}
+
+fn main() {
+let d1=Dita::newnum(1);
+d1.printing();
+let d2=Dita::newnum(2);
+d2.printing();
+let d3=Dita::newnum(3);
+d3.printing();
+let d4=Dita::newnum(4);
+d4.printing();
+let df=Dita{data1:"ChatGPT".to_string(),data2:3};
+df.printing();
+let ring=Dita{data1:23,data2:32};
+println!("{}",ring.summ());
+println!("{}",ring.product());
+println!("{}",ring.subb());
+}
+
+/*
+cargo run
+*/
