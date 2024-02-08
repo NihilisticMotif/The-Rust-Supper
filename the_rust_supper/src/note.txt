@@ -1,2 +1,0 @@
-// rust t where t is i32 or f64
-// https://stackoverflow.com/questions/35766261/how-do-i-cast-generic-t-to-f32-if-i-know-that-its-possible

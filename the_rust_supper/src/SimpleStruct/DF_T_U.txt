@@ -1,0 +1,83 @@
+#![allow(unused)]
+// https://stackoverflow.com/questions/37410672/expected-type-parameter-found-u8-but-the-type-parameter-is-u8
+use std::fmt;
+use std::fmt::Display;
+use std::fmt::Debug;
+use generic_array::{GenericArray, ArrayLength,arr};
+use std::iter::Iterator;
+use std::marker::Copy;
+use std::default::Default;
+enum DF<X:,Y,const N:usize>{
+    TrainX([X; N]),
+    TrainY(Y),
+    TestXX([X; N]),
+    TestYY(Y)
+}
+
+fn data_shape<X,Y:Display+Debug,const N:usize>(df:&DF<X,Y,N>){
+    match df{
+        DF::TrainX(x)=>{println!("TrainX = {}",x.len())},
+        DF::TrainY(x)=>{println!("TrainY = {}",x)},
+        DF::TestXX(x)=>{println!("TestXX = {}",x.len())},
+        DF::TestYY(x)=>{println!("TestYY = {}",x)},
+    }
+}
+
+fn predict<const N:usize>(df:&DF<f64,f64,N>,weight:[f64; N],bias:f64)->f64{
+    match df{
+        DF::TrainX(x)=>{
+            dotproduct_f64(*x,weight)+bias
+        },
+        DF::TestXX(x)=>{
+            dotproduct_f64(*x,weight)+bias
+        },
+        _=>{
+            println!("Input is invalid");
+            0.0
+        }
+    }
+}
+
+fn mean_square_error_f64<const N:usize>(df:&DF<f64,f64,N>,weight:[f64; N],bias:f64,y:f64)->f64{
+    let prediction = predict(df,weight,bias);
+    (prediction-y).powf(2.0)
+}
+
+fn dotproduct_f64<const N:usize>(v:[f64; N],u:[f64; N])->f64{
+    let mut count=0;
+    let mut y=0.0;
+    for i in v{
+        y += i*u[count];
+        count+=1;
+    }
+    y
+}
+
+fn chatgpt<const N:usize>(v:&DF<&str,&str,N>)->String{
+    match v
+    {
+        DF::TrainX(x)|DF::TestXX(x)=>{
+            let mut text="".to_string();
+            for i in x{
+                text = format!("{},{}",text,i.to_string());
+            }
+            text
+        }
+        _=>{"ChatGPT have nothing to say.".to_string()}
+    }
+}
+
+fn main(){
+let df1:DF<f64,f64,5>=DF::TrainX([0.0,1.0,2.0,3.0,4.0]);
+let weight=[2.7;5];
+let bias = -33.14;
+data_shape(&df1);
+println!("df1 * w + b = {}",predict(&df1, weight, bias));
+println!("MSE = {}",mean_square_error_f64(&df1, weight, bias,68.0));
+let avatar_friends:DF<&str,&str,12>=DF::TrainX(["Aang","Katara","Zuko","Sokka","Toph","Suki","Bumi","Appa","Kuzon","Azula","Tylee","Mia"]);
+println!("ChatGPT = {}",chatgpt(&avatar_friends));
+}
+
+/*
+cargo run
+*/

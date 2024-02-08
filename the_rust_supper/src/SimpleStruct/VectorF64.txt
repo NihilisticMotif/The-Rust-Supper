@@ -1,5 +1,9 @@
 #![allow(unused)]
 // https://stackoverflow.com/questions/37410672/expected-type-parameter-found-u8-but-the-type-parameter-is-u8
+
+// rust t where t is i32 or f64
+// https://stackoverflow.com/questions/35766261/how-do-i-cast-generic-t-to-f32-if-i-know-that-its-possible
+
 use std::fmt;
 use std::fmt::Display;
 use std::fmt::Debug;

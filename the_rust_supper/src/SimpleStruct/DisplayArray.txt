@@ -53,7 +53,6 @@ fn printloop<T>(arg: &[T]) where
         println!("({}) {}", count,i);
         count+=1;
     }
-
 }
 
 fn main() {

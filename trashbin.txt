@@ -1,3 +1,446 @@
+1. Read https://stackoverflow.com/questions/35766261/how-do-i-cast-generic-t-to-f32-if-i-know-that-its-possible
+2. Read https://doc.rust-lang.org/book/ch10-02-traits.html
+3. Fix RAM
+ * DF 
+ * SayMyName
+ 
+// rust t where t is i32 or f64
+// https://stackoverflow.com/questions/35766261/how-do-i-cast-generic-t-to-f32-if-i-know-that-its-possible
+ 
+use std::fmt;
+use std::fmt::Display;
+use std::fmt::Debug;
+use generic_array::{GenericArray, ArrayLength,arr};
+use std::iter::Iterator;
+use std::marker::Copy;
+use std::default::Default;
+ 
+let cheche:Person=Person{
+    name:"CheChe".to_string(),
+    age:23 as u32,
+    occupation:Occupation::Programmer("No Job".to_string()),
+    tierlist:TierList::F
+};
+let elon_musk:CEO<4>=CEO{
+    name:"Elon Musk".to_string(),
+    age:52 as u32,
+    field:"Technology".to_string(),
+    workers:[
+Person{
+    name:"Mumu".to_string(),
+    age:26 as u32,
+    occupation:Occupation::Scientist("Biologist".to_string()),
+    tierlist:TierList::A
+},
+Person{
+    name:"Tata".to_string(),
+    age:20 as u32,
+    occupation:Occupation::Engineer("Musical Civil Engineer".to_string()),
+    tierlist:TierList::A
+},
+Person{
+    name:"Khem".to_string(),
+    age:21 as u32,
+    occupation:Occupation::Programmer("ML Engineer".to_string()),
+    tierlist:TierList::A
+},
+Person{
+    name:"Phoom".to_string(),
+    age:22 as u32,
+    occupation:Occupation::Programmer("Rust Big O Optimizer".to_string()),
+    tierlist:TierList::A
+},
+]
+};
+let avatar_friends=Array{data:arr!["Aang","Katara","Zuko","Sokka","Toph","Suki","Bumi","Appa","Kuzon","Azula","Tylee","Mia"]};
+avatar_friends.printloop();
+let long_f64_vector=Array{data:arr![33.2288,23.2233,22.9,3.14159,33.333333333,22.22,9.00321,3.9,3.999900654,3.12213,22.005,1.93,322.3,22.9,33.2,2.9,3.33,22.9,6.3,33.8888,22.9,3.6]};
+println!("avatar friends longname = {}",avatar_friends.longname());
+println!("count avatar friends = {}",avatar_friends.lengths());
+println!("vector space dimension = {}",long_f64_vector.lengths());
+println!("avatar name = {}",avatar_friends.say_my_name());
+println!("vector name = {}",long_f64_vector.say_my_name());
+println!("cheche name = {}",cheche.say_my_name());
+println!("elon musk name = {}",elon_musk.say_my_name());
+for i in elon_musk.workers{
+    println!("{} name = {}",i.my_name(),i.say_my_name())
+}
+println!("count_char(&avatar_friends) = {}",count_char(&avatar_friends));
+println!("count_char(&long_f64_vector) = {}",count_char(&long_f64_vector));
+
+ 
+
+struct Array<T:Display+Debug+Copy,N: ArrayLength> {
+    data: GenericArray<T, N>
+}
+
+impl<T:Display+Debug+Copy,N: ArrayLength> Array <T,N>
+{
+    fn printloop(&self) -> () {
+        for i in &self.data {
+            println!("{}", i);
+        }
+    }
+
+    fn longname(&self) -> String {
+        let mut name = "".to_string();
+        for i in &self.data {
+            name.push_str(&format!("{}", i));
+        }
+        name
+    }
+
+    fn joining(&self, space: String) -> String {
+        let mut name = "".to_string();
+        for i in &self.data {
+            name.push_str(&format!("{}{}", i, space));
+        }
+        name
+    }
+
+    fn lengths(&self) -> u32 {
+        self.data.len() as u32
+    }
+}
+trait SayMyName{
+    fn my_name(&self) -> String{
+        String::from("unknown")
+    }
+    fn say_my_name(&self) -> String{
+        format!("{} (Unknown Type)",self.my_name())
+    }
+}
+
+trait Greeting{
+    fn hello(&self)->String{
+        "Hello".to_string()
+    }
+    fn my_type(&self)->String{
+        "is both Greeting and SayMyName.".to_string()
+    }
+}
+
+enum Occupation{
+    Programmer(String),
+    Engineer(String),
+    Scientist(String),
+    Doctor(String),
+    Artist(String),
+    Writer(String),
+    Teacher(String),
+    Politician(String),
+    Lawyer(String),
+    Farmer(String)
+}
+
+enum TierList{
+    S,
+    A,
+    B,
+    C,
+    D,
+    F
+}
+
+struct Person{
+    name:String,
+    age:u32,
+    occupation:Occupation,
+    tierlist:TierList
+}
+
+impl SayMyName for Person{
+    fn say_my_name(&self)->String{
+        format!("{} (Person)",self.name.to_string())
+    }
+}
+
+struct CEO<const N:usize>{
+    name:String,
+    age:u32,
+    field:String,
+    workers:[Person;N]
+}
+
+impl <const N:usize>SayMyName for CEO<N>{
+    fn say_my_name(&self)->String{
+        format!("{} (CEO)",self.name.to_string())
+    }
+}
+
+// https://users.rust-lang.org/t/how-to-exclude-a-type-from-generic-trait-implementation/26156/5
+impl <T:Display+Debug+Copy,N: ArrayLength> SayMyName for Array<T,N> {}
+impl <N: ArrayLength> SayMyName for [Array<&str,N>]{
+// impl <const COUNT: usize> SayMyName for [Array<&str, COUNT>] {
+    fn my_name(&self) -> String{
+        (*self)[0].data[0].to_string()
+    }
+
+}
+impl <N: ArrayLength> Greeting for [Array<&str,N>]{}
+
+// Traits as Parameters
+fn is_1st_char_capital(name:&impl SayMyName)->bool{
+    // https://www.educative.io/answers/how-to-check-if-a-character-is-uppercase-in-rust
+    // https://stackoverflow.com/questions/30811107/how-do-i-get-the-first-character-out-of-a-string
+    name.say_my_name().chars().nth(0).unwrap().is_uppercase()
+}
+
+fn count_char(name:&impl SayMyName)->u32{
+    // https://stackoverflow.com/questions/46290655/does-rusts-string-have-a-method-that-returns-the-number-of-characters-rather-th
+    name.say_my_name().chars().count() as u32
+}
+
+fn greet_ii(item: &(impl SayMyName + Greeting))->String {
+    format!("{}, my name is {}",item.hello(),item.say_my_name())
+}
+
+fn its_type_ii<T:SayMyName + Greeting>(item:&T)->String {
+    format!("{} {}",item.say_my_name(),item.my_type())
+}
+
+fn println_2types<T,U,COUNT>(cheche:T,avatar:U)where 
+    T:SayMyName,
+    U:SayMyName+Greeting
+{
+    println!("Person = {}",cheche.say_my_name());
+    println!("Array  = {}",greet_ii(&avatar));
+}
+ 
+// Trait Bound Syntax
+fn count_unknown_name<T: SayMyName, const N:usize>(item:[T;N]){
+    let mut count:i32=0;
+    for i in item{
+        if i.say_my_name()=="unknown (Unknown Type)".to_string(){
+            count+=1
+        }
+    }
+    count
+}
+ 
+println!("vector name = {}",long_f64_vector.say_my_name());
+ 
+.count_char()
+ 
+    fn show(&self)->(){
+        println!("404")
+    }
+ 
+elon_musk.workers
+ 
+avatar
+ 
+impl <N: ArrayLength> Greeting for [Array<[&str::N]>]{}
+ 
+
+// fn ReturnArray(n:usize,text:&str)->SayMyName{
+//     Array{
+//         data:[text;n]
+//     }
+// }
+ 
+
+
+//**************************************************************************************************
+// ENUM WITH GENERIC 2 TYPES
+//**************************************************************************************************
+enum DF<X,Y:Display,const N:usize>{
+    TrainX([X; N]),
+    TrainY(Y),
+    TestXX([X; N]),
+    TestYY(Y)
+}
+
+
+fn data_shape<X,Y:Display,const N:usize>(df:DF<X,Y,N>){
+    match df{
+        DF::TrainX(x)=>{println!("TrainX = {}",x.len())},
+        DF::TrainY(x)=>{println!("TrainY = {}",x)},
+        DF::TestXX(x)=>{println!("TestXX = {}",x.len())},
+        DF::TestYY(x)=>{println!("TestYY = {}",x)},
+    }
+}
+
+fn predict<const N:usize>(df:DF<f64,f64,N>,weight:[f64; N],bias:f64)->f64{
+    match df{
+        DF::TrainX(x)=>{
+            dotproduct_f64(x,weight)+bias
+        },
+        DF::TestXX(x)=>{
+            dotproduct_f64(x,weight)+bias
+        },
+        _=>{
+            println!("Input is invalid");
+            0.0
+        }
+    }
+}
+
+fn mean_square_error_f64<const N:usize>(df:DF<f64,f64,N>,weight:[f64; N],bias:f64,y:f64)->f64{
+    let prediction = predict(df,weight,bias);
+    (prediction-y).powf(2.0)
+}
+
+fn dotproduct_f64<const N:usize>(v:[f64; N],u:[f64; N])->f64{
+    let mut count=0;
+    let mut y=0.0;
+    for i in v{
+        y += i*u[count];
+        count+=1;
+    }
+    y
+}
+
+ 
+let df1:DF<f64,f64,5>=DF::TrainX([0.0,1.0,2.0,3.0,4.0]);
+let weight=[2.7;5];
+let bias = -33.14;
+data_shape(&df1);
+println!("df1 * w + b = {}",predict(&df1, weight, bias));
+println!("MSE = {}",mean_square_error_f64(&df1, weight, bias,68.0));
+let avatar_friends:DF<&str,&str,12>=DF::TrainX(["Aang","Katara","Zuko","Sokka","Toph","Suki","Bumi","Appa","Kuzon","Azula","Tylee","Mia"]);
+println!("ChatGPT = {}",chatgpt(&avatar_friends));
+ 
+enum DF<X:,Y,const N:usize>{
+    TrainX([X; N]),
+    TrainY(Y),
+    TestXX([X; N]),
+    TestYY(Y)
+}
+
+fn data_shape<X,Y:Display+Debug,const N:usize>(df:&DF<X,Y,N>){
+    match df{
+        DF::TrainX(x)=>{println!("TrainX = {}",x.len())},
+        DF::TrainY(x)=>{println!("TrainY = {}",x)},
+        DF::TestXX(x)=>{println!("TestXX = {}",x.len())},
+        DF::TestYY(x)=>{println!("TestYY = {}",x)},
+    }
+}
+
+fn predict<const N:usize>(df:&DF<f64,f64,N>,weight:[f64; N],bias:f64)->f64{
+    match df{
+        DF::TrainX(x)=>{
+            dotproduct_f64(*x,weight)+bias
+        },
+        DF::TestXX(x)=>{
+            dotproduct_f64(*x,weight)+bias
+        },
+        _=>{
+            println!("Input is invalid");
+            0.0
+        }
+    }
+}
+
+fn mean_square_error_f64<const N:usize>(df:&DF<f64,f64,N>,weight:[f64; N],bias:f64,y:f64)->f64{
+    let prediction = predict(df,weight,bias);
+    (prediction-y).powf(2.0)
+}
+
+fn dotproduct_f64<const N:usize>(v:[f64; N],u:[f64; N])->f64{
+    let mut count=0;
+    let mut y=0.0;
+    for i in v{
+        y += i*u[count];
+        count+=1;
+    }
+    y
+}
+
+fn chatgpt<const N:usize>(v:&DF<&str,&str,N>)->String{
+    match v
+    {
+        DF::TrainX(x)|DF::TestXX(x)=>{
+            let mut text="".to_string();
+            for i in x{
+                text = format!("{},{}",text,i.to_string());
+            }
+            text
+        }
+        _=>{"ChatGPT have nothing to say.".to_string()}
+    }
+}
+ 
+// What is the name of programming language?
+ 
+data:arr!
+ 
+    &txt.as_str()
+ 
+let txt=String::from(
+ 
+[..].to_string()
+ 
+.as_str()
+ 
+let txt=
+ 
+    txt
+ 
+hello_
+ 
+,u:[f64; N]
+ 
+let df2 = df1;
+ 
+df1
+ 
+printloop(&df1);
+ 
+fn printloop<X:Display+Debug,Y:Display+Debug,const N:usize>(df:&DF<X,Y,N>){
+    let mut count=0;
+    for i in df.data {
+        println!("({}) {}", count,i);
+        count+=1;
+    }
+}
+
+fn data_head<X:Display+Debug,Y:Display+Debug,const N:usize>(df:DF<X,Y,N>){
+    match df{
+        DF::TrainX(x)=>{
+            println!("TrainX = {}",x.len());
+            printloop(x)
+        },
+        DF::TrainY(x)=>{println!("TrainY = {}",x)},
+        DF::TestXX(x)=>{
+            println!("TestXX = {}",x.len());
+            printloop(x);
+        },
+        DF::TestYY(x)=>{println!("TestYY = {}",x)},
+    }
+}
+ 
+
+fn data_type<const N:usize>(df:DF<X,Y,N>){
+    //
+}
+ 
+X:Display+Debug,Y:Display+Debug,
+ 
+match df{
+        DF::TrainX(x)=>{
+            println!("TrainX = {}",x.len());
+            printloop(&x)
+        },
+        DF::TrainY(x)=>{println!("TrainY = {}",x)},
+        DF::TestXX(x)=>{
+            println!("TestXX = {}",x.len());
+            printloop(&x);
+        },
+        DF::TestYY(x)=>{println!("TestYY = {}",x)},
+    }
+ 
+ = {}
+ 
+:Display+Debug
+ 
+:Display+Debu
+ 
+: ArrayLength
+ 
+ * F64Array
+ * Dita 
+ 
 
 #[derive(Debug)]
 struct Dita<T, U> {
